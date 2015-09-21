@@ -1,5 +1,5 @@
 workbook/*.aux
-workbook/*.log
+workbook/*.lof
 workbook/*.log
 workbook/*.out
 workbook/*.pdf
