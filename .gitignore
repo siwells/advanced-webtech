@@ -1,3 +1,10 @@
+workbook/*.aux
+workbook/*.log
+workbook/*.log
+workbook/*.out
+workbook/*.pdf
+workbook/*.toc
+
 *.DS_Store
 *.pyc
 env/
