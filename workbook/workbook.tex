@@ -703,6 +703,264 @@ tc@box:~$ python src/hello.py
 
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
+% CHAPTER 03
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+
+
+\chapter{Python Flask: Debug Mode, Errors, Routing, \& Static Files}
+\label{lab3}
+\paragraph{} The last two weeks have got us to the point where we can build a simple `Hello Napier' web app using Python and Python-Flask hosted within our simple Levinux Virtual Linux environment and whose source code is pushed to our personal Github (or Bitbucket) repositories. We can now start to expand our web-app skills using Python-Flask. We'll start by looking at the debug mode which enables us to tell the Flask development server to do hot reloads of updated code whenever we save our edited python web-app file. This saves us lots of time as we begin to make lots of changes to our web-app. Additionally, we should expect to to see lots of errors. After all we are working with lots of new tools. So we shall look at Flask errors and how to deal with them. Then we will look at routing requests from web browsers to different URLs, basically how to build a tree of web addresses that each fire off a different Python function when the browser tries to access them. Finally we will look at serving up static files, like image files from the file system.
+
+\begin{framed}
+\textbf{VERY IMPORTANT} Chapters for this and subsequent weeks build directly on all of the skills learned in the first two chapter, particularly Levinux, Linux, SSH, and Vim from chapter \ref{lab1} and Python and Python Flask from \ref{lab2}.
+
+\paragraph{} To some degree you can mix and match this and subsequent chapters and subsections to meet your needs, for example, the type of web app you want to build, but you should aim to cover all chapters by the end of the semester.
+\end{framed}
+
+\section{Flask Debug Mode}
+\label{debug}
+\paragraph{} Recall that our `Hello Napier' app looks like this:
+
+\begin{lstlisting}
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World!"
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
+\end{lstlisting}
+
+\paragraph{} When we run this Python flask app using the python command in the terminal, e.g.
+
+\begin{lstlisting}[style=DOS]
+tc@box:~$ python src/hello.py 
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+\end{lstlisting}
+
+\paragraph{} Python calls the run function of the app object and executes it. By default run() takes no arguments but we have used the \emph{host='0.0.0.0'} argument to tell flask to allow connections from outside of the local machine, this is what enables us to access the web-app from Windows as by default we would only be able to access the web-app from within Levinux. However both the app object and the run function have a number of other features that we can use. Whilst developing a new web-app one of the most important is the debug mode which we can run by adding debug=True to our call of the run function, e.g.
+
+\begin{lstlisting}
+    app.run(host='0.0.0.0', debug=True)
+\end{lstlisting}
+
+\paragraph{} Two important features of the debug mode are
+
+\begin{enumerate}
+\item Causing the development server to automatically restart each time we change our code, e.g. each time we save (\emph{:w $<$ENTER$>$}) our file after editing it in Vim.
+\item Printing out debug information and a Python stack trace in the browser so that we can work out what went wrong.
+\end{enumerate}
+
+\paragraph{} If we try to access a route that causes a Python error then instead of this
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.9\textwidth]{images/flask-internal-server-error.png}
+\caption{Flask internal server error}
+\label{fig:flask-internal-server-error}
+\end{figure}
+ \paragraph{} We will get a Python stack trace displayed in the browser (and printed on the output in the terminal where you ran the web-app). Here is an example but remember that the stack trace will differ greatly depending upon the type of error and the details of what went wonge so this is merely indicative:
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.9\textwidth]{images/flask-stack-trace.png}
+\caption{An error stack trace example}
+\label{fig:flask-stack-trace}
+\end{figure}
+
+
+\begin{framed}
+\textbf{IMPORTANT} If you ever run your web-app on a publically accessible server then you must turn debug mode off as it presents a significant security risk and can allow the execution of arbitrary code.
+\end{framed}
+
+\section{Flask Routing}
+\label{routing}
+\paragraph{} Routing is what enables us to build sensible URLs and addresses for the pages of our web-app. You should consider the design of the address hierarchy for your web-app, the API, to be at least as important a consideration as the design of any content of your actual web-apps pages.
+
+\paragraph{} In flask, web addresses or URLs are called routes. To add more routes to your web-app you use the app.route decorator. You just write a new Python function then add a decorator for each one to make the function into a route. For example, in the following web-app we have 3 routes:
+
+\begin{lstlisting}
+from flask import Flask, redirect, url_for, abort
+app = Flask(__name__)
+
+@app.route("/")
+def root():
+  return "The default, 'root' route"
+
+@app.route("/hello/")
+def hello():
+  return "Hello Napier!!! :D"
+
+@app.route("/goodbye/")
+def goodbye():
+  return "Goodbye cruel world :("
+
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', debug=True)
+\end{lstlisting}
+
+\section{Flask Redirects \& Errors}
+\label{errors}
+\paragraph{} You can redirect a user from one URL endpoint to another quite easily by using the redirect() function, for example, if we were building an app that required a user to be logged and we detected that the user wasn't logged in then we could redirect the user to a login page instead of the page that they requested, e.g.
+
+\begin{lstlisting}
+from flask import Flask, redirect, url_for
+app = Flask(__name__)
+
+@app.route("/private")
+def private():
+  # Test for user logged in failed
+  # so redirect to login URL
+  return redirect(url_for('login'))
+
+@app.route('/login')
+def login():
+  return "Now we would get username & password"
+
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', debug=True)
+\end{lstlisting}
+\paragraph{} Note that this isn't an entire web-app, just the imports and indicative code for how a redirect could work. Obviously, to complete the scenario above we would also need code to check whether the request came from a logged in user and the login page would also need to accept and check any supplied credentials (but we will look at that type of functionality in subsequent chapters). 
+
+\paragraph{} If we try to access a page that doesn't exist then we get a default error 404 Not Found status page like the following:
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.9\textwidth]{images/flask-not-found.png}
+\caption{The default 404 Not Found page}
+\label{fig:flask-not-found}
+\end{figure}
+
+\paragraph{} However we can also provide our own error pages that better fit in with the design of our app or tell our user how to recover from the error. For example, you could provide a link to the root page or login page instead. Providing a custom HTTP error page is straightforward. Instead of the \emph{@app.route} decrator we use the \emph{app.errorhandler} decorator and pass it the code that we want to handle. We also add the code after the return message so that the code is returned to the browser.
+
+\begin{lstlisting}
+from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+  return "Hello Napier"
+
+@app.errorhandler(404)
+def page_not_found(error):
+  return "Couldn't find the page you requested.", 404
+
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', debug=True)
+\end{lstlisting}
+
+\paragraph{} Now if we visit our web-app but use an address that doesn't exist (just make something up after the http://localhost:5000/ bit) we should see something like this:
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.9\textwidth]{images/flask-404-text.png}
+\caption{The default 404 Not Found page}
+\label{fig:flask-404-text}
+\end{figure}
+
+\paragraph{} Obviously this is not much better than the default but it does mean that we can start to build custom errors for our web-app, and once we start to look at returning HTML pages, using templates, and adding style with CSS then custom errors really become useful.
+
+\paragraph{} You should also be aware that there are many error codes that your web-app might conceivably respond to. Some, badly designed sites will only respond with a 404 regardless of the error that occured, but the range of error codes actually means that you can respond with appropriate information that enables your user to make an informed decision about what to do next. Try implementing some other error codes. Because it can be difficult to force these errors to occur there is a shortcut in Flask that allows us to inject a specific type of error at any point which can be useful for testing.
+
+\begin{lstlisting}
+from flask import Flask, abort
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+  return "Hello Napier"
+
+@app.route('/force404')
+def force404():
+  abort(404)
+
+@app.errorhandler(404)
+def page_not_found(error):
+  return "Couldn't find the page you requested.", 404
+
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', debug=True)
+\end{lstlisting}
+
+\paragraph{} Note the line that contains ``abort(404)''. In this line the abort function is used which immediately causes an error to occur resulting in the corresponding errorhandler being called.
+
+\section{Flask Static Files}
+\label{static}
+\paragraph{} Even though we have seen some techniques for generating web-apps and pages dynamically from code, it is often useful to have static files, e.g. javascript, images, and CSS, that are stored in the filesystem. This enables you to incorporate useful standard web tools like, for example, JQuery, into your web-app, so you don't have to write \emph{everything} in Python.
+
+\paragraph{} To use static files, all you have to do is to create directory called `\emph{static}' that is a sub-directory (child) of the directory in which your web-app is located. Notice that usually, if you were deploying your web-app in the wild as a public web-site then you would let your web-server take the load of hosting and serving up the files themselves and we will consider this approach later in the module\footnote{Deployment, hosting, administration, \& tuning of high-performance web sites is outside the scope of this module, and could alone form an entire module, however we will consider and discuss a range of tools and techniquess for deploying Flask web-apps that are generally applicable to most web sites.}. However, during development it is sufficient to use the \emph{static} sub-directory. You can then access the static file, for example a CSS file called \emph{style.css}, using theFlask url\_for function like so:
+
+\begin{lstlisting}
+    url_for('static', filename='style.css')
+\end{lstlisting}
+
+\paragraph{} NB. For this to work the file \emph{style.css} must be stored in the /static/ subdirectory. Here is full example that display an image in your browser. To get his to work you will have to create the /static/ directory then put an image file into it. You can use the curl tool at the command line to retrieve a remote image from the internet like so:
+
+\begin{lstlisting}[style=DOS]
+    $ curl siwells.github.io/assets/images/vmask.jpg -o vmask.jpg
+\end{lstlisting}
+
+\paragraph{} which will store an image file called \emph{vmask.jpg} in the directory in which the command is run. You can then use the following to display the file:
+
+\begin{lstlisting}
+from flask import Flask, url_for, abort
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+  return "Hello Napier"
+
+@app.route('/static-example/img')
+def static_example_img():
+  start = '<img src="'
+  url = url_for('static', filename='vmask.jpg')
+  end = '">'
+  return start+url+end, 200
+
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', debug=True)
+\end{lstlisting}
+
+\paragraph{} Notice how we have used a standard HTML image (img) tag, filled in the src attibute using the output from url\_for, then concatenated the three strings together to form the string that is returned by the static\_example\_img function. I wonder what other HTML tags could be used to return information from a URL? Perhaps we could build entire web-pages this way, by just concatenating various sections of HTML to make an entire page....\footnote{You can do this, and you can return \emph{any} HTML tags this way and build up quite complex pages. However in chapter \ref{lab5} we will look at how we can use templates to design how our pages look using a mixture of HTML and special coding tags to dynamically build pure HTML responses.}.
+
+\paragraph{} If you now visit \url{http://0.0.0.0:5000/static-example/img} you will see the relative URL for the image file something like this:
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=0.9\textwidth]{images/flask-static-img.png}
+\caption{Displaying a static image using the \emph{url\_for} function}
+\label{fig:flask-static-img}
+\end{figure}
+
+
+%\chapter{Flask: Requests, Methods, \& Responses}
+
+%\section{Requests}
+%\label{requests}
+%\paragraph{} 
+
+%\section{HTTP Methods}
+%\label{http-methods}
+%\paragraph{} HTTP uses various methods to move data around. The most commonly used method, and the one we have used exclusively until now is the default GET method. Look at the output from the Python Flask development server and you should see lines similar to the following:
+
+%\begin{lstlisting}[style=DOS]
+%10.0.2.2 - - [27/Sep/2015 18:59:51] "GET / HTTP/1.1" 200 -
+%10.0.2.2 - - [27/Sep/2015 18:59:58] "GET /hello HTTP/1.1" 200 -
+%10.0.2.2 - - [27/Sep/2015 19:00:05] "GET /goodbye HTTP/1.1" 200 -
+%\end{lstlisting}
+
+%\paragraph{} Notice the part of each line that says GET? This is because we have been interested only in retrieving inforation 
+
+%\section{Responses}
+%\label{responses}
+%\paragraph{} 
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
 % APPENDICES 
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
