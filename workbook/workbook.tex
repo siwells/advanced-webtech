@@ -1095,7 +1095,7 @@ Calls the run() function of the Flask app class instance to start our developmen
 \begin{lstlisting}[style=DOS]
     $ curl -X POST -d "firstName=jebediah" http://dummy.com/persons/person 
 \end{lstlisting}
-\paragraph{} Notice the use of `-X POST' to specify the verb (which could be any verb defined by the HTTP standard, e.g. GET, POST, PUT, DELETE, HEAD, OPTIONS, &c.). Some verbs also expect a payload so we have also included one using the `-d' argument and providing a key and value. This could actually be a whole JSON document or separate file that is used as the payload but for now we'll keep things simple.
+\paragraph{} Notice the use of `-X POST' to specify the verb (which could be any verb defined by the HTTP standard, e.g. GET, POST, PUT, DELETE, HEAD, OPTIONS, \&c.). Some verbs also expect a payload so we have also included one using the `-d' argument and providing a key and value. This could actually be a whole JSON document or separate file that is used as the payload but for now we'll keep things simple.
 
 \paragraph{} We can cause cURL to print extra information by using `-i' option and can also use `-H' to specificy the accept header for the request. In the following case indicating that the payload is of type `application/json'
 \begin{lstlisting}[style=DOS]
