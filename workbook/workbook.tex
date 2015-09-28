@@ -1040,6 +1040,7 @@ if __name__ == "__main__":
 \item[:s/s1/s2] - Replace (``substitute'') (the first) s1 in this line by s2
 \end{description}
 
+
 \chapter{Annotated Code Examples}
 \label{annotated}
 
@@ -1077,6 +1078,32 @@ This is used to control how the Python module and the flask app server is run. W
 }\\
 Calls the run() function of the Flask app class instance to start our development server running using this app as the web app. This line also tells the app to run on a network interface that is accessible from an external address, e.g. from the Windows machine that is running Levinux, otherwise our app would only be accessible within Levinux and we don't have a graphical browser installed there.
 \end{description}
+
+\chapter{Additional Miscellaneous (but useful) Tools}
+\label{additional-tools}
+
+\section{cURL}
+\label{curl}
+\paragraph{} The cURL tool is a command that you can use to interact with remote HTTP APIs. It can function purely as a download tool in the terminal, for example, in Section \ref{static} we used cURL to retrieve an image file for use in our Flask static file demonstration, e.g.
+
+\begin{lstlisting}[style=DOS]
+    $ curl siwells.github.io/assets/images/vmask.jpg -o vmask.jpg
+\end{lstlisting}
+
+\paragraph{} By default cURL will perform an HTTP GET to the URL that we provide, However we can also specify the HTTP verb that we want to use as an additional arguments to the tool, e.g.
+
+\begin{lstlisting}[style=DOS]
+    $ curl -X POST -d "firstName=jebediah" http://dummy.com/persons/person 
+\end{lstlisting}
+\paragraph{} Notice the use of `-X POST' to specify the verb (which could be any verb defined by the HTTP standard, e.g. GET, POST, PUT, DELETE, HEAD, OPTIONS, &c.). Some verbs also expect a payload so we have also included one using the `-d' argument and providing a key and value. This could actually be a whole JSON document or separate file that is used as the payload but for now we'll keep things simple.
+
+\paragraph{} We can cause cURL to print extra information by using `-i' option and can also use `-H' to specificy the accept header for the request. In the following case indicating that the payload is of type `application/json'
+\begin{lstlisting}[style=DOS]
+    $ curl -i -H "Accept: application/json" -X POST -d "firstName=jebediah" http://dummy.com/persons/person 
+\end{lstlisting}
+
+
+\paragraph{} 
 
 \backmatter
 
