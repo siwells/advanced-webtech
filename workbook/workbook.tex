@@ -936,28 +936,94 @@ if __name__ == "__main__":
 \label{fig:flask-static-img}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+% CHAPTER 04
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
 
-%\chapter{Flask: Requests, Methods, \& Responses}
+\chapter{Flask: Requests, Methods, \& Responses}
+\label{lab04}
+\paragraph{} In the last chapter we looked at how to do routing. That is how to execute a different function depending upon which URL the browser requested. This week we will look in more detail at the requests themselves. Because requests can include more than just a simple HTTP GET we shall also look at how to handle different HTTP methods, such as GET, POST, PUT, \& DELETE. Finally, after receiving a request and processing it, we will look at the responses that we return to the client.
 
-%\section{Requests}
-%\label{requests}
+
+\section{Requests}
+\label{requests}
+\paragraph{} 
+
+
+\section{HTTP Methods}
+\label{http-methods}
+\paragraph{} HTTP uses various methods to move data around. The most commonly used method, and the one we have used exclusively until now is the default GET method. Look at the output from the Python Flask development server and you should see lines similar to the following:
+
+\begin{lstlisting}[style=DOS]
+10.0.2.2 - - [27/Sep/2015 18:59:51] "GET / HTTP/1.1" 200 -
+10.0.2.2 - - [27/Sep/2015 18:59:58] "GET /hello HTTP/1.1" 200 -
+10.0.2.2 - - [27/Sep/2015 19:00:05] "GET /goodbye HTTP/1.1" 200 -
+\end{lstlisting}
+
+\paragraph{} Notice the part of each line that says GET? This is because we have been interested only in retrieving inforation 
+
+\section{Responses}
+\label{responses}
+\paragraph{} 
+
+
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+% CHAPTER 05
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+
+%\chapter{Flask Templates}
+%\label{lab05}
 %\paragraph{} 
 
-%\section{HTTP Methods}
-%\label{http-methods}
-%\paragraph{} HTTP uses various methods to move data around. The most commonly used method, and the one we have used exclusively until now is the default GET method. Look at the output from the Python Flask development server and you should see lines similar to the following:
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+% CHAPTER 06
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
 
-%\begin{lstlisting}[style=DOS]
-%10.0.2.2 - - [27/Sep/2015 18:59:51] "GET / HTTP/1.1" 200 -
-%10.0.2.2 - - [27/Sep/2015 18:59:58] "GET /hello HTTP/1.1" 200 -
-%10.0.2.2 - - [27/Sep/2015 19:00:05] "GET /goodbye HTTP/1.1" 200 -
-%\end{lstlisting}
-
-%\paragraph{} Notice the part of each line that says GET? This is because we have been interested only in retrieving inforation 
-
-%\section{Responses}
-%\label{responses}
+%\chapter{Flask: Sessions, Message Flashing, Logging, Testing}
+%\label{lab06}
 %\paragraph{} 
+
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+% CHAPTER 07
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+
+%\chapter{Adding Style: Bootstrap (CSS+JS)}
+%\label{lab07}
+%\paragraph{} 
+
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+% CHAPTER 08
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+
+%\chapter{Building Data APIs with HTTP/JSON}
+%\label{lab08}
+%\paragraph{} 
+
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+% CHAPTER 09
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+
+%\chapter{Data Storage \& Encryption}
+%\label{lab09}
+%\paragraph{} 
+
+
 
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
