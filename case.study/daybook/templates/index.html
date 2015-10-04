@@ -1,0 +1,139 @@
+{% extends "base_public.html" %}
+
+{% block scripts %}
+
+    <script type="text/javascript" language="Javascript">
+
+    function cookieMonster()
+    {
+        console.log("COOKIE!!!")
+        $.post('cookiestatus');
+
+    }
+
+    </script>
+
+{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block title%}{{ _('Index') }}{% endblock %}
+
+{% block alerts %}
+    {% if alertlist %}
+    
+        {% for alert in alertlist %}
+
+         <div class="alert">
+             <button type="button" class="close" data-dismiss="alert" {% if "cookie_notification" in alert.type %} onclick="cookieMonster();"{% endif %}>&times;</button>
+             {{ alert.msg }}
+         </div>
+
+         {% endfor %}
+     {% endif %}
+{% endblock %}
+
+{% block hero %}
+  <div class="hero-unit">
+    <h1>{{ _('SUPERHUB Journey Diary') }}</h1>
+    <p>{{ _('SuperHub is an open platform for integrated, multi-modal, urban mobility that aims to support YOU in selecting and using ecologically sustainable transport options.') }}</p>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="span6">
+       
+            <form class="form-horizontal" name="join_form" action="" method="post">
+            <fieldset>
+            <legend>{{ _('Join') }}</legend>
+            
+             <div class="control-group">
+                <label class="control-label" for="first_name">{{ _('First Name') }}</label>
+                <div class="controls">
+                <input type="text" placeholder="{{ _('First Name') }}" name="first_name" required>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="last_name">{{ _('Last Name') }}</label>
+                <div class="controls">
+                <input type="text" placeholder="{{ _('Last Name') }}" name="last_name" required>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="email">{{ _('Email') }}</label>
+                <div class="controls">
+                <input type="email" placeholder="{{ _('Email Address') }}" name="email" required>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="password">{{ _('Password') }}</label>
+                <div class="controls">
+                <input type="password" placeholder="{{ _('Password') }}" name="password" required>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="password_confirmation">{{ _('Password Confirmation') }}</label>
+                <div class="controls">
+                <input type="password" placeholder="{{ _('Confirm Password') }}" name="password_confirmation" required>
+                </div>
+            </div>
+            
+            <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn" name="button" value="join">{{ _('Join') }}</button>
+            </div>
+            </div>
+            
+            </fieldset>
+            </form>
+
+    </div>
+    
+    <div class="span6">
+
+    
+      
+       <form class="form-horizontal" name="login_form" action="" method="post">
+            <fieldset>
+            <legend>{{ _('Login') }}</legend>
+            
+            <div class="control-group">
+                <label class="control-label" for="Email">{{ _('Email') }}</label>
+                <div class="controls">
+                <input type="email" placeholder="{{ _('Email') }}" name="email">
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="password">{{ _('Password') }}</label>
+                <div class="controls">
+                <input type="password" placeholder="{{ _('Password') }}" name="password">
+                </div>
+            </div>
+            
+            <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn" name="button" value="login"><i class="icon-user"></i> {{ _('Sign In') }}</button>
+            </div>
+            </div>
+        
+        </fieldset>
+            </form>
+       
+
+  </div>
+{% endblock %}
+
+{% block endscripts %}
+<!--    <script type="text/javascript" language="Javascript">
+        jQuery(function ($) {
+        });
+    </script>-->
+{% endblock %}

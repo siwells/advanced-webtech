@@ -1,0 +1,603 @@
+# Italian translations for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-08-19 11:41+0100\n"
+"PO-Revision-Date: 2013-08-20 10:43+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: it <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+"X-Generator: Poedit 1.5.7\n"
+
+#: src/daybook/daybook.py:92
+msgid ""
+"An account already exists for that email address. Please either use another "
+"email address or use the recover password feature."
+msgstr ""
+"Esiste già un account per questo indirizzo mail. Utilizza un altro indirizzo "
+"mail oppore lo strumento di recupero password."
+
+#: src/daybook/daybook.py:100
+msgid "SUPERHUB Project :: New Journey Diary Account"
+msgstr "SUPERHUB :: it tuo diario di viaggio è stato creato"
+
+#: src/daybook/daybook.py:101
+msgid ""
+"A new SUPERHUB Journey Diary account has been created for the following "
+"email address: {kwarg}. You should now be able to log into the journey diary "
+"and record your journeys."
+msgstr ""
+"Il tuo Diario di Viaggio di SUPERHUB è stato creato con successo. "
+"Ti sei iscritto con il seguente indirizzo di posta elettronica: {kwarg}. Ora sarà possibile effettuare l&#39;accesso al "
+"diario di viaggio e registrare i tuoi spostamenti."
+
+#: src/daybook/daybook.py:105
+msgid ""
+"An email has been sent to {kwarg} so that you can verify your email address. "
+"However you can log into your account immediately."
+msgstr ""
+"E&#39; stata mandata una mail a {kwarg} in modo da verificare il tuo indirizzo "
+"mail. Puoi comunque accedere subito al tuo account."
+
+#: src/daybook/daybook.py:108
+msgid ""
+"The supplied passwords do not match. Please ensure that you type the same "
+"password into both the password box and the confirmation box."
+msgstr ""
+"La password inserita non corrisponde. Assicurati di aver digitato la stessa "
+"password sia nella casella password che nella casella di conferma."
+
+#: src/daybook/daybook.py:119
+msgid "The supplied password was incorrect"
+msgstr "La password inserita non è corretta."
+
+#: src/daybook/daybook.py:129
+msgid ""
+"This site uses cookies. By continuing to browse the site you are agreeing to "
+"our use of cookies."
+msgstr ""
+"Questo sito usa dei cookies. Continuando a navigare nel sito accetti il "
+"nostro uso dei cookies."
+
+#: src/daybook/daybook.py:258
+msgid "Your journey entry was added to your diary"
+msgstr "Il viaggio inserito è stato aggiunto al tuo diario."
+
+#: src/daybook/daybook.py:271
+msgid "SUPERHUB Project :: New Password"
+msgstr "Progetto SUPERHUB :: Nuova Password"
+
+#: src/daybook/daybook.py:272
+msgid ""
+"The password for the following email address: {email} was reset. You should "
+"now be able to log into the journey diary and record your journeys using the "
+"password: {newpass}."
+msgstr ""
+"La password per il seguente indirizzo mail: {email} è stata reimpostata. Ora "
+"sarà possibile accedere al diario di viaggio e registrare i tuoi spostamenti "
+"usando la password: {newpass}."
+
+#: src/daybook/daybook.py:275
+msgid "An email was sent to {arg}"
+msgstr "Una mail è stata mandata a {arg}"
+
+#: src/daybook/daybook.py:277
+msgid ""
+"We were not able to update the password for this account. Please contact "
+"super.hub.eu@gmail.com"
+msgstr ""
+"Non è stato possibile aggiornare la password per questo account. Ti "
+"preghiamo di contattare super.hub.eu@gmail.com"
+
+#: src/daybook/daybook.py:279
+msgid "There is no SUPERHUB account associated with the email address:"
+msgstr "Non c&#39;è alcun account SUPERHUB associato a questo indirizzo mail:"
+
+#: src/daybook/daybook.py:310
+msgid "Your password has been updated"
+msgstr "La tua password è stata aggiornata"
+
+#: src/daybook/daybook.py:312
+msgid "Something went wrong when setting your new password. Please try again"
+msgstr ""
+"Si sono verificati dei problemi nell&#39;impostazione della tua nuova password. "
+"Ti preghiamo di provare di nuovo."
+
+#: src/daybook/daybook.py:314
+msgid "Please ensure that your new passwords match"
+msgstr "Assicurati che la tua nuova password corrisponda"
+
+#: src/daybook/daybook.py:316
+msgid "Please enter you current password correctly"
+msgstr "Inserisci correttamente la tua nuova password"
+
+#: src/daybook/daybook.py:321
+msgid "Your default language settings have been updated"
+msgstr "Le tue impostazioni predefinite della lingua sono state aggiornate"
+
+#: src/daybook/templates/base_private.html:46
+msgid "Return to Your Journey Diary"
+msgstr "Ritorna al Tuo Diario di Viaggio"
+
+#: src/daybook/templates/base_private.html:46
+#: src/daybook/templates/base_public.html:41
+#: src/daybook/templates/index.html:40
+msgid "SUPERHUB Journey Diary"
+msgstr "Diario di Viaggio di SUPERHUB"
+
+#: src/daybook/templates/base_private.html:48
+msgid "View Diary Entries"
+msgstr "Guarda le voci del Diario"
+
+#: src/daybook/templates/base_private.html:50
+msgid "Add New Diary Entry"
+msgstr "Aggiungi una nuova voce al Diario"
+
+#: src/daybook/templates/base_private.html:61
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: src/daybook/templates/base_private.html:62
+msgid "Sign out"
+msgstr "Esci"
+
+#: src/daybook/templates/base_public.html:41
+msgid "Go to the SUPERHUB Journey Diary homepage"
+msgstr "Vai alla Homepage del Diario di Viaggio di SUPERHUB"
+
+#: src/daybook/templates/base_public.html:87
+msgid "Forgotten Password?"
+msgstr "Hai dimenticato la Password?"
+
+#: src/daybook/templates/dashboard.html:7
+msgid "Your Journey Diary Dashboard"
+msgstr "Pannello di controllo del tuo Diario di Viaggio"
+
+#: src/daybook/templates/dashboard.html:12 src/daybook/templates/diary.html:72
+#: src/daybook/templates/diary.html:77 src/daybook/templates/entry.html:36
+#: src/daybook/templates/settings.html:12
+msgid "Your Journey Diary"
+msgstr "Il Tuo Diario di Viaggio"
+
+#: src/daybook/templates/dashboard.html:12
+msgid "Dashboard"
+msgstr "Pannello di Controllo"
+
+#: src/daybook/templates/dashboard.html:20
+msgid "You have made the following journey diary entries"
+msgstr "Hai inserito le seguenti voci nel tuo diario di viaggio"
+
+#: src/daybook/templates/dashboard.html:22
+msgid "You have not entered any journey diary entries"
+msgstr "Non hai inserito alcuna voce nel tuo diario di viaggio"
+
+#: src/daybook/templates/diary.html:77
+msgid "Review existing entries"
+msgstr "Modifica le voci esistenti"
+
+#: src/daybook/templates/diary.html:90
+msgid "Select a journey"
+msgstr "Seleziona un viaggio"
+
+#: src/daybook/templates/diary.html:101 src/daybook/templates/entry.html:66
+msgid "Date"
+msgstr "Data"
+
+#: src/daybook/templates/diary.html:109
+msgid "Time"
+msgstr "Ora"
+
+#: src/daybook/templates/diary.html:117 src/daybook/templates/entry.html:52
+msgid "Origin"
+msgstr "Origine"
+
+#: src/daybook/templates/diary.html:124 src/daybook/templates/entry.html:59
+msgid "Destination"
+msgstr "Destinazione"
+
+#: src/daybook/templates/diary.html:131 src/daybook/templates/diary.html:169
+msgid "Duration"
+msgstr "Durata"
+
+#: src/daybook/templates/diary.html:138
+msgid "Overall Journey Rating"
+msgstr "Voto complessivo di Viaggio"
+
+#: src/daybook/templates/diary.html:147 src/daybook/templates/entry.html:253
+msgid "Journey Legs"
+msgstr "Tratte di viaggio"
+
+#: src/daybook/templates/diary.html:150
+msgid "Select a Leg"
+msgstr "Seleziona una tratta"
+
+#: src/daybook/templates/diary.html:162
+msgid "Travel Mode for this leg"
+msgstr "Modalità di viaggio per questa tratta"
+
+#: src/daybook/templates/diary.html:177 src/daybook/templates/entry.html:18
+#: src/daybook/templates/entry.html:331
+msgid "Rating for this leg"
+msgstr "Voto per questa tratta"
+
+#: src/daybook/templates/diary.html:197 src/daybook/templates/entry.html:350
+msgid "Notes"
+msgstr "Note"
+
+#: src/daybook/templates/diary.html:206
+msgid "You have not yet made any journey diary entries"
+msgstr "Non hai ancora inserito alcuna voce nel tuo diario di viaggio"
+
+#: src/daybook/templates/entry.html:18
+msgid "Leg"
+msgstr "Tratta"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:264
+msgid "Travel mode for this leg"
+msgstr "Modalità di viaggio per questa tratta"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:267
+msgid "Bicycle"
+msgstr "Bicicletta"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:268
+msgid "Bicycle Share"
+msgstr "Condivisione della bicicletta"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:269
+msgid "Bus"
+msgstr "Autobus"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:270
+msgid "Car"
+msgstr "Automobile"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:271
+msgid "Car Share"
+msgstr "Condivisione dell&#39;automobile"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:272
+msgid "Ferry"
+msgstr "Traghetto"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:273
+msgid "Metro"
+msgstr "Metropolitana"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:274
+msgid "Moped"
+msgstr "Ciclomotore"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:275
+msgid "Motorbike"
+msgstr "Motocicletta"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:276
+msgid "Taxi"
+msgstr "Taxi"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:277
+msgid "Taxi Share"
+msgstr "Condivisione del taxi"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:278
+msgid "Train"
+msgstr "Treno"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:279
+msgid "Tram"
+msgstr "Tram"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:280
+msgid "Trolleybus"
+msgstr "Filobus"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:281
+msgid "Walk"
+msgstr "A piedi"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:282
+msgid "Other"
+msgstr "Altro"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:194
+#: src/daybook/templates/entry.html:289
+msgid "Duration of journey"
+msgstr "Durata del viaggio"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:168
+#: src/daybook/templates/entry.html:211 src/daybook/templates/entry.html:305
+msgid "Hour"
+msgstr "Ora"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:186
+#: src/daybook/templates/entry.html:229 src/daybook/templates/entry.html:323
+msgid "Minute"
+msgstr "Minuto"
+
+#: src/daybook/templates/entry.html:31 src/daybook/templates/entry.html:36
+msgid "Add a new entry"
+msgstr "Aggiungi una nuova voce"
+
+#: src/daybook/templates/entry.html:47
+msgid "Overview of your journey"
+msgstr "Riepilogo del tuo viaggio"
+
+#: src/daybook/templates/entry.html:54
+msgid ""
+"Please enter the address where your journey started. Include as much detail "
+"as possible."
+msgstr ""
+"Inserisci l&#39;indirizzo di partenza del tuo viaggio. Includi quanti più "
+"dettagli possibili."
+
+#: src/daybook/templates/entry.html:54
+msgid "where your journey started"
+msgstr "Dove è iniziato il tuo viaggio"
+
+#: src/daybook/templates/entry.html:61
+msgid ""
+"Please enter the address where your journey finished. Include as much detail "
+"as possible."
+msgstr ""
+"Inserisci l&#39;indirizzo di arrivo del tuo viaggio. Includi quanti più dettagli "
+"possibili."
+
+#: src/daybook/templates/entry.html:61
+msgid "where your journey ended"
+msgstr "Dove è terminato il tuo viaggio"
+
+#: src/daybook/templates/entry.html:103
+msgid "Day"
+msgstr "Giorno"
+
+#: src/daybook/templates/entry.html:108
+msgid "January"
+msgstr "Gennaio"
+
+#: src/daybook/templates/entry.html:109
+msgid "February"
+msgstr "Febbraio"
+
+#: src/daybook/templates/entry.html:110
+msgid "March"
+msgstr "Marzo"
+
+#: src/daybook/templates/entry.html:111
+msgid "April"
+msgstr "Aprile"
+
+#: src/daybook/templates/entry.html:112
+msgid "May"
+msgstr "Maggio"
+
+#: src/daybook/templates/entry.html:113
+msgid "June"
+msgstr "Giugno"
+
+#: src/daybook/templates/entry.html:114
+msgid "July"
+msgstr "Luglio"
+
+#: src/daybook/templates/entry.html:115
+msgid "August"
+msgstr "Agosto"
+
+#: src/daybook/templates/entry.html:116
+msgid "September"
+msgstr "Settembre"
+
+#: src/daybook/templates/entry.html:117
+msgid "October"
+msgstr "Ottobre"
+
+#: src/daybook/templates/entry.html:118
+msgid "November"
+msgstr "Novembre"
+
+#: src/daybook/templates/entry.html:119
+msgid "December"
+msgstr "Dicembre"
+
+#: src/daybook/templates/entry.html:121
+msgid "Month"
+msgstr "Mese"
+
+#: src/daybook/templates/entry.html:128
+msgid "Year"
+msgstr "Anno"
+
+#: src/daybook/templates/entry.html:138
+msgid "Departure time"
+msgstr "Orario di partenza"
+
+#: src/daybook/templates/entry.html:236
+msgid "Rate your journey overall"
+msgstr "Dai un voto complessivo al tuo viaggio"
+
+#: src/daybook/templates/entry.html:239
+msgid ""
+"Please select a rating for this journey overall. On this scale 1 is a low "
+"quality rating and 5 is a high quality rating."
+msgstr ""
+"Seleziona un voto complessivo per questo viaggio. Nella scala dei voti 1 è "
+"un punteggio di bassa qualità e 5 è un punteggio di alta qualità."
+
+#: src/daybook/templates/entry.html:257
+msgid "Add a journey leg"
+msgstr "Aggiungi una tratta di viaggio"
+
+#: src/daybook/templates/entry.html:262
+msgid "Leg 1"
+msgstr "Tratta 1"
+
+#: src/daybook/templates/entry.html:352
+msgid "Notes about your journey"
+msgstr "Aggiungi note al tuo viaggio"
+
+#: src/daybook/templates/entry.html:359
+msgid "Add this entry to your journey diary"
+msgstr "Aggiungi questa voce al tuo diario di viaggio"
+
+#: src/daybook/templates/entry.html:361
+msgid "Add Entry"
+msgstr "Aggiungi voce"
+
+#: src/daybook/templates/index.html:22
+msgid "Index"
+msgstr "Indice"
+
+#: src/daybook/templates/index.html:41
+msgid ""
+"SuperHub is an open platform for integrated, multi-modal, urban mobility "
+"that aims to support YOU in selecting and using ecologically sustainable "
+"transport options."
+msgstr ""
+"SUPERHUB è una piattaforma aperta per la mobilità urbana integrata e "
+"multimodale con lo scopo di supportarti nella selezione e nell&#39;utilizzo di "
+"opzioni di trasporto ecologicamente sostenibile."
+
+#: src/daybook/templates/index.html:51 src/daybook/templates/index.html:90
+msgid "Join"
+msgstr "Sottoscrivi"
+
+#: src/daybook/templates/index.html:54 src/daybook/templates/index.html:56
+msgid "First Name"
+msgstr "Nome"
+
+#: src/daybook/templates/index.html:61 src/daybook/templates/index.html:63
+msgid "Last Name"
+msgstr "Cognome"
+
+#: src/daybook/templates/index.html:68 src/daybook/templates/index.html:108
+#: src/daybook/templates/index.html:110
+msgid "Email"
+msgstr "Email"
+
+#: src/daybook/templates/index.html:70 src/daybook/templates/recover.html:15
+msgid "Email Address"
+msgstr "Indirizzo mail"
+
+#: src/daybook/templates/index.html:75 src/daybook/templates/index.html:77
+#: src/daybook/templates/index.html:115 src/daybook/templates/index.html:117
+msgid "Password"
+msgstr "Password"
+
+#: src/daybook/templates/index.html:82
+msgid "Password Confirmation"
+msgstr "Conferma della Password"
+
+#: src/daybook/templates/index.html:84
+msgid "Confirm Password"
+msgstr "Conferma la Password"
+
+#: src/daybook/templates/index.html:105
+msgid "Login"
+msgstr "Accesso"
+
+#: src/daybook/templates/index.html:123
+msgid "Sign In"
+msgstr "Registrati"
+
+#: src/daybook/templates/recover.html:2
+msgid "Verification"
+msgstr "Verifica"
+
+#: src/daybook/templates/recover.html:9
+msgid "Recover Lost Password"
+msgstr "Recupera la password"
+
+#: src/daybook/templates/recover.html:11
+msgid ""
+"If you have lost your password, please type in your email address and press "
+"the \"Recover Password\" button. An email will be sent to your registered "
+"account with further instructions."
+msgstr ""
+"Se hai perso la tua password, digita il tuo indirizzo mail e premi il "
+"pulsante \"Recupera Password\". Una mail con ulteriori istruzioni sarà "
+"inviata al tuo account registrato."
+
+#: src/daybook/templates/recover.html:16
+msgid "Recover Password"
+msgstr "Recupera Password"
+
+#: src/daybook/templates/settings.html:7
+msgid "Your Journey Diary Account Settings"
+msgstr "Impostazioni dell&#39;account del Tuo Diario di Viaggio"
+
+#: src/daybook/templates/settings.html:12
+msgid "Account Settings"
+msgstr "Impostazioni dell&#39;account"
+
+#: src/daybook/templates/settings.html:21
+msgid "Change Your Password"
+msgstr "Cambia la tua password"
+
+#: src/daybook/templates/settings.html:24
+msgid "Existing Password"
+msgstr "Password esistente"
+
+#: src/daybook/templates/settings.html:26
+msgid "your existing password"
+msgstr "La tua password esistente"
+
+#: src/daybook/templates/settings.html:31
+msgid "New Password"
+msgstr "Nuova password"
+
+#: src/daybook/templates/settings.html:33
+msgid "your new password"
+msgstr "la tua nuova password"
+
+#: src/daybook/templates/settings.html:38
+msgid "Repeat Password"
+msgstr "Ripeti la password"
+
+#: src/daybook/templates/settings.html:40
+msgid "your new password again"
+msgstr "di nuovo la tua nuova password"
+
+#: src/daybook/templates/settings.html:46
+msgid "Update Password"
+msgstr "Aggiorna la password"
+
+#: src/daybook/templates/settings.html:56
+msgid "Set your default language"
+msgstr "Seleziona la tua lingua predefinita"
+
+#: src/daybook/templates/settings.html:60
+msgid "Select a language"
+msgstr "Seleziona una lingua"
+
+#: src/daybook/templates/settings.html:63
+msgid "Catalan"
+msgstr "Catalano"
+
+#: src/daybook/templates/settings.html:64
+msgid "English"
+msgstr "Inglese"
+
+#: src/daybook/templates/settings.html:65
+msgid "Italian"
+msgstr "Italiano"
+
+#: src/daybook/templates/settings.html:66
+msgid "Finnish"
+msgstr "Finlandese"
+
+#: src/daybook/templates/settings.html:67
+msgid "Spanish"
+msgstr "Spagnolo"
+
+#: src/daybook/templates/settings.html:75
+msgid "Update Language"
+msgstr "Aggiorna la lingua"

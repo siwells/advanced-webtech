@@ -1,0 +1,209 @@
+{% extends "base_private.html" %}
+
+{% block scripts %} 
+
+	<script language="Javascript" type="text/javascript">
+
+    function select_journey()
+    {
+        var diary = '{{ diary | safe }}';
+        var diary_obj = JSON.parse(diary);
+        var current_id = document.getElementById("journey_id").value
+
+/*        alert(JSON.stringify( diary ))*/
+        for (var entry in diary_obj)
+        {
+            if (diary_obj[entry].id == current_id)
+            {
+                /*console.log (diary_obj[entry])*/
+                
+                document.getElementById("date").value = diary_obj[entry].date
+                document.getElementById("time").value = diary_obj[entry].time
+                document.getElementById("origin").value = diary_obj[entry].origin
+                document.getElementById("destination").value = diary_obj[entry].destination
+                document.getElementById("duration").value = diary_obj[entry].duration
+                document.getElementById("overall_rating").value = diary_obj[entry].overall_rating
+                document.getElementById("notes").value = diary_obj[entry].notes 
+
+                var num_legs = diary_obj[entry].legs.length;
+
+                options = document.getElementById("leg_id")
+                options.length=0;
+                
+                for (var leg in diary_obj[entry].legs)
+                {
+                     leg++;
+                     var option = document.createElement("option");
+                     option.text = leg;
+                     option.value = leg;
+
+                     options.add(option,null);
+                }
+                
+                document.getElementById("leg_mode").value = diary_obj[entry].legs[0].mode
+                document.getElementById("leg_duration").value = diary_obj[entry].legs[0].duration
+                document.getElementById("leg_rating").value = diary_obj[entry].legs[0].rating
+
+                break;
+            }
+        }
+
+    }
+
+    function select_leg()
+    {
+        var diary = '{{ diary | safe }}';
+        var diary_obj = JSON.parse(diary);
+        var current_journey = document.getElementById("journey_id").value -1
+        var current_leg = document.getElementById("leg_id").value -1
+
+        document.getElementById("leg_mode").value = diary_obj[current_journey].legs[current_leg].mode
+        document.getElementById("leg_duration").value = diary_obj[current_journey].legs[current_leg].duration
+        document.getElementById("leg_rating").value = diary_obj[current_journey].legs[current_leg].rating
+        
+
+
+    }
+    
+	</script>
+
+{% endblock %}
+
+{% block title%}{{ _('Your Journey Diary') }}{% endblock %}
+
+{% block content %}
+    
+    <div class="page-header">
+    <h1>{{ _('Your Journey Diary') }} <small>{{ _('Review existing entries') }}</small></h1>
+    </div>
+
+{% if diary_entries %}
+
+  <div class="row">
+    <div class="span6">   
+               
+    <form class="form-horizontal">
+    
+    <div class="control-group">
+    
+        <div class="control-group">
+        <label class="control-label" for="entries">{{ _('Select a journey') }}</label>
+            <div class="controls">
+                <select class="input-large" name="journey_id" id="journey_id" onchange="select_journey()">
+                    {% for entry in diary_entries %}
+                    <option value="{{ entry.id }}" > {{ entry.id }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+         <div class="control-group">
+            <label class="control-label" for="date">{{ _('Date') }}</label>
+            <div class="controls">
+                <input class="input-large uneditable-input" name="date" id="date" value="{{ diary_entries[0].date }}"></input>
+            </div>
+        </div>
+
+
+        <div class="control-group">
+            <label class="control-label" for="time">{{ _('Time') }}</label>
+            <div class="controls">
+                <input class="input-large uneditable-input" name="time" id="time" value="{{ diary_entries[0].time }}"></input>
+            </div>
+        </div>
+
+
+        <div class="control-group">
+            <label class="control-label" for="origin">{{ _('Origin') }}</label>
+            <div class="controls">
+                <input class="input-large uneditable-input" name="origin" id="origin" value="{{ diary_entries[0].origin }}"></input>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="destination">{{ _('Destination') }}</label>
+            <div class="controls">
+                <input class="input-large uneditable-input" name="destination" id="destination" value="{{ diary_entries[0].destination }}"></input>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="duration">{{ _('Duration') }}</label>
+            <div class="controls">
+                <input class="input-large uneditable-input" name="duration" id="duration" value="{{ diary_entries[0].duration }}"></input>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="overall_rating">{{ _('Overall Journey Rating') }}</label>
+            <div class="controls">
+                <div class="input-append">
+                <input class="input-block-level uneditable-input" name="overall_rating" id="overall_rating" value="{{ diary_entries[0].overall_rating }}"></input>
+                <span class="add-on"><i class="icon-star"></i></span>
+                </div>
+            </div>
+        </div>
+        
+        <legend>{{ _('Journey Legs') }}</legend>
+        
+        <div class="control-group">
+        <label class="control-label" for="legs">{{ _('Select a Leg') }}</label>
+            <div class="controls">
+                <select class="input-large" name="leg_id" id="leg_id" onchange="select_leg()">
+                    {% for leg in diary_entries[0].legs %}
+                        <option value="{{ leg.no }}" > {{ leg.no }} </option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+
+        <div class="control-group">
+            <label class="control-label" for="mode">{{ _('Travel Mode for this leg') }}</label>
+            <div class="controls">
+                <input class="input-large uneditable-input" name="leg_mode" id="leg_mode" value="{{ diary_entries[0].legs[0].mode }}"></input>
+            </div>
+        </div>
+       
+        <div class="control-group">
+            <label class="control-label" for="leg_duration">{{ _('Duration') }}</label>
+            <div class="controls">
+                <input class="input-large uneditable-input" name="leg_duration" id="leg_duration" value="{{ diary_entries[0].legs[0].duration }}"></input>
+            </div>
+        </div>
+
+
+        <div class="control-group">
+            <label class="control-label" for="leg_rating">{{ _('Rating for this leg') }}</label>
+            <div class="controls">
+                <div class="input-append">
+                    <input class="input-block-level uneditable-input" name="leg_rating" id="leg_rating" value="{{ diary_entries[0].legs[0].rating }}"></input>
+                <span class="add-on"><i class="icon-star"></i></span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+        
+    </form>
+    
+
+    </div>
+    
+    <div class="span6">
+    
+    
+    <div class="control-group">
+        <label class="control-label" for="entries">{{ _('Notes') }}</label>
+            <div class="controls">
+                <textarea rows="15" readonly class="input-block-level" name="notes" id="notes">{{ diary_entries[0].notes }}</textarea>
+            </div>
+        </div>
+    
+  </div>
+
+{% else %}
+    <p>{{ _('You have not yet made any journey diary entries') }}.</p>
+{% endif %}
+
+{% endblock %}

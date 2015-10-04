@@ -1,0 +1,530 @@
+{% extends "base_private.html" %}
+
+{% block scripts %} 
+
+	<script language="Javascript" type="text/javascript">
+
+        window.onload = function()
+        {
+            var now = new Date();
+
+            document.getElementById("date_day").value = now.getUTCDate()
+
+            months = { "1":"{{ _('January') }}", "2":"{{ _('February') }}", "3":"{{ _('March') }}", "4":"{{ _('April') }}", "5":"{{ _('May') }}", "6":"{{ _('June') }}", "7":"{{ _('July') }}", "8":"{{ _('August') }}", "9":"{{ _('September') }}", "10":"{{ _('October') }}", "11":"{{ _('November') }}", "12":"{{ _('December') }}"}
+
+            document.getElementById("date_month").value = months[now.getMonth()+1]
+            
+            document.getElementById("time_hour").value = now.getHours()
+            document.getElementById("time_minute").value = now.getMinutes()
+
+        }
+		
+        jQuery(function ($) {
+            $("input").tooltip()
+            $("div").tooltip()
+
+        });
+       
+        var counter = 1;
+		function addInput(divName)
+		{
+            
+            var newdiv = document.createElement('div');
+			newdiv.innerHTML = '<legend>{{ _('Leg') }}' + (counter + 1) +'</legend><div class="control-group"><label class="control-label" for="entries">{{ _('Travel mode for this leg') }}</label><div class="controls"><select class="input input-block-level" name="mode_'+ (counter+1) +'"><option>{{ _('Bicycle') }}</option><option>{{ _('Bicycle Share') }}</option><option>{{ _('Bus') }}</option><option>{{ _('Car') }}</option><option>{{ _('Car Share') }}</option><option>{{ _('Ferry') }}</option><option>{{ _('Metro') }}</option><option>{{ _('Moped') }}</option><option>{{ _('Motorbike') }}</option><option>{{ _('Taxi') }}</option><option>{{ _('Taxi Share') }}</option><option>{{ _('Train') }}</option><option>{{ _('Tram') }}</option><option>{{ _('Trolleybus') }}</option><option>{{ _('Walk') }}</option><option>{{ _('Other') }}</option></select></div></div><div class="control-group"><label class="control-label" for="leg_duration_1">{{ _('Duration of journey') }}</label><div class="controls"><div class="input-append"> <select  class="span1" name="leg_duration_hour_'+ (counter+1) +'"> <option>0</option> <option>1</option> <option>2</option> <option>3</option> <option>4</option> <option>5</option> <option>6</option> <option>7</option> <option>8</option> <option>9</option> <option>10</option> </select> <span class="add-on">{{ _('Hour') }}</span> </div> <div class="input-append"> <select  class="span1" name="leg_duration_minute_'+ (counter+1) +'"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option><option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option><option>31</option><option>32</option><option>33</option><option>34</option><option>35</option><option>36</option><option>37</option><option>38</option><option>39</option><option>40</option><option>41</option><option>42</option><option>43</option><option>44</option><option>45</option><option>46</option><option>47</option><option>48</option><option>49</option><option>50</option><option>51</option><option>52</option><option>53</option><option>54</option><option>55</option><option>56</option><option>57</option><option>58</option><option>59</option></select> <span class="add-on">{{ _('Minute') }}</span> </div></div></div><div class="control-group"><label class="control-label" for="entries">{{ _('Rating for this leg') }}</label><div class="controls"><div class="input-append"><select class="input-small" name="rating_'+ (counter+1) +'"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select><span class="add-on"><i class="icon-star"></i></span></div></div></div>'
+	        document.getElementById(divName).appendChild(newdiv);
+    	    counter++;
+		}
+
+	</script>
+
+{% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block title%}{{ _('Add a new entry') }}{% endblock %}
+
+{% block content %}
+    
+    <div class="page-header">
+    <h1>{{ _('Your Journey Diary') }} <small>{{ _('Add a new entry') }}</small></h1>
+    </div>
+    
+  <div class="row">
+
+    <div class="span8 offset2">   
+    
+    <form class="form-horizontal" name="entry_form" action="" method="post">
+    <div class="control-group">
+
+	
+	<legend>{{ _('Overview of your journey') }}</legend>
+
+
+
+        <div class="control-group">
+            <label class="control-label" for="entries">{{ _('Origin') }}</label>
+            <div class="controls">
+           		<input class="input-block-level" data-toggle="tooltip" data-placement="right" title="{{ _('Please enter the address where your journey started. Include as much detail as possible.') }}" type="text" placeholder="{{ _('where your journey started') }}" name="origin" required>    
+			</div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="entries">{{ _('Destination') }}</label>
+            <div class="controls">
+            	<input class="input-block-level" data-toggle="tooltip" data-placement="right" title="{{ _('Please enter the address where your journey finished. Include as much detail as possible.') }}" type="text" placeholder="{{ _('where your journey ended') }}" name="destination" required>
+			</div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="entries">{{ _('Date') }}</label>
+            <div class="controls">
+
+        <div class="input-append">
+        <select  class="span1" name="date_day" id="date_day">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+        <option>13</option>
+        <option>14</option>
+        <option>15</option>
+        <option>16</option>
+        <option>17</option>
+        <option>18</option>
+        <option>19</option>
+        <option>20</option>
+        <option>21</option>
+        <option>22</option>
+        <option>23</option>
+        <option>24</option>
+        <option>25</option>
+        <option>26</option>
+        <option>27</option>
+        <option>28</option>
+        <option>29</option>
+        <option>30</option>
+        <option>31</option>
+        </select>
+        <span class="add-on">{{ _('Day') }}</span>
+        </div>
+
+        <div class="input-append">
+        <select  class="span2" name="date_month" id="date_month">
+        <option>{{ _('January') }}</option>
+        <option>{{ _('February') }}</option>
+        <option>{{ _('March') }}</option>
+        <option>{{ _('April') }}</option>
+        <option>{{ _('May') }}</option>
+        <option>{{ _('June') }}</option>
+        <option>{{ _('July') }}</option>
+        <option>{{ _('August') }}</option>
+        <option>{{ _('September') }}</option>
+        <option>{{ _('October') }}</option>
+        <option>{{ _('November') }}</option>
+        <option>{{ _('December') }}</option>
+        </select>
+        <span class="add-on">{{ _('Month') }}</span>
+        </div>
+
+        <div class="input-append">
+        <select  class="input-small" name="date_year">
+        <option>2013</option>
+        </select>
+        <span class="add-on">{{ _('Year') }}</span>
+        </div>
+
+
+
+
+			</div>
+        </div>
+
+<div class="control-group">
+            <label class="control-label" for="time">{{ _('Departure time') }}</label>
+            <div class="controls">
+
+        <div class="input-append">
+        <select  class="span1" name="time_hour" id="time_hour">
+        <option>00</option>
+        <option>01</option>
+        <option>02</option>
+        <option>03</option>
+        <option>04</option>
+        <option>05</option>
+        <option>06</option>
+        <option>07</option>
+        <option>08</option>
+        <option>09</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+        <option>13</option>
+        <option>14</option>
+        <option>15</option>
+        <option>16</option>
+        <option>17</option>
+        <option>18</option>
+        <option>19</option>
+        <option>20</option>
+        <option>21</option>
+        <option>22</option>
+        <option>23</option>
+        </select>
+        <span class="add-on">{{ _('Hour') }}</span>
+        </div>
+
+        <div class="input-append">
+        <select  class="span1" name="time_minute" id="time_minute">
+        <option>00</option>
+        <option>01</option>
+        <option>02</option>
+        <option>03</option>
+        <option>04</option>
+        <option>05</option>
+        <option>06</option>
+        <option>07</option>
+        <option>08</option>
+        <option>09</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+        <option>13</option>
+        <option>14</option>
+        <option>15</option>
+        <option>16</option>
+        <option>17</option>
+        <option>18</option>
+        <option>19</option>
+        <option>20</option>
+        <option>21</option>
+        <option>22</option>
+        <option>23</option>
+        <option>24</option>
+        <option>25</option>
+        <option>26</option>
+        <option>27</option>
+        <option>28</option>
+        <option>29</option>
+        <option>30</option>
+        <option>31</option>
+        <option>32</option>
+        <option>33</option>
+        <option>34</option>
+        <option>35</option>
+        <option>36</option>
+        <option>37</option>
+        <option>38</option>
+        <option>39</option>
+        <option>40</option>
+        <option>41</option>
+        <option>42</option>
+        <option>43</option>
+        <option>44</option>
+        <option>45</option>
+        <option>46</option>
+        <option>47</option>
+        <option>48</option>
+        <option>49</option>
+        <option>50</option>
+        <option>51</option>
+        <option>52</option>
+        <option>53</option>
+        <option>54</option>
+        <option>55</option>
+        <option>56</option>
+        <option>57</option>
+        <option>58</option>
+        <option>59</option>
+        </select>
+        <span class="add-on">{{ _('Minute') }}</span>
+        </div>
+
+
+        </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label" for="duration">{{ _('Duration of journey') }}</label>
+            <div class="controls">
+
+        <div class="input-append">
+        <select  class="span1" name="duration_hour">
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        </select>
+        <span class="add-on">{{ _('Hour') }}</span>
+        </div>
+
+        <div class="input-append">
+        <select  class="span1" name="duration_minute">
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+        <option>13</option>
+        <option>14</option>
+        <option>15</option>
+        <option>16</option>
+        <option>17</option>
+        <option>18</option>
+        <option>19</option>
+        <option>20</option>
+        <option>21</option>
+        <option>22</option>
+        <option>23</option>
+        <option>24</option>
+        <option>25</option>
+        <option>26</option>
+        <option>27</option>
+        <option>28</option>
+        <option>29</option>
+        <option>30</option>
+        <option>31</option>
+        <option>32</option>
+        <option>33</option>
+        <option>34</option>
+        <option>35</option>
+        <option>36</option>
+        <option>37</option>
+        <option>38</option>
+        <option>39</option>
+        <option>40</option>
+        <option>41</option>
+        <option>42</option>
+        <option>43</option>
+        <option>44</option>
+        <option>45</option>
+        <option>46</option>
+        <option>47</option>
+        <option>48</option>
+        <option>49</option>
+        <option>50</option>
+        <option>51</option>
+        <option>52</option>
+        <option>53</option>
+        <option>54</option>
+        <option>55</option>
+        <option>56</option>
+        <option>57</option>
+        <option>58</option>
+        <option>59</option>
+        </select>
+        <span class="add-on">{{ _('Minute') }}</span>
+        </div>
+
+			</div>
+        </div>
+
+		<div class="control-group">
+        <label class="control-label" for="overall_rating">{{ _('Rate your journey overall') }}</label>
+		<div class="controls">
+
+            <div class="input-append" data-toggle="tooltip" data-placement="right" title="{{ _('Please select a rating for this journey overall. On this scale 1 is a low quality rating and 5 is a high quality rating.') }}">
+            	    <select class="input-small" name="overall_rating">
+	                    <option>1</option>
+    	                <option>2</option>
+        	            <option>3</option>
+						<option>4</option>
+						<option>5</option>
+	                </select>				
+					<span class="add-on"><i class="icon-star"></i></span>
+        	    </div>
+			</div>
+        </div>
+
+
+	<legend>{{ _('Journey Legs') }}</legend>
+
+		<div class="control-group">
+	        <div class="controls">
+	        	<button class="btn btn-block" type="button" onClick="addInput('dynamicInput');">{{ _('Add a journey leg') }}</button>
+			</div>
+		</div>
+
+		<div class="offset1" id="dynamicInput">
+			<legend>{{ _('Leg 1') }}</legend>
+				<div class="control-group">
+		        	<label class="control-label" for="entries">{{ _('Travel mode for this leg') }}</label>
+		            <div class="controls">
+	    	            <select class="input input-block-level" name="mode_1">
+	        	            <option>{{ _('Bicycle') }}</option>
+                            <option>{{ _('Bicycle Share') }}</option>
+                            <option>{{ _('Bus') }}</option>
+    	        	        <option>{{ _('Car') }}</option>
+                            <option>{{ _('Car Share') }}</option>
+                            <option>{{ _('Ferry') }}</option>
+                            <option>{{ _('Metro') }}</option>
+                            <option>{{ _('Moped') }}</option>
+                            <option>{{ _('Motorbike') }}</option>
+                            <option>{{ _('Taxi') }}</option>
+                            <option>{{ _('Taxi Share') }}</option>
+                            <option>{{ _('Train') }}</option>
+                            <option>{{ _('Tram') }}</option>
+                            <option>{{ _('Trolleybus') }}</option>
+        	        	    <option>{{ _('Walk') }}</option>
+                            <option>{{ _('Other') }}</option>
+	        	        </select>
+    	        	</div>
+		        </div> 
+
+                
+                <div class="control-group">
+                    <label class="control-label" for="leg_duration_1">{{ _('Duration of journey') }}</label>
+                    <div class="controls">
+        <div class="input-append">
+        <select  class="span1" name="leg_duration_hour_1">
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        </select>
+        <span class="add-on">{{ _('Hour') }}</span>
+        </div>
+
+        <div class="input-append">
+        <select  class="span1" name="leg_duration_minute_1">
+        <option>0</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+        <option>13</option>
+        <option>14</option>
+        <option>15</option>
+        <option>16</option>
+        <option>17</option>
+        <option>18</option>
+        <option>19</option>
+        <option>20</option>
+        <option>21</option>
+        <option>22</option>
+        <option>23</option>
+        <option>24</option>
+        <option>25</option>
+        <option>26</option>
+        <option>27</option>
+        <option>28</option>
+        <option>29</option>
+        <option>30</option>
+        <option>31</option>
+        <option>32</option>
+        <option>33</option>
+        <option>34</option>
+        <option>35</option>
+        <option>36</option>
+        <option>37</option>
+        <option>38</option>
+        <option>39</option>
+        <option>40</option>
+        <option>41</option>
+        <option>42</option>
+        <option>43</option>
+        <option>44</option>
+        <option>45</option>
+        <option>46</option>
+        <option>47</option>
+        <option>48</option>
+        <option>49</option>
+        <option>50</option>
+        <option>51</option>
+        <option>52</option>
+        <option>53</option>
+        <option>54</option>
+        <option>55</option>
+        <option>56</option>
+        <option>57</option>
+        <option>58</option>
+        <option>59</option>
+        </select>
+        <span class="add-on">{{ _('Minute') }}</span>
+        </div>
+                        
+			        </div>
+                </div>
+
+
+	       		<div class="control-group">
+    	        	<label class="control-label" for="rating_1">{{ _('Rating for this leg') }}</label>
+                        <div class="controls">
+                        <div class="input-append">
+        	    	    	<select class="input-small" name="rating_1">
+	        	    	        <option>1</option>
+    	        	    	    <option>2</option>
+        	        	    	<option>3</option>
+								<option>4</option>
+								<option>5</option>
+	    		            </select>				
+							<span class="add-on"><i class="icon-star"></i></span>
+						</div>
+		        	</div>
+				</div>
+
+			</div>
+		</div>
+
+
+	<legend>{{ _('Notes') }}</legend>
+		<div class="control-group">
+        	<label class="control-label" for="entries">{{ _('Notes about your journey') }}</label>
+	        <div class="controls">
+				<textarea rows="15" class="input-block-level" name="notes"></textarea>
+        	</div>
+	    </div>
+
+		<div class="control-group">
+    	    <label class="control-label" for="entries">{{ _('Add this entry to your journey diary') }}</label>
+        	<div class="controls">
+				<button class="btn btn-large btn-primary pull-right" type="submit"  type="submit" name="button" value="add_entry">{{ _('Add Entry') }}</button>
+			</div>
+		</div>
+	</form>
+	</div>
+  </div>
+{% endblock %}
+
+{% block endscripts %} 
+{% endblock %}
+

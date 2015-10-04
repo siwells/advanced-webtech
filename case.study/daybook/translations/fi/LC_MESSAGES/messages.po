@@ -1,0 +1,601 @@
+# Finnish translations for PROJECT.
+# Copyright (C) 2013 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2013-08-19 11:41+0100\n"
+"PO-Revision-Date: 2013-08-19 12:01-0000\n"
+"Last-Translator: Simon Wells <simon.wells@abdn.ac.uk>\n"
+"Language-Team: fi <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 1.3\n"
+"X-Generator: Poedit 1.5.7\n"
+
+#: src/daybook/daybook.py:92
+msgid ""
+"An account already exists for that email address. Please either use another "
+"email address or use the recover password feature."
+msgstr ""
+"Antamallasi sähköpostiosoitteella on jo luotu käyttäjätili. Anna toinen "
+"sähköpostiosoite tai käytä salasanan palautustoimintoa."
+
+#: src/daybook/daybook.py:100
+msgid "SUPERHUB Project :: New Journey Diary Account"
+msgstr "SUPERHUB -Projekti :: Uusi Matkapäiväkirjatili"
+
+#: src/daybook/daybook.py:101
+msgid ""
+"A new SUPERHUB Journey Diary account has been created for the following "
+"email address: {kwarg}. You should now be able to log into the journey diary "
+"and record your journeys."
+msgstr ""
+"Uusi SUPERHUB -matkapäiväkirjatili on luotu sähköpostiosoitteelle:{kwarg}. "
+"Voit nyt kirjautua matkapäiväkirjatilille ja kirjata sinne matkatietosi"
+
+#: src/daybook/daybook.py:105
+msgid ""
+"An email has been sent to {kwarg} so that you can verify your email address. "
+"However you can log into your account immediately."
+msgstr ""
+"Sähköpostiosoitteeseen {kwarg} on lähetetty viesti sähköpostiosoitteesi "
+"varmistamiseksi. Voit kuitenkin jo kirjautua sisään."
+
+#: src/daybook/daybook.py:108
+msgid ""
+"The supplied passwords do not match. Please ensure that you type the same "
+"password into both the password box and the confirmation box."
+msgstr ""
+"Annettu salasana on väärä. Varmista, että kirjoitat saman salasanan sekä "
+"salasana- että salasanan vahvistuskenttään."
+
+#: src/daybook/daybook.py:119
+msgid "The supplied password was incorrect"
+msgstr "Annettu salasana on väärä"
+
+#: src/daybook/daybook.py:129
+msgid ""
+"This site uses cookies. By continuing to browse the site you are agreeing to "
+"our use of cookies."
+msgstr ""
+"Tämä sivusto käyttää evästeitä. Jatkamalla sivuston käyttöä, hyväksyt "
+"evästeiden käytön."
+
+#: src/daybook/daybook.py:258
+msgid "Your journey entry was added to your diary"
+msgstr "Matkatieto on lisätty matkapäiväkirjaasi"
+
+#: src/daybook/daybook.py:271
+msgid "SUPERHUB Project :: New Password"
+msgstr "SUPERHUB -projekti :: Uusi Salasana"
+
+#: src/daybook/daybook.py:272
+msgid ""
+"The password for the following email address: {email} was reset. You should "
+"now be able to log into the journey diary and record your journeys using the "
+"password: {newpass}."
+msgstr ""
+"Tälle sähköpostitilille:{ email} luotu salasana on poistettu käytöstä. Voit "
+"nyt kirjautua sisään ja lisätä matkatietosi käyttämällä uutta salasanaa: "
+"{newpass}."
+
+#: src/daybook/daybook.py:275
+msgid "An email was sent to {arg}"
+msgstr "Sähköpostiviesti on lähetetty {arg}"
+
+#: src/daybook/daybook.py:277
+msgid ""
+"We were not able to update the password for this account. Please contact "
+"super.hub.eu@gmail.com"
+msgstr ""
+"Emme pystyneet päivittämään tämän tilin salasanaa. Ole hyvä ja ota meihin "
+"yhteyttä lähettämällä sähköpostia osoitteeseen: super.hub.eu.@gmail.com"
+
+#: src/daybook/daybook.py:279
+msgid "There is no SUPERHUB account associated with the email address:"
+msgstr ""
+"Tähän sähköpostiosoitteeseen liittyvää SUPERHUB -tiliä ei ole olemassa."
+
+#: src/daybook/daybook.py:310
+msgid "Your password has been updated"
+msgstr "Salasanasi on päivitetty"
+
+#: src/daybook/daybook.py:312
+msgid "Something went wrong when setting your new password. Please try again"
+msgstr "Jokin meni vikaan salasanasi vaihdossa. Yritä uudelleen"
+
+#: src/daybook/daybook.py:314
+msgid "Please ensure that your new passwords match"
+msgstr "Varmista, että uudet salasanasi täsmäävät"
+
+#: src/daybook/daybook.py:316
+msgid "Please enter you current password correctly"
+msgstr "Syötä nykyinen salasanasi oikein"
+
+#: src/daybook/daybook.py:321
+msgid "Your default language settings have been updated"
+msgstr "Kielivalintasi automaattiset asetukset on päivitetty"
+
+#: src/daybook/templates/base_private.html:46
+msgid "Return to Your Journey Diary"
+msgstr "Palaa matkapäiväkirjaasi"
+
+#: src/daybook/templates/base_private.html:46
+#: src/daybook/templates/base_public.html:41
+#: src/daybook/templates/index.html:40
+msgid "SUPERHUB Journey Diary"
+msgstr "SUPERHUB -matkapäiväkirja"
+
+#: src/daybook/templates/base_private.html:48
+msgid "View Diary Entries"
+msgstr "Tarkastele päiväkirjamerkintöjä"
+
+#: src/daybook/templates/base_private.html:50
+msgid "Add New Diary Entry"
+msgstr "Lisää uusi päiväkirjamerkintä"
+
+#: src/daybook/templates/base_private.html:61
+msgid "Settings"
+msgstr "Asetukset"
+
+#: src/daybook/templates/base_private.html:62
+msgid "Sign out"
+msgstr "Kirjaudu ulos"
+
+#: src/daybook/templates/base_public.html:41
+msgid "Go to the SUPERHUB Journey Diary homepage"
+msgstr "Siirry SUPERHUB -matkapäiväkirjan kotisivulle"
+
+#: src/daybook/templates/base_public.html:87
+msgid "Forgotten Password?"
+msgstr "Unohtuiko salasana?"
+
+#: src/daybook/templates/dashboard.html:7
+msgid "Your Journey Diary Dashboard"
+msgstr "Matkapäiväkirjasi leikepöytä"
+
+#: src/daybook/templates/dashboard.html:12 src/daybook/templates/diary.html:72
+#: src/daybook/templates/diary.html:77 src/daybook/templates/entry.html:36
+#: src/daybook/templates/settings.html:12
+msgid "Your Journey Diary"
+msgstr "Matkapäiväkirjasi"
+
+#: src/daybook/templates/dashboard.html:12
+msgid "Dashboard"
+msgstr "Leikepöytä"
+
+#: src/daybook/templates/dashboard.html:20
+msgid "You have made the following journey diary entries"
+msgstr "Olet tehnyt seuraavat matkapäiväkirjamerkinnät"
+
+#: src/daybook/templates/dashboard.html:22
+msgid "You have not entered any journey diary entries"
+msgstr "Et ole tehnyt matkapäiväkirjamerkintöjä"
+
+#: src/daybook/templates/diary.html:77
+msgid "Review existing entries"
+msgstr "Tarkastele tekemiäsi merkintöjä"
+
+#: src/daybook/templates/diary.html:90
+msgid "Select a journey"
+msgstr "Valitse matka"
+
+#: src/daybook/templates/diary.html:101 src/daybook/templates/entry.html:66
+msgid "Date"
+msgstr "Päivämäärä"
+
+#: src/daybook/templates/diary.html:109
+msgid "Time"
+msgstr "Aika"
+
+#: src/daybook/templates/diary.html:117 src/daybook/templates/entry.html:52
+msgid "Origin"
+msgstr "Lähtöpaikka"
+
+#: src/daybook/templates/diary.html:124 src/daybook/templates/entry.html:59
+msgid "Destination"
+msgstr "Määränpää"
+
+#: src/daybook/templates/diary.html:131 src/daybook/templates/diary.html:169
+msgid "Duration"
+msgstr "Kesto"
+
+#: src/daybook/templates/diary.html:138
+msgid "Overall Journey Rating"
+msgstr "Matkan yleisarvosana"
+
+#: src/daybook/templates/diary.html:147 src/daybook/templates/entry.html:253
+msgid "Journey Legs"
+msgstr "Etapit"
+
+#: src/daybook/templates/diary.html:150
+msgid "Select a Leg"
+msgstr "Valitse etappi"
+
+#: src/daybook/templates/diary.html:162
+msgid "Travel Mode for this leg"
+msgstr "Matkustustapa tälle etapille"
+
+#: src/daybook/templates/diary.html:177 src/daybook/templates/entry.html:18
+#: src/daybook/templates/entry.html:331
+msgid "Rating for this leg"
+msgstr "Arvosana tälle etapille"
+
+#: src/daybook/templates/diary.html:197 src/daybook/templates/entry.html:350
+msgid "Notes"
+msgstr "Muistiinpanot"
+
+#: src/daybook/templates/diary.html:206
+#, fuzzy
+msgid "You have not yet made any journey diary entries"
+msgstr "Et ole tehnyt matkapäiväkirjamerkintöjä"
+
+#: src/daybook/templates/entry.html:18
+msgid "Leg"
+msgstr "Etappi"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:264
+msgid "Travel mode for this leg"
+msgstr "Matkustustapa tälle etapille"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:267
+msgid "Bicycle"
+msgstr "Polkupyörä"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:268
+msgid "Bicycle Share"
+msgstr "Pyörien yhteiskäyttöpalvelu, esim. citybike"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:269
+msgid "Bus"
+msgstr "Bussi"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:270
+msgid "Car"
+msgstr "Henkilöauto"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:271
+msgid "Car Share"
+msgstr "autojen yhteiskäyttöpalvelu, esim. citycarclub"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:272
+msgid "Ferry"
+msgstr "Lautta"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:273
+msgid "Metro"
+msgstr "Metro"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:274
+msgid "Moped"
+msgstr "Mopo"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:275
+msgid "Motorbike"
+msgstr "Moottoripyörä"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:276
+msgid "Taxi"
+msgstr "Taksi"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:277
+msgid "Taxi Share"
+msgstr "Jaettu taksi"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:278
+msgid "Train"
+msgstr "Juna"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:279
+msgid "Tram"
+msgstr "Raitiovaunu"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:280
+msgid "Trolleybus"
+msgstr "Johdinauto, sähkökäyttöinen linja-auto"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:281
+msgid "Walk"
+msgstr "Kävely"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:282
+msgid "Other"
+msgstr "Muu"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:194
+#: src/daybook/templates/entry.html:289
+msgid "Duration of journey"
+msgstr "Matkan kesto"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:168
+#: src/daybook/templates/entry.html:211 src/daybook/templates/entry.html:305
+msgid "Hour"
+msgstr "Tunnit"
+
+#: src/daybook/templates/entry.html:18 src/daybook/templates/entry.html:186
+#: src/daybook/templates/entry.html:229 src/daybook/templates/entry.html:323
+msgid "Minute"
+msgstr "Minuutit"
+
+#: src/daybook/templates/entry.html:31 src/daybook/templates/entry.html:36
+msgid "Add a new entry"
+msgstr "Lisää uusi merkintä"
+
+#: src/daybook/templates/entry.html:47
+msgid "Overview of your journey"
+msgstr "Matkan yleisnäkymä"
+
+#: src/daybook/templates/entry.html:54
+msgid ""
+"Please enter the address where your journey started. Include as much detail "
+"as possible."
+msgstr "Lisää matkan lähtöosoite niin yksityiskohtaisesti kuin mahdollista."
+
+#: src/daybook/templates/entry.html:54
+msgid "where your journey started"
+msgstr "Mistä matka alkoi"
+
+#: src/daybook/templates/entry.html:61
+msgid ""
+"Please enter the address where your journey finished. Include as much detail "
+"as possible."
+msgstr "Lisää matkan pääteosoite niin yksityiskohtaisesti kuin mahdollista."
+
+#: src/daybook/templates/entry.html:61
+msgid "where your journey ended"
+msgstr "Minne matka päättyi"
+
+#: src/daybook/templates/entry.html:103
+msgid "Day"
+msgstr "Päivä"
+
+#: src/daybook/templates/entry.html:108
+msgid "January"
+msgstr "Tammikuu"
+
+#: src/daybook/templates/entry.html:109
+msgid "February"
+msgstr "Helmikuu"
+
+#: src/daybook/templates/entry.html:110
+msgid "March"
+msgstr "Maaliskuu"
+
+#: src/daybook/templates/entry.html:111
+msgid "April"
+msgstr "Huhtikuu"
+
+#: src/daybook/templates/entry.html:112
+msgid "May"
+msgstr "Toukokuu"
+
+#: src/daybook/templates/entry.html:113
+msgid "June"
+msgstr "Kesäkuu"
+
+#: src/daybook/templates/entry.html:114
+msgid "July"
+msgstr "Heinäkuu"
+
+#: src/daybook/templates/entry.html:115
+msgid "August"
+msgstr "Elokuu"
+
+#: src/daybook/templates/entry.html:116
+msgid "September"
+msgstr "Syyskuu"
+
+#: src/daybook/templates/entry.html:117
+msgid "October"
+msgstr "Lokakuu"
+
+#: src/daybook/templates/entry.html:118
+msgid "November"
+msgstr "Marraskuu"
+
+#: src/daybook/templates/entry.html:119
+msgid "December"
+msgstr "Joulukuu"
+
+#: src/daybook/templates/entry.html:121
+msgid "Month"
+msgstr "Kuukausi"
+
+#: src/daybook/templates/entry.html:128
+msgid "Year"
+msgstr "vuosi"
+
+#: src/daybook/templates/entry.html:138
+msgid "Departure time"
+msgstr "Lähtöaika"
+
+#: src/daybook/templates/entry.html:236
+msgid "Rate your journey overall"
+msgstr "Matkan yleisarvosana"
+
+#: src/daybook/templates/entry.html:239
+msgid ""
+"Please select a rating for this journey overall. On this scale 1 is a low "
+"quality rating and 5 is a high quality rating."
+msgstr ""
+"Valitse matkalle yleisarvosana. Asteikko on 1-5,  jossa 1 on huonoin "
+"arvosana ja 5 on paras arvosana."
+
+#: src/daybook/templates/entry.html:257
+msgid "Add a journey leg"
+msgstr "Lisää etappi"
+
+#: src/daybook/templates/entry.html:262
+msgid "Leg 1"
+msgstr "Etappi 1"
+
+#: src/daybook/templates/entry.html:352
+msgid "Notes about your journey"
+msgstr "Matkaa koskevat muistiinpanot"
+
+#: src/daybook/templates/entry.html:359
+msgid "Add this entry to your journey diary"
+msgstr "Lisää tämä merkintä matkapäiväkirjaasi"
+
+#: src/daybook/templates/entry.html:361
+#, fuzzy
+msgid "Add Entry"
+msgstr "Lisää uusi merkintä"
+
+#: src/daybook/templates/index.html:22
+msgid "Index"
+msgstr "Hakemisto"
+
+#: src/daybook/templates/index.html:41
+msgid ""
+"SuperHub is an open platform for integrated, multi-modal, urban mobility "
+"that aims to support YOU in selecting and using ecologically sustainable "
+"transport options."
+msgstr ""
+"SUPERHUB on avoin alusta integroidulle, monikanavaiselle ja urbaanille "
+"liikkuvuudelle, jonka tarkoituksena on tukea SINUN valintojasi ja "
+"ekologisten matkustustapojen käyttöä."
+
+#: src/daybook/templates/index.html:51 src/daybook/templates/index.html:90
+msgid "Join"
+msgstr "Liity"
+
+#: src/daybook/templates/index.html:54 src/daybook/templates/index.html:56
+msgid "First Name"
+msgstr "Etunimi"
+
+#: src/daybook/templates/index.html:61 src/daybook/templates/index.html:63
+msgid "Last Name"
+msgstr "Sukunimi"
+
+#: src/daybook/templates/index.html:68 src/daybook/templates/index.html:108
+#: src/daybook/templates/index.html:110
+msgid "Email"
+msgstr "Sähköpostiosoite"
+
+#: src/daybook/templates/index.html:70 src/daybook/templates/recover.html:15
+msgid "Email Address"
+msgstr "Sähköpostiosoite"
+
+#: src/daybook/templates/index.html:75 src/daybook/templates/index.html:77
+#: src/daybook/templates/index.html:115 src/daybook/templates/index.html:117
+msgid "Password"
+msgstr "Salasana"
+
+#: src/daybook/templates/index.html:82
+msgid "Password Confirmation"
+msgstr "Salasanan vahvistus"
+
+#: src/daybook/templates/index.html:84
+msgid "Confirm Password"
+msgstr "Vahvista salasana"
+
+#: src/daybook/templates/index.html:105
+msgid "Login"
+msgstr "Sisäänkirjautuminen"
+
+#: src/daybook/templates/index.html:123
+msgid "Sign In"
+msgstr "Kirjaudu sisään"
+
+#: src/daybook/templates/recover.html:2
+msgid "Verification"
+msgstr "Vahvistaminen"
+
+#: src/daybook/templates/recover.html:9
+msgid "Recover Lost Password"
+msgstr "Hae unohtunut salasana"
+
+#: src/daybook/templates/recover.html:11
+msgid ""
+"If you have lost your password, please type in your email address and press "
+"the \"Recover Password\" button. An email will be sent to your registered "
+"account with further instructions."
+msgstr ""
+"Jos olet unohtanut salasanasi, anna sähköpostiosoitteesi ja paina \"HAE "
+"SALASANA\" painiketta. Tiliisi liitettyyn sähköpostiosoitteeseen lähetetään "
+"viesti, joka sisältää ohjeet salasanan palauttamiseen."
+
+#: src/daybook/templates/recover.html:16
+msgid "Recover Password"
+msgstr "Hae salasana"
+
+#: src/daybook/templates/settings.html:7
+msgid "Your Journey Diary Account Settings"
+msgstr "Matkäpäiväkirjatilin asetukset"
+
+#: src/daybook/templates/settings.html:12
+msgid "Account Settings"
+msgstr "Tiliasetukset"
+
+#: src/daybook/templates/settings.html:21
+msgid "Change Your Password"
+msgstr "Vaihda salasana"
+
+#: src/daybook/templates/settings.html:24
+msgid "Existing Password"
+msgstr "Nykyinen salasana"
+
+#: src/daybook/templates/settings.html:26
+#, fuzzy
+msgid "your existing password"
+msgstr "Nykyinen salasana"
+
+#: src/daybook/templates/settings.html:31
+msgid "New Password"
+msgstr "Uusi salasana"
+
+#: src/daybook/templates/settings.html:33
+#, fuzzy
+msgid "your new password"
+msgstr "Uusi salasana"
+
+#: src/daybook/templates/settings.html:38
+msgid "Repeat Password"
+msgstr "Toista salasana"
+
+#: src/daybook/templates/settings.html:40
+msgid "your new password again"
+msgstr "Salasanasi uudelleen"
+
+#: src/daybook/templates/settings.html:46
+msgid "Update Password"
+msgstr "Päivitä salasana"
+
+#: src/daybook/templates/settings.html:56
+msgid "Set your default language"
+msgstr "Valitse käyttämäsi kieli"
+
+#: src/daybook/templates/settings.html:60
+msgid "Select a language"
+msgstr "Valitse kieli"
+
+#: src/daybook/templates/settings.html:63
+msgid "Catalan"
+msgstr "Katalaani"
+
+#: src/daybook/templates/settings.html:64
+msgid "English"
+msgstr "Englanti"
+
+#: src/daybook/templates/settings.html:65
+msgid "Italian"
+msgstr "italia"
+
+#: src/daybook/templates/settings.html:66
+msgid "Finnish"
+msgstr "Suomi"
+
+#: src/daybook/templates/settings.html:67
+msgid "Spanish"
+msgstr "Espanja"
+
+#: src/daybook/templates/settings.html:75
+msgid "Update Language"
+msgstr "Päivitä kieliasetus"

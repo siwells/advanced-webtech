@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="Simon Wells">
+
+    <script type="text/javascript" src="static/js/jquery-1.10.2.min.js"></script>
+	<script defer type="text/javascript" src="static/js/bootstrap.js"></script>
+	{% block scripts %}
+
+	{% endblock %}
+
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap-responsive.css">
+    <link rel="stylesheet" type="text/css" href="static/css/sticky.footer.css">
+
+    <link rel="shortcut icon" href="static/ico/favicon.ico">
+    <link rel="apple-touch-icon" href="static/ico/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" href="static/ico/apple-touch-icon-precomposed.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="static/ico/apple-touch-icon-72x72-precomposed.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="static/ico/apple-touch-icon-114x114-precomposed.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="static/ico/apple-touch-icon-144x144-precomposed.png" />
+   	{% block css %}
+
+	{% endblock %}
+
+
+	<link rel="shortcut icon" href="static/ico/favicon.ico">
+
+    {% block head %}
+    	<title>SUPERHUB {% block title %}{% endblock %}</title>
+	{% endblock %}
+</head>
+
+<body>
+    <div id="wrap">
+        <div class="navbar navbar-fixed-top">
+          <div class="navbar-inner">
+            <div class="container">
+              <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <div class="nav-collapse collapse">
+                <ul class="nav">
+
+                <li class="active"><a href="{{ url_for('.dashboard')}}" rel="tooltip" title="{{ _('Return to Your Journey Diary') }}"><strong><i class="icon-home"></i> {{ _('SUPERHUB Journey Diary') }}</strong></a></li>
+                
+                <li><a href="{{ url_for('.diary') }}">{{ _('View Diary Entries') }}</a></li>
+                
+                <li><a href="{{ url_for('.entry') }}">{{ _('Add New Diary Entry') }}</a></li>
+                                
+                </ul>
+
+<div class="btn-group pull-right">
+				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+					<i class="icon-cog"></i>
+					<span class="caret"></span>
+				</a>
+
+				<ul class="dropdown-menu">
+					<li><a tabindex="-1" href="{{ url_for('.settings') }}">{{ _('Settings') }}</a></li>
+					<li><a tabindex="-1" href="{{ url_for('.logout') }}">{{ _('Sign out') }}</a></li>
+				</ul>
+			</div>
+
+
+              </div><!-- nav-collapse -->
+            </div> <!-- container -->
+          </div> <!-- navbar-inner -->
+        </div> <!-- navbar -->
+    
+
+    {% block pagebody %}
+	<div class="container">
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+
+                    <div class="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                    </div>
+
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+
+		{% block alerts %}{% endblock %}
+
+		{% block hero %}{% endblock %}
+
+		{% block content %}{% endblock %}
+	</div>
+	{% endblock %}
+
+
+
+
+          
+
+        </div><!-- container -->
+        <div id="push"></div> <!-- push -->
+    </div> <!-- wrap -->
+    
+    <div id="footer">
+      <div class="container">
+        <!--<p class="muted credit"><a href="http://superhub-project.eu/">SUPERHUB</a> | <a href="http://www.simonwells.org">Journey Diary Application</a></p> -->
+      </div> <!-- container -->
+    </div> <!-- footer -->
+
+
+
+	{% block endscripts %}
+
+	{% endblock %}
+
+
+</body>
+</html>
+

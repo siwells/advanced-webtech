@@ -1,0 +1,88 @@
+{% extends "base_private.html" %}
+
+{% block scripts %} 
+
+{% endblock %}
+
+{% block title%}{{ _('Your Journey Diary Account Settings') }}{% endblock %}
+
+{% block content %}
+    
+    <div class="page-header">
+    <h1>{{ _('Your Journey Diary') }} <small>{{ _('Account Settings') }}</small></h1>
+    </div>
+    
+  <div class="row">
+
+    <div class="span8 offset2">   
+    
+        <form class="form-horizontal" name="login_form" action="" method="post">
+            <fieldset>
+            <legend>{{ _('Change Your Password') }}</legend>
+            
+            <div class="control-group">
+                <label class="control-label" for="existing">{{ _('Existing Password') }}</label>
+                <div class="controls">
+                <input type="password" placeholder="{{ _('your existing password') }}" name="existing_pass">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="new_pass_one">{{ _('New Password') }}</label>
+                <div class="controls">
+                <input type="password" placeholder="{{ _('your new password') }}" name="new_pass_one">
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label" for="new_pass_two">{{ _('Repeat Password') }}</label>
+                <div class="controls">
+                <input type="password" placeholder="{{ _('your new password again') }}" name="new_pass_two">
+                </div>
+            </div>
+            
+            <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn" name="button" value="update_pw_button">{{ _('Update Password') }}</button>
+            </div>
+            </div>
+        
+            </fieldset>
+        </form>
+
+
+        <form class="form-horizontal" name="language_form" action="" method="post">
+            <fieldset>
+                <legend>{{ _('Set your default language') }}</legend>
+                
+                <div class="control-group">
+                    <div class="input-append">
+                        <label class="control-label" for="language">{{ _('Select a language') }}</label>
+                        <div class="controls">
+                            <select class="input" name="language">
+                                <option>{{ _('Catalan') }}</option>
+                                <option>{{ _('English') }}</option>
+                                <option>{{ _('Italian') }}</option>
+                                <option>{{ _('Finnish') }}</option>
+                                <option>{{ _('Spanish') }}</option>
+                            </select>				
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn" name="button" value="update_lang_button">{{ _('Update Language') }}</button>
+            </div>
+            </div>
+
+               
+
+
+            </fieldset>
+        </form>
+
+
+	</div>
+  </div>
+{% endblock %}

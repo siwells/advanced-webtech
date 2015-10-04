@@ -1,0 +1,38 @@
+{% extends "base_private.html" %}
+
+{% block scripts %} 
+
+{% endblock %}
+
+{% block title%}{{ _('Your Journey Diary Dashboard') }}{% endblock %}
+
+{% block content %}
+    
+    <div class="page-header">
+    <h1>{{ _('Your Journey Diary') }} <small>{{ _('Dashboard') }}</small></h1>
+    </div>
+    
+    <div class="row">
+
+        <div class="span8 offset2">   
+            
+            {% if entry_list %}
+                <p>{{ _('You have made the following journey diary entries') }}:</p>
+            {% else %}
+                <p>{{ _('You have not entered any journey diary entries') }}.</p>
+            {% endif %}
+
+            
+
+            <ul class="unstyled">
+
+                {% for entry in entry_list %}
+                    <li> {{ entry.id }}: {{ entry.date }} </li>
+                {% endfor %}
+
+
+            </ul>
+
+	    </div>
+    </div>
+{% endblock %}
