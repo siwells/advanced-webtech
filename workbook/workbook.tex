@@ -936,13 +936,14 @@ if __name__ == "__main__":
 \label{fig:flask-static-img}
 \end{figure}
 
+
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
 % CHAPTER 04
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
 
-\chapter{Flask: Requests \& Responses}
+\chapter{Python Flask: Requests \& Responses}
 \label{lab04}
 \paragraph{} In the last chapter we looked at how to do routing. That is how to execute a different function depending upon which URL the browser requested. This week we will look in more detail at the requests themselves. Because requests can include more than just a simple HTTP GET we shall look at how to handle different HTTP methods, such as GET, POST, PUT, \& DELETE, before looking at URL encoding of arguments to a route. The, after receiving and handling request data, we will look at the responses that we can return to the client.
 
@@ -1185,6 +1186,40 @@ if __name__ == "__main__":
 \caption{Output when supplying a ?name=simon URL parameter}
 \label{fig:flask-url-param-name}
 \end{figure}
+
+
+\subsection{Uploading Files}
+\label{file-uploading}
+\paragraph{} One final thing to consider that is related to client requests, is the matter of file uploading. We will occasionally want to enable our users to upload materials to our site and we can do this by ensuring that two things occur. The form which POSTs the data must cause the browser to transmit the file that we want to upload and our method that the route executes must also access the request and do something with the transmitted file. Otherwise the file will sit by default either in memory or in temptorary storage rather then being saved for later reuse.
+
+\begin{lstlisting}
+from flask import Flask, request
+app = Flask(__name__)
+
+@app.route("/account/", methods=['POST','GET'])
+def account():
+  if request.method == 'POST':
+    f = request.files['datafile']
+    f.save('incoming/new_test_file.txt')
+    return "File Uploaded"
+  else:
+    page='''
+    <html>
+    <body>
+    <form action="" method="post" name="form" enctype="multipart/form-data">
+      <input type="file" name="datafile" />
+      <input type="submit" name="submit" id="submit"/>
+    </form>
+    </body>
+    </html>
+    '''
+    return page, 200
+
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', debug=True)
+\end{lstlisting}
+
+\paragraph{} Notice that the file is being saved in a sub-directory called `incoming' that is in the same directory as our Python-Flask web-app. Look in there for the new file. Perhaps combine this file upload facility with the image display example that we saw in section \ref{static}.
 
 
 
