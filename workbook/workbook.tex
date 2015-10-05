@@ -29,6 +29,7 @@
 \usepackage{url}
 \usepackage{paralist}
 \usepackage{dirtytalk}
+\usepackage{verbatim}
 
 \definecolor{grey}{rgb}{0.9, 0.9, 0.9}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
@@ -1190,7 +1191,7 @@ if __name__ == "__main__":
 
 \subsection{Uploading Files}
 \label{file-uploading}
-\paragraph{} One final thing to consider that is related to client requests, is the matter of file uploading. We will occasionally want to enable our users to upload materials to our site and we can do this by ensuring that two things occur. The form which POSTs the data must cause the browser to transmit the file that we want to upload and our method that the route executes must also access the request and do something with the transmitted file. Otherwise the file will sit by default either in memory or in temptorary storage rather then being saved for later reuse.
+\paragraph{} One final thing to consider that is related to client requests, is the matter of file uploading. We will occasionally want to enable our users to upload materials to our site and we can do this by ensuring that two things occur. The form which POSTs the data must cause the browser to transmit the file that we want to upload and our method that the route executes must also access the request and do something with the transmitted file. Otherwise the file will sit by default either in memory or in temptorary storage rather then being saved for later reuse. In the following I used a PNG image file that I had available as the uploaded file:
 
 \begin{lstlisting}
 from flask import Flask, request
@@ -1200,7 +1201,7 @@ app = Flask(__name__)
 def account():
   if request.method == 'POST':
     f = request.files['datafile']
-    f.save('incoming/new_test_file.txt')
+    f.save('static/uploads/upload.png')
     return "File Uploaded"
   else:
     page='''
@@ -1219,8 +1220,47 @@ if __name__ == "__main__":
   app.run(host='0.0.0.0', debug=True)
 \end{lstlisting}
 
-\paragraph{} Notice that the file is being saved in a sub-directory called `incoming' that is in the same directory as our Python-Flask web-app. Look in there for the new file. Perhaps combine this file upload facility with the image display example that we saw in section \ref{static}.
+\paragraph{} Notice that the file is being saved in a sub-directory of static called `uploads'. This makes it easier to access the uploaded file and use it within our app. Look in `static/uploads' for the new file. Perhaps you could combine this file upload facility with the image display example that we saw in section \ref{static}. For example:
 
+\begin{lstlisting}
+from flask import Flask, request, url_for
+app = Flask(__name__)
+
+@app.route("/display/")
+def display():
+  return '<img src="'+url_for('static', filename='uploads/file.png')+'"/>'
+
+@app.route("/upload/", methods=['POST','GET'])
+def account():
+  if request.method == 'POST':
+    f = request.files['datafile']
+    f.save('static/uploads/file.png')
+    return "File Uploaded"
+  else:
+    page='''
+    <html>
+    <body>
+    <form action="" method="post" name="form" enctype="multipart/form-data">
+      <input type="file" name="datafile" />
+      <input type="submit" name="submit" id="submit"/>
+    </form>
+    </body>
+    </html>
+    '''
+    return page, 200
+
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', debug=True)
+\end{lstlisting}
+
+\paragraph{} Of interest here is that when we access the display method repeatedly you should see in the output from the Flask development server something similar to this:
+
+\begin{lstlisting}[style=DOS]
+10.0.2.2 - - [05/Oct/2015 17:29:14] "GET /display/ HTTP/1.1" 200 -
+10.0.2.2 - - [05/Oct/2015 17:29:15] "GET /static/uploads/file.png HTTP/1.1" 304
+\end{lstlisting}
+
+\paragraph{} In this case we get the 304 because the image file hasn't changed (another reason we store it in our static repository. However, a final note on file uploads and static files. In a real-world deployment we usually wouldn't serve static files directly from within Flask as other HTTP servers like NGinX can do this much more reliably and efficiently. However for development and educational purposes using the Flask static directory is an acceptable approach.
 
 
 \section{Responses}
@@ -1248,11 +1288,15 @@ if __name__ == "__main__":
 % CHAPTER 05
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
+\begin{comment}
+\chapter{HTML Templates using Jinja2}
+\label{lab05}
+\paragraph{} Storing and writing our HTML code in Python as we have done in previous chapters is not a lot of fun. It is finicky and error-prone and doesn't give us much scope for doing interesting things like generating HTML pages on the fly. Luckily there is a solution for that. Using \emph{templates} we can describe the basic layout of a page and sign-post those elements that Python can fill in with actual data. Python uses an external templating engine, called Jinja2\footnote{\url{http://jinja.pocoo.org/2/}} which is already installed in Levinux alongside Python and Python-Flask.
 
-%\chapter{HTML Templates using Jinja2}
-%\label{lab05}
-%\paragraph{} 
+\paragraph{} Jinja2 is a fully-fledged Python templating engine and is not dependent upon Flask. So if you were writing another app at some point in your career that outputs HTML pages then Jinja2 is a good option. For the moment though we shall use it exclusively with Flask.
 
+\paragraph{} The process is simple. We supply HTML templates, in a template folder, then, in our functions we tell Flask which template to render and return to the client using the render\_template function.
+\end{comment}
 
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
