@@ -1309,29 +1309,57 @@ if __name__ == "__main__":
 $ mkdir templates
 \end{lstlisting}
 
-\paragraph{} Now create a simple HTML template, called hello\_template.html inside the templates folder, e.g.
+\paragraph{} Now create a simple HTML template, called hello.html inside the templates folder, e.g.
 \begin{lstlisting}[style=DOS]
-$ touch templates/hello_template.html
+$ touch templates/hello.html
 \end{lstlisting}
 
-\paragraph{} Now open hello\_template.html in Vim for editing, e.g.
+\paragraph{} Now open hello.html in Vim for editing, e.g.
 \begin{lstlisting}[style=DOS]
-$ vim templates/hello_template.html
+$ vim templates/hello.html
 \end{lstlisting}
 
 \paragraph{} Now we can put some HTML and Jinja2 tags into our template so that we can use the template from within Flask:
 
+
 \begin{lstlisting}
 <!doctype html>
-<title>Hello from Flask</title>
-{% if name %}
-    <h1>Hello {{ name }}!</h1>
-{% else %}
-    <h1>Hello Napier!</h1>
-{% endif %}
+    <h1>Hello {{ user.name }}!</h1>
+</html>
 \end{lstlisting}
 
-\paragraph{} What we have just done is create a template that is a mix of Jinja2 tags, indicated by the \{\%, \}\%, \{\{, and \}\} tags, and HTML tags, indicated nby the $<$ and $>$ tags that we are already used to. The HTML tags are rendered as you would expect regular HTML to be treated, but the Jinja2 tags cause conditional behaviour to occur; in this case they form an if...else clause, just like we have seen in many other procedural languages. We also have a variable placeholder in the \{\{name\}\} clause which means that we can supply a variable to replace the name placeholder with. Let's use our template now in a quick Flask app:
+\paragraph{} What we have just done is create a template that is a mix of Jinja2 tags, indicated by the \{\{, and \}\} tags, and HTML tags, indicated by the $<$ and $>$ tags that we are already used to. The HTML tags are rendered as you would expect regular HTML to be treated, but we also have a variable placeholder for user.name which means that we can supply a variable to replace the name placeholder with. Let's use our template now in a quick Flask app:
+
+\begin{lstlisting}
+from flask import Flask, render_template
+app = Flask(__name__)
+
+@app.route('/hello/<name>')
+def hello(name=None):
+    user = {'name': name}
+    return render_template('hello.html', user=user)
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', debug=True)
+\end{lstlisting}
+
+\paragraph{} Now if we call \url{localhost:5000/hello/simon} then we should instead see this rendered template:
+
+%%% INSERT RENDERED TEMPLATE SCREENSHOT
+
+\paragraph{} We can also use Jinja2 templates to perform conditional behaviours, for example, rendering our HTML differently depending upon the data that is passed in. This lets us do things like personalise a page if we have a person's name or else provide a default generic page if we don't. Let's look at the template (conditional.html) for such a scenario:
+
+\begin{lstlisting}
+<!doctype html>
+{% if user %}
+    <h1>Hello {{ user.name }}!</h1>
+{% else %}
+    <h1>Hello from Napier!</h1>
+{% endif %}
+</html>
+\end{lstlisting}
+
+\paragraph{} The Jinja2 tags cause conditional behaviour to occur; in this case they form an if...else clause, just like we have seen in many other procedural languages like Java, C, or even Python. Let's use our template now in a quick Flask app:
 
 \begin{lstlisting}
 from flask import Flask, render_template
@@ -1340,7 +1368,8 @@ app = Flask(__name__)
 @app.route('/hello/')
 @app.route('/hello/<name>')
 def hello(name=None):
-    return render_template('hello_template.html', name=name)
+    user = {'name': name}
+    return render_template('conditional.html', user=user)
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
@@ -1355,10 +1384,18 @@ if __name__ == "__main__":
 
 \paragraph{} If we now call \url{localhost:5000/hello} then we should see the following:
 
+%%% INSERT RENDERED TEMPLATE SCREENSHOT
+
 \paragraph{} But if we call \url{localhost:5000/hello/simon} then we should instead see this rendered template:
+
+%%% INSERT RENDERED TEMPLATE SCREENSHOT
+
+%%% INSERT LOOPING DEMONSTRATION - HELLO CLASS LIST
 
 \paragraph{} You can and should use templates to describe all of the HTML pages that you want your web-apps to use. This approach is a consistent and very powerful method for generating HTML and managin the look of your web-apps. Because multiple templates can also be used to define headers, footers, and any other sub-part of individual pages in your app this means you can easily change and manage the look and feel of your apps. This approach is called \emph{Template Inheritance} and means that you can, for example, define a header or menu-bar just once, e.g. in a template called menu.html and then include that template in every other pages which you want to display the menu. If you ever wish to add or remove a menu item then you only have to make a single edit to the menu template. Nice isn't it? This follows an established software design pattern of attempting to separate application logic separate from the presentation, markup or layout of data. Although you might ask, ``what about the logic in the template?'', you are correct, there is a little bit of overlap where logic directly concerns rendering the templates but for the most part, done correctly, all of the computation of your web-app should be done in Flask and the rendering into HTML is done separately in Jinja2. This is a pretty good balance I think.
 
+
+%%% INSERT TEMPLATE INHERITANCE DEMONSTRATION - HEADER+FOOTER+TWO PAGES
 
 
 %\end{comment}
