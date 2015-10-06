@@ -249,7 +249,7 @@
 \paragraph{} SSH which stands for `Secure Shell' is a tool for logging in to remote servers. We can use SSH to access Levinux as this provides us with an easy way to log in multiple times, e.g. have multiple shells (command lines) open and logged in to Levinux. The advantage of having multiple shells is that we can edit and save a program in one shell and run the program and monitor output in another shell. As you can imagine, this is very useful when we are developing new web apps on our Levinux server.
 
 \begin{framed}
-\texbf{IMPORTANT TIP} Once Levinux has booted, don't log directly into it. Instead, minimise the Levinux window and always log in using SSH, e.g. PuTTY, instead. This has many advantages but the main one is that you get a scrolling window so that you can see earlier commands or any output bigger than a single window of text. Additionally, PuTTy handles different keyboard layouts much better than Levinux so if you are using a French or German (or other) keyboard then this is the solution you need to get the keys you press to match the output on screen.
+\textbf{IMPORTANT TIP} Once Levinux has booted, don't log directly into it. Instead, minimise the Levinux window and always log in using SSH, e.g. PuTTY, instead. This has many advantages but the main one is that you get a scrolling window so that you can see earlier commands or any output bigger than a single window of text. Additionally, PuTTy handles different keyboard layouts much better than Levinux so if you are using a French or German (or other) keyboard then this is the solution you need to get the keys you press to match the output on screen.
 \end{framed}
 
 \paragraph{} If you are on Linux or OS X then you will already have a version of SSH installed and all you need to do is open a terminal and type the following:
@@ -297,6 +297,10 @@
 \end{figure}
 
 \paragraph{} Remember, you can repeat this process with PuTTY as many times as required to get yourself enough shells into the Levinux server to make things easier to work with\footnote{This is not the best way to work with multiple shells. Another, more powerful way is to use a shell multiplexer, my favourite is one called Screen (\url{https://www.gnu.org/software/screen/}) but that is yet another tool to learn, and another set of commands, so lets try to keep things \emph{reasonably} simple}.
+
+\begin{framed}
+\textbf{IMPORTANT TIP} I usually use SSH to log into my Levinux installation at least twice. This gives me a window to edit text in and a window to test my code in. Often I will also have a third window open which I use for command line interaction, Git commits, and testing API calls using cURL, but two is the minimum for a nice development setup - Remember, this is your development environment so you might as well take some time to set it up nicely and so that you can work more productively.
+\end{framed}
 
 
 \section{Basic Linux Usage}
