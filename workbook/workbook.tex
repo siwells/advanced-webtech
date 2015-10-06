@@ -1303,7 +1303,62 @@ if __name__ == "__main__":
 
 \paragraph{} Jinja2 is a fully-fledged Python templating engine and is not dependent upon Flask. So if you were writing another app at some point in your career that outputs HTML pages then Jinja2 is a good option. For the moment though we shall use it exclusively with Flask.
 
-\paragraph{} The process is simple. We supply HTML templates, in a template folder, then, in our functions we tell Flask which template to render and return to the client using the render\_template function.
+\paragraph{} The process is simple. We supply HTML templates, in a template folder, then, in our functions we tell Flask which template to render and return to the client using the render\_template function. So we have a couple of setup tasks to do. First, create a templates folder in the same folder as your Python Flask app, e.g.
+
+\begin{lstlisting}[style=DOS]
+$ mkdir templates
+\end{lstlisting}
+
+\paragraph{} Now create a simple HTML template, called hello\_template.html inside the templates folder, e.g.
+\begin{lstlisting}[style=DOS]
+$ touch templates/hello_template.html
+\end{lstlisting}
+
+\paragraph{} Now open hello\_template.html in Vim for editing, e.g.
+\begin{lstlisting}[style=DOS]
+$ vim templates/hello_template.html
+\end{lstlisting}
+
+\paragraph{} Now we can put some HTML and Jinja2 tags into our template so that we can use the template from within Flask:
+
+\begin{lstlisting}
+<!doctype html>
+<title>Hello from Flask</title>
+{% if name %}
+    <h1>Hello {{ name }}!</h1>
+{% else %}
+    <h1>Hello Napier!</h1>
+{% endif %}
+\end{lstlisting}
+
+\paragraph{} What we have just done is create a template that is a mix of Jinja2 tags, indicated by the \{\%, \}\%, \{\{, and \}\} tags, and HTML tags, indicated nby the $<$ and $>$ tags that we are already used to. The HTML tags are rendered as you would expect regular HTML to be treated, but the Jinja2 tags cause conditional behaviour to occur; in this case they form an if...else clause, just like we have seen in many other procedural languages. We also have a variable placeholder in the \{\{name\}\} clause which means that we can supply a variable to replace the name placeholder with. Let's use our template now in a quick Flask app:
+
+\begin{lstlisting}
+from flask import Flask, render_template
+app = Flask(__name__)
+
+@app.route('/hello/')
+@app.route('/hello/<name>')
+def hello(name=None):
+    return render_template('hello_template.html', name=name)
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', debug=True)
+\end{lstlisting}
+
+\paragraph{} There are a couple of things to notice here:
+\begin{enumerate}
+\item Notice how we have stacked up two @app.route calls - yes, a single function can have multiple routes defined for it, any of which can cause the function to be executed.
+\item We have also used a URL variable in one of the route so that we can supply a name. Notice that the hello function takes a name argument and that it is set to `name=None' - this just means that we have set a default value for name in case the route without the URL variable is used.
+\item In the hello function we use the render\_template function from the Flask library which basically looks in the templates directory for a template whose name matched the one that we have supplied, `hello\_template.html'. The function then \emph{completes} the template, i.e. exchanging the Jinja2 tags for valid HTML tags, according to the arguments that we provide. In this case we provide the name=name argument, which will either have the value of None or else will be equal to the name that we supplied when we called the route. This argument is used to determine which path of the if...else clause to follow in the template and what value to replace any template variables with.
+\end{enumerate}
+
+\paragraph{} If we now call \url{localhost:5000/hello} then we should see the following:
+
+\paragraph{} But if we call \url{localhost:5000/hello/simon} then we should instead see this rendered template:
+
+\paragraph{} You can and should use templates to describe all of the HTML pages that you want your web-apps to use. This approach is a consistent and very powerful method for generating HTML and managin the look of your web-apps. Because multiple templates can also be used to define headers, footers, and any other sub-part of individual pages in your app this means you can easily change and manage the look and feel of your apps. This approach is called \emph{Template Inheritance} and means that you can, for example, define a header or menu-bar just once, e.g. in a template called menu.html and then include that template in every other pages which you want to display the menu. If you ever wish to add or remove a menu item then you only have to make a single edit to the menu template. Nicee isn't it?
+
 %\end{comment}
 
 %%%%%%%%%%%%%%%%%
