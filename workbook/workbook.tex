@@ -1404,7 +1404,45 @@ if __name__ == "__main__":
 \label{fig:flask-template-conditional-arg}
 \end{figure}
 
-%%% INSERT LOOPING DEMONSTRATION - HELLO CLASS LIST
+\paragraph{} A very useful technique for generating HTML is to build a list or dictionary in Python then pass that collection into the template and cause the template to iterate over the elements of the collection. Let's look at a simple example now; here is a simple template that incorporates a Jinja2 looping construct:
+
+\begin{lstlisting}
+<!doctype html>
+<body>
+  <ul>
+    {% for name in names %}
+     <li>{{ name }}</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
+\end{lstlisting}
+
+\paragraph{} We can now use this template in a Python Flask function as illustrated here:
+
+\begin{lstlisting}
+from flask import Flask, render_template
+app = Flask(__name__)
+
+@app.route('/users/')
+def users():
+  names = ['simon', 'thomas', 'lee', 'jamie', 'sylvester']
+  return render_template('loops.html', names=names)
+
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', debug=True)
+\end{lstlisting}
+
+\paragraph{} Notice that we merely constructed a Python list, a simple data structure, that is a list of names. We then passed that list into the render\_template function for processing by the templating engine. If we now visit \url{localhost:5000/users/} we should see that our Python list has been rendered as an unordered HTML list.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/flask-templates-loops}
+\caption{Looping over data in within a template to generate HTML}
+\label{fig:flask-templates-loops}
+\end{figure}
+
+\paragraph{} By using simple looping techniques and carefully considering the data that we pass from our Python function into a template, we can generate complex and dynamic HTML layouts.
 
 \paragraph{} Because multiple templates can also be used to define headers, footers, and any other sub-part of individual pages in your app this means you can easily change and manage the look and feel of your apps. This approach is called \emph{Template Inheritance} and means that you can, for example, define a header or menu-bar just once, e.g. in a template called menu.html and then include that template in every other pages which you want to display the menu. If you ever wish to add or remove a menu item then you only have to make a single edit to the menu template. Nice isn't it? This follows an established software design pattern of attempting to separate application logic separate from the presentation, markup or layout of data. Although you might ask, ``what about the logic in the template?'', you are correct, there is a little bit of overlap where logic directly concerns rendering the templates but for the most part, done correctly, all of the computation of your web-app should be done in Flask and the rendering into HTML is done separately in Jinja2. This is a pretty good balance I think.
 
