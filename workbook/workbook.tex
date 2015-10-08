@@ -1458,9 +1458,91 @@ if __name__ == "__main__":
 \label{template-inheritance}
 \paragraph{} Because multiple templates can also be used to define headers, footers, and any other sub-part of individual pages in your app this means you can easily change and manage the look and feel of your apps. This approach is called \emph{Template Inheritance} and means that you can, for example, define a header or menu-bar just once, e.g. in a template called menu.html and then include that template in every other pages which you want to display the menu. If you ever wish to add or remove a menu item then you only have to make a single edit to the menu template. Nice isn't it? This follows an established software design pattern of attempting to separate application logic separate from the presentation, markup or layout of data. Although you might ask, ``what about the logic in the template?'', you are correct, there is a little bit of overlap where logic directly concerns rendering the templates but for the most part, done correctly, all of the computation of your web-app should be done in Flask and the rendering into HTML is done separately in Jinja2. This is a pretty good balance I think.
 
+\paragraph{} To demonstrate template inheritance we will first define a base template, then two templates that inherit from it. We will then create some routes that render the templates. So let's start with our base template:
 
-%%% INSERT TEMPLATE INHERITANCE DEMONSTRATION - HEADER+FOOTER+TWO PAGES
+\begin{lstlisting}
+<html>
+<head>
+    <title>Template Inheritance Example</title>
+</head>
+<body>
+    <h1>Title stored in the base template</h1>
+    <h2>With a subtitle</h2>
 
+    {% block content %} {% endblock %}
+
+</body>
+</html>
+\end{lstlisting}
+
+\paragraph{} For the most part this is just a normal HTML file except that it incorporates some Jinja2 tags to set out blocks that we have called `content'. It is these blocks that are replaced within the templates that inherit from the base template. We can now inherit this base template and reuse the common elements as follows:
+
+\begin{lstlisting}
+{% extends "base.html" %}
+{% block content %}
+  <p>First example template. It contains some stuff</p>
+{% endblock %}}
+\end{lstlisting}
+
+\paragraph{} The main point to be aware of is that the \emph{derived} template specifies that it inherits from the base template. Just to demonstrate that this works for different templates, let's create a second template that also inherits from the base template but which contains different content to the last pone.
+
+\begin{lstlisting}
+{% extends "base.html" %}
+{% block content %}
+  <p>A second example. It's different to the other one.</p>
+{% endblock %}}
+\end{lstlisting}
+
+\paragraph{} We can make a Flask file which has routes that render our templates.
+
+\begin{lstlisting}
+from flask import Flask, render_template
+app = Flask(__name__)
+
+@app.route('/inherits/')
+def inherits():
+    return render_template('base.html')
+
+@app.route('/inherits/one/')
+def inherits_one():
+    return render_template('inherits1.html')
+
+@app.route('/inherits/two/')
+def inherits_two():
+    return render_template('inherits2.html')
+
+if __name__ == ("__main__"):
+    app.run(host='0.0.0.0', debug=True)
+\end{lstlisting}
+
+\paragraph{} Here we have three different routes. The first one `/inherits/' merely shows what the base template looks like when it is rendered without additional templates that inherit from it. In the other two routes `/inherits/one/' and `/inherits/two/' we see how the base template is modified when it is extended by two different inheriting templates. Using this approach we can build a hierarchy of page templates whilst minimising the amount of reptition by ensuring that each element that will be repeated between HTML pages is inherited from a parent template.
+
+\paragraph{} This is the output from our first template that inherits from base.html. It displays some content that comes from inherits1.html and some headings that are inherited from the base template.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/flask-template-inheritance-1}
+\caption{The first page that inherits from our base template}
+\label{fig:flask-template-inheritance-1}
+\end{figure}
+
+\paragraph{} Our second page that inherits from the base template. Notice that the same headers are displayed as on the other page. However we have different content as defined by the inherits2.html template.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/flask-template-inheritance-2}
+\caption{The second page that inherits from our base template}
+\label{fig:flask-template-inheritance-2}
+\end{figure}
+
+\paragraph{} Just for completion, let's also look at what the base template looks like when rendered. We don't \emph{have} to provide a route to it, but if we do then we can view the HTML that it generates:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/flask-template-inheritance-base}
+\caption{The rendered base template}
+\label{fig:flask-template-inheritance-base}
+\end{figure}
 
 \paragraph{} You can and should use templates to describe all of the HTML pages that you want your web-apps to use. This approach is a consistent and very powerful method for generating HTML and managing the look of your web-apps.
 
