@@ -1,0 +1,15 @@
+<html>
+<head>
+</head>
+<body>
+<ul>
+<li><a href="{{ url_for('.root') }}">Root</a></li>
+<li><a href="{{ url_for('.page1') }}">Page1</a></li>
+<li><a href="{{ url_for('.page2') }}">Page 2</a></li>
+<li><a href="{{ url_for('.page3') }}">Page 3</a></li>
+</ul>
+
+{% block content %} {% endblock %}
+
+</body>
+</html>
