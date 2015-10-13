@@ -1551,11 +1551,168 @@ if __name__ == ("__main__"):
 % CHAPTER 06
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
-\begin{comment}
+%\begin{comment}
 \chapter{Flask: Sessions, Message Flashing, Logging, Testing}
 \label{lab06}
 \paragraph{} 
-\end{comment}
+
+\section{Configuration \& Config Files}
+\label{configs}
+\paragraph{} Quite often we need to do external configuration of our Flask app, for example, if we are using external tools, like Babel, to control translations into different languages, if we need to specify an encryption key for setting up secure sessions, or a password for accessing an external mail server. We can achieve this by using configuration files, external text files that Flask can read at start up and which provide data to Flask about the environment it is running in.
+
+\paragraph{} Create a sub-directory called `etc' just like you did for the static and templats directories. Your config files will live here. Now create a new text file in the etc directory called `defauts.cfg', this will be the default file that your flask app reads in at start up. We can now use that file to store some configuration data. Let's start by moving our debug and host settings into the config file instead of setting them in code, e.g. Add the following to your defaults.cfg:
+
+\begin{lstlisting}
+[flaskapp]
+debug =  True
+ip_address = 0.0.0.0
+port = 5000
+url = http://127.0.0.1:5000
+\end{lstlisting}
+
+\paragraph{} Now create a configuration.py file in the parent of the etc directory. This file will read from the default.cfg file and provide the information to our main flask app, e.g.
+
+\begin{lstlisting}
+import ConfigParser
+
+from flask import Flask
+
+def init(app):
+    config = ConfigParser.ConfigParser()
+    try:
+        config_location = "etc/defaults.cfg"
+        config.read(config_location)
+        
+        app.config['DEBUG'] = config.get("flaskapp", "debug")
+        app.config['ip_address'] = config.get("flaskapp", "ip_address")
+        app.config['port'] = config.get("flaskapp", "port")
+        app.config['url'] = config.get("flaskapp", "url")
+    except:
+        print "Could not read configs from: ", config_location
+\end{lstlisting}
+
+\paragraph{} Notice how we are `getting' the value for each key from the config file then storing those values in the app.config object. We can now create a Flask app that uses those values, for example,
+
+\begin{lstlisting}
+# coding: utf-8
+# as per http://www.python.org/dev/peps/pep-0263/
+
+import ConfigParser
+
+from flask import Flask
+
+import configuration
+
+app = Flask(__name__)
+
+configuration.init(app)
+
+@app.route('/')
+def root():
+        return "Hello Napier from the configuration testing app" 
+
+if __name__ == '__main__':
+    app.run(
+        host=app.config['ip_address'], 
+        port=int(app.config['port']), 
+        threaded=app.config['threaded'])
+\end{lstlisting}
+
+\section{Sessions}
+\label{sessions}
+\paragraph{}
+
+\section{Message Flashing}
+\label{message-flashing}
+\paragraph{}
+
+\section{Logging}
+\label{logging}
+\paragraph{} We can set our Flask app up to record interesting happenings into a text file so that we have a log to inspect if something bad occurs. Let's create a new sub-directory, next to `etc' and let's call it `var'. This directory will be the location that our new log files will write to. First we need to make some additions to our config file, e.g.
+
+\begin{lstlisting}
+[loggingapp]
+debug =  True
+ip_address = 0.0.0.0
+port = 5000
+url = http://127.0.0.1:5000
+[logging]
+name = loggingapp.log
+location = var/
+level = DEBUG
+\end{lstlisting}
+\paragraph{} Notice the logging section towards the end which defines the name of the log file `'loggingapp.log' the location, our var/ directory that we just created, and the log level, the granularity of the logging events to record.
+
+\paragraph{} We can now extend our configuration.py file to use the new logging settings and initialise our logging:
+
+\begin{lstlisting}
+import ConfigParser
+import logging
+
+from logging.handlers import RotatingFileHandler
+from flask import Flask
+
+def init(app):
+    config = ConfigParser.ConfigParser()
+    try:
+        config_location = "etc/defaults.cfg"
+        config.read(config_location)
+        
+        app.config['DEBUG'] = config.get("flaskapp", "debug")
+        app.config['ip_address'] = config.get("flaskapp", "ip_address")
+        app.config['port'] = config.get("flaskapp", "port")
+        app.config['url'] = config.get("flaskapp", "url")
+
+        app.config['log_file'] = config.get("logging", "name")
+        app.config['log_location'] = config.get("logging", "location")
+        app.config['log_level'] = config.get("logging", "level")
+    except:
+        print "Could not read configs from: ", config_location
+
+def logs(app):
+    log_pathname = app.config['log_location'] + app.config['log_file']
+    file_handler = RotatingFileHandler(log_pathname, maxBytes=1024* 1024 * 10 , backupCount=1024)
+    file_handler.setLevel( app.config['log_level'] )
+    formatter = logging.Formatter("%(levelname)s | %(asctime)s |  %(module)s | %(funcName)s | %(message)s")
+    file_handler.setFormatter(formatter)
+    app.logger.setLevel( app.config['log_level'] )
+    app.logger.addHandler(file_handler)
+\end{lstlisting}
+\paragraph{} A lot of these setting, especially in the logs function are merely setting up the parameters of the logging system. There are many parameters to fine tune how data is logged so if you want to make changes then you will have to dig into the Python logging documentation but for now, just accept the defaults as they produce files that cope well with lots of data, are easy to read, and which can be automatically processed.
+
+\paragraph{} Now all we need to do is initialise all these settings and start them going from our Flask app.
+
+\begin{lstlisting}
+import ConfigParser, url_for
+
+from flask import Flask
+
+import configuration
+
+app = Flask(__name__)
+
+configuration.init(app)
+configuration.logs(app)
+
+@app.route('/')
+def root():
+        this_route = url_for('.root')
+        app.logger.warn("Logging a test message from "+this.route)
+        return "Hello Napier from the configuration testing app (Now with added logging)" 
+
+if __name__ == '__main__':
+    app.run(
+        host=app.config['ip_address'], 
+        port=int(app.config['port']), 
+        threaded=app.config['threaded'])
+\end{lstlisting}
+\paragraph{} All we have had to do to use the logger is to initialise the logging system by calling our configuration modules logs() function. From then on we can actually log messages using the app.logger.warn() and passing in a String. NB. There are also other logging levels suchas debug or error that we can use to distinguish the importance of different messages in the logs. Investigate the Python logging documentation to find out more. 
+
+\section{Testing}
+\label{testing}
+\paragraph{}
+
+%\end{comment}
 
 
 %%%%%%%%%%%%%%%%%
