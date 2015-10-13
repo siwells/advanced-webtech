@@ -1570,53 +1570,49 @@ port = 5000
 url = http://127.0.0.1:5000
 \end{lstlisting}
 
-\paragraph{} Now create a configuration.py file in the parent of the etc directory. This file will read from the default.cfg file and provide the information to our main flask app, e.g.
+\paragraph{} Our config file can be used to store whichever configuration values we decide we want to support in a flask app. For illustration purposes I have used the debug flag na ip, url, port numbers settings. We can now create a Flask app that uses those values, for example,
 
 \begin{lstlisting}
 import ConfigParser
 
 from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def root():
+  return "Hello Napier from the configuration testing app"
+
+@app.route('/config/')
+def config():
+  str = []
+  str.append('Debug:'+app.config['DEBUG'])
+  str.append('port:'+app.config['port'])
+  str.append('url:'+app.config['url'])
+  str.append('ip_address:'+app.config['ip_address'])
+  return '\t'.join(str)
 
 def init(app):
     config = ConfigParser.ConfigParser()
     try:
-        config_location = "etc/defaults.cfg"
+        config_location = "etc/config.cfg"
         config.read(config_location)
         
-        app.config['DEBUG'] = config.get("flaskapp", "debug")
-        app.config['ip_address'] = config.get("flaskapp", "ip_address")
-        app.config['port'] = config.get("flaskapp", "port")
-        app.config['url'] = config.get("flaskapp", "url")
+        app.config['DEBUG'] = config.get("config", "debug")
+        app.config['ip_address'] = config.get("config", "ip_address")
+        app.config['port'] = config.get("config", "port")
+        app.config['url'] = config.get("config", "url")
     except:
         print "Could not read configs from: ", config_location
-\end{lstlisting}
-
-\paragraph{} Notice how we are `getting' the value for each key from the config file then storing those values in the app.config object. We can now create a Flask app that uses those values, for example,
-
-\begin{lstlisting}
-# coding: utf-8
-# as per http://www.python.org/dev/peps/pep-0263/
-
-import ConfigParser
-
-from flask import Flask
-
-import configuration
-
-app = Flask(__name__)
-
-configuration.init(app)
-
-@app.route('/')
-def root():
-        return "Hello Napier from the configuration testing app" 
 
 if __name__ == '__main__':
+    init(app)
     app.run(
         host=app.config['ip_address'], 
-        port=int(app.config['port']), 
-        threaded=app.config['threaded'])
+        port=int(app.config['port']))
 \end{lstlisting}
+
+\paragraph{}  Notice how we are `getting' the value for each key from the config file then storing those values in the app.config object. 
 
 \section{Sessions}
 \label{sessions}
