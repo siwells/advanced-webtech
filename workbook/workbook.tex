@@ -1620,7 +1620,52 @@ if __name__ == '__main__':
 
 \section{Sessions}
 \label{sessions}
+\paragraph{} Sessions are a way to manage user data between requests by storing small amounts of data within a cookie. Cookies are small data files that are stored in the users browser and are suitable for small amounts of, ideally non-private, data. Sessions rely on cookies that are cryptographically secured by Flask using a secret key to ensure that the content of the cookies hasn't been altered by any process other than the Flask app that created it. However, the content of a cookie can easily be read by the client or whilst it is transmitted between the client and server during a request\footnote{Unless the communication has been secured with HTTP but that is another topic}.
+
 \paragraph{}
+
+\begin{lstlisting}
+from flask import Flask, session
+
+app = Flask(__name__)
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+
+@app.route('/')
+def index():
+    return "Root route for the sessions example"
+
+@app.route('/session/write/<name>/')
+def write(name=None):
+    session['name'] = name
+    return "Wrote %s into 'name' key of session" % name
+
+@app.route('/session/read/')
+def read():
+    try:
+      if(session['name']):
+          return str(session['name'])
+    except KeyError:
+      pass
+    return "No session variable set for 'name' key"
+
+@app.route('/session/remove/')
+def remove():
+    session.pop('name', None)
+    return "Removed key 'name' from session"
+
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', debug=True)
+\end{lstlisting}
+
+\paragraph{} Notice the `app.secret\_key' line. This is our secret key that is used to secure our session cookie so should really be stored securely, either in a config file or typed in by hand at startup, but never put in the code repository. However for demonstration purposes this is sufficient for now. The key above is sufficient for the lab work but you would generate a unique key for any real deployment and would keep it secret. You can generate a key easily using Python. Start the Python interpreter and use the os.urandom function to generate a new key that you can then copy and paste into your Flask app, e.g.
+
+\begin{lstlisting}
+$ Python
+...
+>>> import os
+>>> os.urandom(24)
+'\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8'
+\end{lstlisting}
 
 \section{Message Flashing}
 \label{message-flashing}
