@@ -1669,7 +1669,7 @@ $ Python
 
 \section{Logging}
 \label{logging}
-\paragraph{} We can set our Flask app up to record interesting happenings into a text file so that we have a log to inspect if something bad occurs. Let's create a new sub-directory, next to `etc' and let's call it `var'. This directory will be the location that our new log files will write to. First we need to make some additions to our config file, e.g.
+\paragraph{} We can set our Flask app up to record interesting happenings into a text file so that we have a log to inspect if something bad occurs. This is actually a feature of the Python language rather than a Flask feature, but is an important part of building a real world app. First we need to make some additions to our config file, e.g.
 
 \begin{lstlisting}
 [loggingapp]
@@ -1682,33 +1682,48 @@ name = loggingapp.log
 location = var/
 level = DEBUG
 \end{lstlisting}
-\paragraph{} Notice the logging section towards the end which defines the name of the log file `'loggingapp.log' the location, our var/ directory that we just created, and the log level, the granularity of the logging events to record.
+\paragraph{} Notice the logging section towards the end which defines the name of the log file `'loggingapp.log' the location, our var/ directory that we just created, and the default log level, the granularity of the logging events to record. 
+\paragraph{} We now need to set up our envionrment to match the config file. We need a subdirectory called `var' which is at the same level as our `etc', `static' and `templates' directories. We now need to create an empty file in `var' which has the same name as the log file. This directory will be the location that our new log files will write to. We can do this with touch, e.g.
 
-\paragraph{} We can now extend our configuration.py file to use the new logging settings and initialise our logging:
+\begin{lstlisting}[style=DOS]
+    $ mkdir var
+    $ touch var/loggingapp.log
+\end{lstlisting}
+
+\paragraph{} Having set everything up all the configuration details and the basic environment we now need to make use of that set up within our python app:
 
 \begin{lstlisting}
 import ConfigParser
 import logging
 
 from logging.handlers import RotatingFileHandler
-from flask import Flask
+from flask import Flask, url_for
+
+app = Flask(__name__)
+
+@app.route('/')
+def root():
+        this_route = url_for('.root')
+        app.logger.info("Logging a test message from "+this_route)
+        return "Hello Napier from the configuration testing app (Now with added logging)" 
 
 def init(app):
     config = ConfigParser.ConfigParser()
     try:
-        config_location = "etc/defaults.cfg"
+        config_location = "etc/logging.cfg"
         config.read(config_location)
         
-        app.config['DEBUG'] = config.get("flaskapp", "debug")
-        app.config['ip_address'] = config.get("flaskapp", "ip_address")
-        app.config['port'] = config.get("flaskapp", "port")
-        app.config['url'] = config.get("flaskapp", "url")
+        app.config['DEBUG'] = config.get("config", "debug")
+        app.config['ip_address'] = config.get("config", "ip_address")
+        app.config['port'] = config.get("config", "port")
+        app.config['url'] = config.get("config", "url")
 
         app.config['log_file'] = config.get("logging", "name")
         app.config['log_location'] = config.get("logging", "location")
         app.config['log_level'] = config.get("logging", "level")
     except:
         print "Could not read configs from: ", config_location
+
 
 def logs(app):
     log_pathname = app.config['log_location'] + app.config['log_file']
@@ -1718,36 +1733,30 @@ def logs(app):
     file_handler.setFormatter(formatter)
     app.logger.setLevel( app.config['log_level'] )
     app.logger.addHandler(file_handler)
-\end{lstlisting}
-\paragraph{} A lot of these setting, especially in the logs function are merely setting up the parameters of the logging system. There are many parameters to fine tune how data is logged so if you want to make changes then you will have to dig into the Python logging documentation but for now, just accept the defaults as they produce files that cope well with lots of data, are easy to read, and which can be automatically processed.
-
-\paragraph{} Now all we need to do is initialise all these settings and start them going from our Flask app.
-
-\begin{lstlisting}
-import ConfigParser, url_for
-
-from flask import Flask
-
-import configuration
-
-app = Flask(__name__)
-
-configuration.init(app)
-configuration.logs(app)
-
-@app.route('/')
-def root():
-        this_route = url_for('.root')
-        app.logger.warn("Logging a test message from "+this.route)
-        return "Hello Napier from the configuration testing app (Now with added logging)" 
 
 if __name__ == '__main__':
+    init(app)
+    logs(app)
     app.run(
         host=app.config['ip_address'], 
-        port=int(app.config['port']), 
-        threaded=app.config['threaded'])
+        port=int(app.config['port']))
 \end{lstlisting}
-\paragraph{} All we have had to do to use the logger is to initialise the logging system by calling our configuration modules logs() function. From then on we can actually log messages using the app.logger.warn() and passing in a String. NB. There are also other logging levels suchas debug or error that we can use to distinguish the importance of different messages in the logs. Investigate the Python logging documentation to find out more. 
+\paragraph{} The init function is very similar to the one we used earlier in the config example but is now extended to also configure event logging. There are many parameters to fine tune how data is logged so if you want to make changes then you will have to dig into the Python logging documentation but for now, just accept the defaults as they produce files that cope well with lots of data, are easy to read, and which can be automatically processed. All we have had to do to use the logger is to initialise the logging system by calling our configuration modules logs() function. From then on we can actually log messages using the app.logger.warn() and passing in a String. NB. There are also other logging levels such as debug or error that we can use to distinguish the importance of different messages in the logs. Investigate the Python logging documentation to find out more. 
+
+\paragraph{} Now, if everything is set up correctly, then every time we visit \url{http://localhost:5000/} a new log file should be added to var/loggingapp.log and we can use an extra PuTTY window to ``tail'' the log so that we see each new log line appear in realtime. Tailing a log just means to show the last entries in the file and using the `-f' argument to the tail command causes it to follow the log, meaning that each new line is displayed in the terminal like so:
+
+\begin{lstlisting}[style=DOS]
+tc@box:~$ tail -f var/loggingapp.log 
+INFO | 2015-10-13 17:44:37,368 |  logs | root | Logging a test message from /
+INFO | 2015-10-13 17:44:45,104 |  logs | root | Logging a test message from /
+INFO | 2015-10-13 17:44:46,325 |  logs | root | Logging a test message from /
+^C
+tc@box:~$ 
+\end{lstlisting}
+
+\paragraph From this we can see that there were three log messages displayed and that the output is arranged into columns. Getting the output nice and neat like this is the main reason we had to write so much code in our python app and config file, but it is really worth it when you are trying to track down a problem.
+
+\paragraph{} It is a good idea to log anything that you think that you might want to have a record of and that you might need to look up in order to bug fix. Unfortunately though there are no rules for what to log and what not to log. Obviously you could log \emph{everything} but this would possibly waste disk space, but not logging enough might mean that you don't have sufficient logs to help you fix problems. However, with experimentation and experience you will develop skills in gauging the right amount of and type of data to log.
 
 \section{Testing}
 \label{testing}
