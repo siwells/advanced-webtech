@@ -1552,7 +1552,7 @@ if __name__ == ("__main__"):
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
 %\begin{comment}
-\chapter{Flask: Sessions, Message Flashing, Logging, Testing}
+\chapter{Flask: Configs, Sessions, Message Flashing, Logging, \& Testing}
 \label{lab06}
 \paragraph{} 
 
@@ -1663,9 +1663,16 @@ $ Python
 '\xfd{H\xe5<\x95\xf9\xe3\x96.5\xd1\x01O<!\xd5\xa2\xa0\x9fR"\xa1\xa8'
 \end{lstlisting}
 
+
 \section{Message Flashing}
 \label{message-flashing}
-\paragraph{}
+\paragraph{} User feedback is an important consideration when trying to design a good user experience (UX). Message flashing is just one aspect of UX that Flask provides to enable easy user feedback. The scenario is quite simple, when the user does something on one page, which causes another page to be rendered and displayed, then information, a message, can be transmitted from the first page to the second, and displayed, e.g. flashed, to the user. This means that, used with the correct combinations of responses, users can interact with your web app and get feedback about the outcome of actions. A simple example will illustrate this; if you have a sign-up page for new users on which the user enters information then presses a ``join'' button you can use message flashing to provide a personalised message to the user on the next page that is displayed. For example, after pressing ``join'' either the sign up page will be redisplayed, because the supplied information is insufficient, or else the login page will be displayed. A flashed message could be displayed in either case, on the sign-up page to indicate what needs to be fixed, or on the log in page indicating that a new account was created and that the user is welcome to log in. What is essentially happening is that a message is recorded at the end of the first request, which is then accessed \emph{only} on the very next request.
+
+
+
+
+
+
 
 \section{Logging}
 \label{logging}
