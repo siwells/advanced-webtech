@@ -1618,7 +1618,29 @@ if __name__ == '__main__':
 \label{sessions}
 \paragraph{} Sessions are a way to manage user data between requests by storing small amounts of data within a cookie. Cookies are small data files that are stored in the users browser and are suitable for small amounts of, ideally non-private, data. Sessions rely on cookies that are cryptographically secured by Flask using a secret key to ensure that the content of the cookies hasn't been altered by any process other than the Flask app that created it. However, the content of a cookie can easily be read by the client or whilst it is transmitted between the client and server during a request\footnote{Unless the communication has been secured with HTTP but that is another topic}.
 
-\paragraph{}
+\paragraph{} Flask provides an interface for using `secured cookies' or \emph{sessions} rom our Python code and we can consider a session to be a small data store for keys and value, a form of dictionay. As a result we can set data into a session, query that data, and remove that data, 
+
+\paragraph{} To add a key value pair we merely treat the session object as a Python dictionary\footnote{If you are unsure about Python dictionaries or `dicts' then you should do some background reading on this topic in the Python language documentation}, e.g.
+\begin{lstlisting}
+# Set key=value, name=simon into a session
+session['name'] = simon
+\end{lstlisting}
+
+\paragraph{} You can then retrieve the value set for name in the session but because this key might not exist in the session we need to wrap everything in a try-except structure to catch the KeyError that might be raised\footnote{Again, if you are unsure about Python errors \& try-execept then you should do background reading on this}.
+\begin{lstlisting}
+try:
+    if(session['name']):
+        return str(session['name'])
+except KeyError:
+    pass
+\end{lstlisting}
+
+\paragraph{} The only other thing that we might need to do is to remove a specified key and it's associated value from the session. We do this using the pop function, e.g.
+\begin{lstlisting}
+session.pop('name', None)
+\end{lstlisting}
+
+\paragraph{} We can then put it all together into a single demonstration web-app like so.
 
 \begin{lstlisting}
 from flask import Flask, session
@@ -1668,11 +1690,49 @@ $ Python
 \label{message-flashing}
 \paragraph{} User feedback is an important consideration when trying to design a good user experience (UX). Message flashing is just one aspect of UX that Flask provides to enable easy user feedback. The scenario is quite simple, when the user does something on one page, which causes another page to be rendered and displayed, then information, a message, can be transmitted from the first page to the second, and displayed, e.g. flashed, to the user. This means that, used with the correct combinations of responses, users can interact with your web app and get feedback about the outcome of actions. A simple example will illustrate this; if you have a sign-up page for new users on which the user enters information then presses a ``join'' button you can use message flashing to provide a personalised message to the user on the next page that is displayed. For example, after pressing ``join'' either the sign up page will be redisplayed, because the supplied information is insufficient, or else the login page will be displayed. A flashed message could be displayed in either case, on the sign-up page to indicate what needs to be fixed, or on the log in page indicating that a new account was created and that the user is welcome to log in. What is essentially happening is that a message is recorded at the end of the first request, which is then accessed \emph{only} on the very next request.
 
+\paragraph{} Message flashing sounds quite complex and does have a few moving parts, but is really very simple once you have used it once to twice. It is best shown via example, so let's get started with one
 
+\begin{lstlisting}
+from flask import Flask, flash, redirect, request, url_for, render_template
 
+app = Flask(__name__)
+app.secret_key = 'supersecret'
 
+@app.route('/')
+def index():
+    return render_template('index.html')
 
+    return "Root Page"
 
+@app.route('/login/<message>')
+def login(message):
+    if (message != None):
+      flash(message)
+    flash("A default message")
+    return "Let's pretend you just logged in"
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', debug=True)
+\end{lstlisting}
+\paragraph{} Here, we have added a flashed message in one route, using the flash() function of Flask then we use the get\_flashed\_messages() method in our template to retrieve the flashed message and display it, e.g.
+
+\begin{lstlisting}
+<html>
+<body>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+    {% for message in messages %}
+      <li>{{ message | safe}}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+</body>
+</html>
+\end{lstlisting}
+
+\paragraph{} All that we have done here is add a flashed messagein the `/login/$<$message$>$' route then to display the flashed message when we visit the `/' page. Subsequent visits to the `/' page will not repeat the flashed message, unless of course, we visit the `login/$<$message$>$' page again
 
 \section{Logging}
 \label{logging}
