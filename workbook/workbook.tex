@@ -1827,9 +1827,76 @@ tc@box:~$
 
 \section{Testing}
 \label{testing}
-\paragraph{} 
+\paragraph{} We can unit test our Python app, to ensure that everything is working correctly. We do this by running a test harness which sets up our Flask app then compares expected outputs to actual outputs, for example, for the following simple web-app:
 
-%\end{comment}
+\begin{lstlisting}
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def root():
+  return "HELLO NAPIER", 200
+
+if __name__ == "__main__":
+  app.run(host='0.0.0.0',debug=True)
+\end{lstlisting}
+
+\paragraph{} We can write tests that compare the response returned by a call to the `/' route against what we would expect. For example, is the content correct, is the content type set corretly, is the status value set correctly. Let's see some of these tests now.
+
+\begin{lstlisting}
+import unittest
+import testing
+
+class TestingTest(unittest.TestCase):
+  def test_root(self):
+    self.app = testing.app.test_client()
+    out = self.app.get('/')
+    assert '200 OK' in out.status
+    assert 'charset=utf-8' in out.content_type
+    assert 'text/html' in out.content_type
+
+if __name__ == "__main__":
+  unittest.main()
+\end{lstlisting}
+
+\paragraph{} We have create a class for the test and asserted that the response contents match some of our expectations, e.g. that the response status is `200 OK'. Notice in line 2 that we have also imported our flask app source file so that it is accessible from this test script. To use this we just run it in the shell, e.g.
+
+\begin{lstlisting}[style=DOS]
+tc@box:~$ python testing_test.py 
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.476s
+
+OK
+\end{lstlisting}
+\paragraph{} We can easily test what would happen if a test was failed by setting things up that way, let's return 404 from our root function, e.g.
+
+\begin{lstlisting}
+@app.route('/')
+def root():
+  return "HELLO NAPIER", 404
+\end{lstlisting}
+
+\paragraph{} Now the output from our test suite shoudl be similar to the following:
+
+\begin{lstlisting}[style=DOS]
+tc@box:~$ python testing_test.py 
+F
+======================================================================
+FAIL: test_root (__main__.TestingTest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "testing_test.py", line 9, in test_root
+    assert '200 OK' in out.status
+AssertionError
+
+----------------------------------------------------------------------
+Ran 1 test in 0.416s
+
+FAILED (failures=1)
+\end{lstlisting}
+
+\paragraph{} We can write as many tests as we need to to ensure that our web-app, or any Python app, runs the way that we expect it to. We do this by writing a new class in our testing script, called a \emph{test harness}, for each test that we want to run. The unit testing framework will then discover each test class and run them, then output the results so that you know, after each edit of your code, whether you accidentally broke anything or, more importantly, changed the behaviour of code that worked previously. Testing is very important and unit testing is just one tool that we have to help us with working with larger bodies of source code. As a code base gets bigger it can sometimes be difficult to tell with a given change has subtly altered the behaviour of something else. Unit testing gives us more confidence that we haven't done so.
 
 
 %%%%%%%%%%%%%%%%%
