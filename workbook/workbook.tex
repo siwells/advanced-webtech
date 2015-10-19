@@ -1560,10 +1560,10 @@ if __name__ == ("__main__"):
 \label{configs}
 \paragraph{} Quite often we need to do external configuration of our Flask app, for example, if we are using external tools, like Babel, to control translations into different languages, if we need to specify an encryption key for setting up secure sessions, or a password for accessing an external mail server. We can achieve this by using configuration files, external text files that Flask can read at start up and which provide data to Flask about the environment it is running in.
 
-\paragraph{} Create a sub-directory called `etc' just like you did for the static and templats directories. Your config files will live here. Now create a new text file in the etc directory called `defauts.cfg', this will be the default file that your flask app reads in at start up. We can now use that file to store some configuration data. Let's start by moving our debug and host settings into the config file instead of setting them in code, e.g. Add the following to your defaults.cfg:
+\paragraph{} Create a sub-directory called `etc' just like you did for the static and templats directories. Your config files will live here. Now create a new text file in the etc directory called `defaults.cfg', this will be the default file that your flask app reads in at start up. We can now use that file to store some configuration data. Let's start by moving our debug and host settings into the config file instead of setting them in code, e.g. Add the following to your defaults.cfg:
 
 \begin{lstlisting}
-[flaskapp]
+[config]
 debug =  True
 ip_address = 0.0.0.0
 port = 5000
@@ -1595,7 +1595,7 @@ def config():
 def init(app):
     config = ConfigParser.ConfigParser()
     try:
-        config_location = "etc/config.cfg"
+        config_location = "etc/defaults.cfg"
         config.read(config_location)
         
         app.config['DEBUG'] = config.get("config", "debug")
