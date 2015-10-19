@@ -22,7 +22,7 @@ def config():
 def init(app):
     config = ConfigParser.ConfigParser()
     try:
-        config_location = "etc/config.cfg"
+        config_location = "etc/defaults.cfg"
         config.read(config_location)
         
         app.config['DEBUG'] = config.get("config", "debug")
