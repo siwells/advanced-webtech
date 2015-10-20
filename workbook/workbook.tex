@@ -1905,12 +1905,58 @@ FAILED (failures=1)
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
 
-\begin{comment}
-\chapter{Adding Style: Bootstrap (CSS+JS)}
+\chapter{Using Bootstrap to Add Style}
 \label{lab07}
-\paragraph{} 
-\end{comment}
+\paragraph{} We have concentrated so far on building well designed web apps that include useful features from Flask that enable us to test and configure our apps. However, we haven't spent a lot of time on making things look nice. The most we have done is use templates, in section \ref{lab05}, to scaffold the consistent generation of HTML for our users to read. We have alsoused static files, which we can use for things like Javascript, Cascading Style Sheets (CSS), icons and images, back in Section \ref{static}. We can further exploit the `/static/' directory to give us an easy way to add some style to our flask app as this is the correct place to store all of those elements that would be made to make our pages look nice. We should recognise however that this module is not a \emph{web design} module, so we shall not spend time concentrating on the design of beautiful web sites, but we shall take a short cut to get a decent and consistent basic design that provide basic framework which can be further modified to produce a beautiful app.
 
+\paragraph{} Bootstrap is a set of CSS files and supporting Javascript that make it straightforward to add a basic style, with a selection of different layouts, to your web-app. Originally, Bootstrap was developed by Twitter as an easy way to \emph{bootstrap} from plain HTML to a site with a basic overall design which can be enhanced and which at least looks consistent. This removes the need to initially develop HTML and CSS for layout elements like headers and footers, or menus, all you have to do is use those elements that Bootstrap has pre-defined. You can of course alter these pre-defined elements but at least you don't have to design them when you are also struggling to implement all of the actual functionality.
+
+\paragraph{} Because the Flask static directory hosts files that can be served up directly to the client, static is also the natural home for the Bootstrap files. Your HTML templates can then reference these CSS and Javascript files so that they are served to the client when a request is made.
+
+\paragraph{} As your web-app grows it is important to maintain control and organisation of your source code so I find that it is a good idea to create a hierarchy of directories within /static/ in which to store your bootstrap files, for example,
+
+\begin{lstlisting}[style=DOS]
+static/
+static/css/
+static/ico/
+static/images/
+static/javascript/
+\end{lstlisting}
+
+\paragraph{} Make yourself a similar directory hierachy to that shown above then download Bootstrap from \url{the bootstrap site} and unpack it, e.g.
+
+\begin{lstlisting}[style=DOS]
+    $ curl -o bootstrap.zip http://bootstrap.com/
+    $ unzip bootstrap.zip
+\end{lstlisting}
+
+\paragraph{} Now move the bootstrap files into directory hierarchy that you created. We can now start to use bootstrap to provide some style. The first thing to do is to create a simple Flask app that returns an HTML page using a template. We will then extend the template to add some bootstrap functionality to it. So, let's start with the basic template:
+
+\begin{lstlisting}
+FLASK TEMPLATE LISTING
+\end{lstlisting}
+
+\paragraph{} Now we need a basic Flask app that uses the template:
+
+\begin{lstlisting}
+FLASK APP LISTING
+\end{lstlisting}
+
+\paragraph{} Take a look at how your unstyled Flask app appears in the browser. Not very pretty is it? 
+
+% Add screenshot of before bootstrap
+
+Let's use Flask to add some basic styling:
+
+\begin{lstlisting}
+WITH ADDED BOOTSTRAP
+\end{lstlisting}
+
+% Add screenshot of after bootstrap
+
+
+
+\paragraph{} The bootstrap site demonstates most of the features of bootstrap so you can see how things should look by default. It is also often useful to view the source of a given example element on the bootstrap site in order to see how it should be used.
 
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
