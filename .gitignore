@@ -10,6 +10,8 @@ workbook/*.toc
 env/
 
 *.swp
+*.swn
+*.swo
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
