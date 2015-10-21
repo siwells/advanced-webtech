@@ -2126,7 +2126,7 @@ Calls the run() function of the Flask app class instance to start our developmen
 \paragraph{} The cURL tool is a command that you can use to interact with remote HTTP APIs. It can function purely as a download tool in the terminal, for example, in Section \ref{static} we used cURL to retrieve an image file for use in our Flask static file demonstration, e.g.
 
 \begin{lstlisting}[style=DOS]
-    $ curl siwells.github.io/assets/images/vmask.jpg -o vmask.jpg
+    $ curl -L siwells.github.io/assets/images/vmask.jpg -o vmask.jpg
 \end{lstlisting}
 
 \paragraph{} By default cURL will perform an HTTP GET to the URL that we provide, However we can also specify the HTTP verb that we want to use as an additional arguments to the tool, e.g.
