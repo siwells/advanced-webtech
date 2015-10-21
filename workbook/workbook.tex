@@ -1923,11 +1923,11 @@ static/img/
 static/js/
 \end{lstlisting}
 
-\paragraph{} Make yourself a similar directory hierachy to that shown above then download Bootstrap from \url{the bootstrap site} and unpack it, e.g.
+\paragraph{} Make yourself a similar directory hierachy to that shown above then download Bootstrap from \url{https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip} and unpack it, e.g.
 
 \begin{lstlisting}[style=DOS]
-    $ curl -o bootstrap.zip http://bootstrap.com/
-    $ unzip bootstrap.zip
+    $ curl -L -o bootstrap.zip https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip
+    $ unzip bootstrap-3.3.5-dist.zip
 \end{lstlisting}
 
 \paragraph{} Now move the bootstrap files into directory hierarchy that you created. We can now start to use bootstrap to provide some style. The first thing to do is to create a simple Flask app that returns an HTML page using a template. We will then extend the template to add some bootstrap functionality to it. So, let's start with the basic template:
