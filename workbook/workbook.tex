@@ -2052,11 +2052,34 @@ for a little bit of style</p>
 </html>
 
 \end{lstlisting}
-% Add screenshot of after bootstrap
+
+\paragraph{} There are a few things to note here. Firstly we had to add an extra inline CSS script element to push the page content below the navigation bar. Remove this line (line 6) to see what would happen otherwise. After that you can see that we used to containers, the first containing our navigation bar, and the second containg our page content. Finaly we added a pair of script links, the first to JQuery\footnote{\url{https://jquery.com/}} and the second to the default Bootstrap Javascript file which is in our static directory. Look on the Bootstrap website to find out what you can do with the Bootstrap Javascript, and on the JQuery homepage to see what functionality JQuery offers you.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{images/bootstrap-template-expanded.png}
+\caption{Bootstrap example with navigation bar}
+\label{fig:bootstrap-example-expanded}
+\end{figure}
+
+\paragraph{} And this is what our page looks like in responsive mode, with a mobile style menu button:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{images/bootstrap-template-responsive.png}
+\caption{Bootstrap example in responsive mode}
+\label{fig:bootstrap-example-responsive}
+\end{figure}
 
 
+\paragraph{} The bootstrap site demonstates most of the features of bootstrap so you can see how things should look by default. It is also often useful to view the source of a given example element on the bootstrap site in order to see how it should be used. To find out about all of the things that you can do with bootstrap visit \url{http://getbootstrap.com/getting-started/}. Once you have got to grips with the default bootstrap there are also sites that offer additional, free, bootstrap based themes, e.g.
 
-\paragraph{} The bootstrap site demonstates most of the features of bootstrap so you can see how things should look by default. It is also often useful to view the source of a given example element on the bootstrap site in order to see how it should be used.
+\begin{itemize}
+\item \url{http://startbootstrap.com/}
+\item \url{http://www.bootstrapzero.com/}
+\end{itemize}
+
+\paragraph{} Finally, if you can't find something that you like, then you can always just extend or alter the default Bootstrap themes by editing their CSS. Whatevery you choose to do, Bootstrap is a good way to quickly get a not too bad looking site knocked together.
 
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
