@@ -2010,9 +2010,11 @@ for a little bit of style</p>
 <html>
 <head>
   <title>Bootstrap Demonstation</title>
-  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="st
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" />
   <style>
-    body{ padding-top: 50px; } <!-- Push page content down below navbar --> 
+    body{ 
+      padding-top: 50px;
+    } 
   </style>
 </head>
 <body>
@@ -2039,18 +2041,17 @@ for a little bit of style</p>
        </div>
     </div>
   </nav>
+
    <div class="container">
         <h1>HELLO</h1>
         <h2>Napier</h2>
-        <p class="lead">Demonstrating a flask app with templates for html genera
-for a little bit of style</p>
+        <p class="lead">Demonstrating a flask app with templates for html generation and bootstrap for a little bit of style</p>
   </div>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src={{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 </body>
 </html>
-
 \end{lstlisting}
 
 \paragraph{} There are a few things to note here. Firstly we had to add an extra inline CSS script element to push the page content below the navigation bar. Remove this line (line 6) to see what would happen otherwise. After that you can see that we used to containers, the first containing our navigation bar, and the second containg our page content. Finaly we added a pair of script links, the first to JQuery\footnote{\url{https://jquery.com/}} and the second to the default Bootstrap Javascript file which is in our static directory. Look on the Bootstrap website to find out what you can do with the Bootstrap Javascript, and on the JQuery homepage to see what functionality JQuery offers you.
