@@ -1918,19 +1918,28 @@ FAILED (failures=1)
 \begin{lstlisting}[style=DOS]
 static/
 static/css/
+static/font/
 static/ico/
 static/img/
 static/js/
 \end{lstlisting}
 
-\paragraph{} Make yourself a similar directory hierachy to that shown above then download Bootstrap from \url{https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip} and unpack it, e.g.
+\paragraph{} For the moment though we can use the directory hierachy that Bootstrap comes with. Change directory into your static directory  then download Bootstrap from \url{https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip} and unpack it, e.g.
 
 \begin{lstlisting}[style=DOS]
     $ curl -L -o bootstrap.zip https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip
     $ unzip bootstrap-3.3.5-dist.zip
 \end{lstlisting}
 
-\paragraph{} Now move the bootstrap files into directory hierarchy that you created. We can now start to use bootstrap to provide some style. The first thing to do is to create a simple Flask app that returns an HTML page using a template. We will then extend the template to add some bootstrap functionality to it. So, let's start with the basic template:
+\paragraph{} Now move the bootstrap files into directory hierarchy that you created. For example, assuming you are in the static directory and you downloaded the bootstrap zip file
+
+\begin{lstlisting}[style=DOS]
+    $ cp -R bootstrap-3.3.5-dist/* .
+\end{lstlisting}
+
+\paragraph{} This should recursively copy all of the folder from within the bootstrap directory into the static directory.
+
+\paragraph{} We are now set up to start to use bootstrap to provide some style. But first, let's create an unstyled page, using a Jinja2 template and a simple Flask app that returns an HTML page using the template. We will then extend the template to add some bootstrap functionality to it. So, let's start with the basic template:
 
 \begin{lstlisting}
 <html>
@@ -1960,16 +1969,89 @@ if __name__ == "__main__":
   app.run(host='0.0.0.0', debug=True)
 \end{lstlisting}
 
-\paragraph{} Take a look at how your unstyled Flask app appears in the browser. Not very pretty is it? 
+\paragraph{} Take a look at how your unstyled Flask app appears in the browser. Not very pretty is it?  
 
-% Add screenshot of before bootstrap
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{images/unstyled.png}
+\caption{The unstyled HTML page for the Bootstrap example}
+\label{fig:unstyled}
+\end{figure}
 
-Let's use Flask to add some basic styling:
+Now let's use Flask to add some basic styling to that ugly old page.
 
 \begin{lstlisting}
-WITH ADDED BOOTSTRAP
+<html>
+<head>
+  <title>Bootstrap Demonstation</title>
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="st
+</head>
+<body>
+<h1>HELLO</h1>
+<h2>Napier</h2>
+<p>Demonstrating a flask app with templates for html generation and bootstrap
+for a little bit of style</p>
+</body>
+</html>
 \end{lstlisting}
 
+\paragraph{} Notice how all we ahve done is add a relative link, in line 4, to the Bootstrap CSS file. Also note that we used the url\_for function to get the root of the static directory and that all of the URL aspects are enclosed in Jinja2's double curly braces.  Even, just including the bootstrap CSS has already got things looking different:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth]{images/styled-css.png}
+\caption{After only including the Bootstrap CSS file}
+\label{fig:styled-css}
+\end{figure}
+
+\paragraph{} But let's go a little further an implement the basic Bootstrap template:
+
+\begin{lstlisting}
+<html>
+<head>
+  <title>Bootstrap Demonstation</title>
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="st
+  <style>
+    body{ padding-top: 50px; } <!-- Push page content down below navbar --> 
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed"
+      data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+      aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">ProjectName</a>
+      </div>
+      <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+       </ul>
+       </div>
+    </div>
+  </nav>
+   <div class="container">
+        <h1>HELLO</h1>
+        <h2>Napier</h2>
+        <p class="lead">Demonstrating a flask app with templates for html genera
+for a little bit of style</p>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js
+  <script src={{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+</body>
+</html>
+
+\end{lstlisting}
 % Add screenshot of after bootstrap
 
 
