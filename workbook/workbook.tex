@@ -2291,8 +2291,44 @@ Calls the run() function of the Flask app class instance to start our developmen
     $ curl -i -H "Accept: application/json" -X POST -d "firstName=jebediah" http://dummy.com/persons/person 
 \end{lstlisting}
 
+\section{Pip}
+\paragraph{} Pip is a package management tool for Python libraries and is really easy to use. On Levinux we have to install Pip so we must do the following:
 
-\paragraph{} 
+\begin{lstlisting}[style=DOS]
+    $ easy_install pip
+\end{lstlisting}
+
+\paragraph{} This will install pip. We can now use Pip to install whichever Python libraries we want to use. First, let's list the installed Python libraries
+
+\begin{lstlisting}[style=DOS]
+    $ pip freeze
+\end{lstlisting}
+
+\paragraph{} It is useful to save the output of pip freeze to a file that you store in your Python app's Git repository so that you can easily reinstall all of the necessary libraries if you need to install your app elsewhere. You can do this as follows:
+
+\begin{lstlisting}[style=DOS]
+    $ pip freeze > requirements.txt
+\end{lstlisting}
+
+\paragraph{} Which will cause the output to be saved in a file called requirements.txt\footnote{There are some opportunities for further exploration here. The `$>$' symbol is a Bash shell redirection operator which means that it causes the output of bash, which is usually printed on screen to be redirected to another location, in this case into a text file.} Have a look at the contents of requirements.txt using either Vim or the cat command in the shell, e.g.
+
+\begin{lstlisting}[style=DOS]
+    $ cat requirements.txt
+\end{lstlisting}
+
+\paragraph{} Compare the output to that of just using pip freeze without the redirection. It should be exactly the same. Now if we ever wish to reinstall our Python libraries then we can just use the requirements.txt file as the input to pip and it will run through the list and install everything, e.g.
+
+\begin{lstlisting}[style=DOS]
+    $ pip install -r requirements.txt
+\end{lstlisting}
+
+\paragraph{} Now we can get to the meet of Pip, which is installing new Python libraries. We do this using the install argument of Pip, e.g.
+
+\begin{lstlisting}[style=DOS]
+    $ pip install flask
+\end{lstlisting}
+
+\paragraph{} Obviously we already have flask installed in Levinux but if we didn't then we could use this simple command to just install it. 
 
 \backmatter
 
