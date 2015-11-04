@@ -2273,6 +2273,14 @@ for a little bit of style</p>
 \paragraph{} Hash functions can be used in password management and storage. Web sites should only store the hash of a password and not the raw password itself. This way only the user knows the real password. When the user logs in, the hash of the password input is generated and compared to the hash value stored in the database. If it matches, the user is granted access\footnote{If you ever use a website that can help you to \emph{recover} your password then they probably aren't hashing passwords. In this case you should probably question the security of that site and their ability to keep your data safe.}. Whilst you could use the hashes available in PyCrypto for user passwords, this is no longer the most secure approach. Rather you should use a type of password hash that has been specifically designed to be hard to crack. Such hashes are known as \emph{key derivation functions} and are designed to significantly slow down the process of hashing a value so that brute force attacks, where you try to calculate all possible hashes, become significantly expensive in terms of time to calculate. This contrasts with hashes used for checksumming, which obviously need to run as fast as possible.
 
 
+\paragraph{} You can install PyBCrypt using the pip tool as follows (NB. If you haven't installed Pip yet then visit section \ref{pip} first before continuing):
+
+\begin{lstlisting}[style=DOS]
+    $ pip install bcrypt
+\end{lstlisting}
+
+\paragraph{} 
+
 %\end{comment}
 
 
