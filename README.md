@@ -10,6 +10,11 @@ The case study describes a Python Flask web-app called DayBook that was built as
 Simple examples of the topics covered in the workbook arranged on a week-by-week basis that corresponds to trimester weeks.
 
 
+## Topics
+
+Notes & readings for each topic covered in the lectures.
+
+
 ## Workbook
 
 To build the workbook you need to have a working LaTeX environment. Build the PDF using the following command:
