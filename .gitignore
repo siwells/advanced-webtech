@@ -5,7 +5,7 @@ workbook/*.out
 workbook/*.pdf
 workbook/*.toc
 
-*.DS_Store
+.DS_Store
 *.pyc
 env/
 
