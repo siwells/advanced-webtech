@@ -2104,7 +2104,7 @@ for a little bit of style</p>
 %\begin{comment}
 \chapter{Keeping Data safe with Encryption}
 \label{lab09}
-\paragraph{} Encryption is necessary to ensure that the data that we collect in our web-apps, for example, about our users, is stored safely.
+\paragraph{} Encryption is necessary to ensure that the data that we collect in our web-apps, for example, about our users, is stored safely. A good general approach is to not store any data about your users that you don't actually need for the purposes of your application.
 
 
 \section{Using PyCrypto Library for data encryption}
@@ -2267,19 +2267,44 @@ for a little bit of style</p>
 
 \paragraph{} Public Key cryptography is an important tool in the fight to ensure that we can communicate in ways that are secure from eavesdropping, non-repudiable (meaning the person who sent it can be verified as such), and unaltered.
 
-\section{Using PyBCrypt Library for Password Hashing}
-\label{pybcrypt}
+\section{Using py-bcrypt Library for Password Hashing}
+\label{py-bcrypt}
 \paragraph{}
-\paragraph{} Hash functions can be used in password management and storage. Web sites should only store the hash of a password and not the raw password itself. This way only the user knows the real password. When the user logs in, the hash of the password input is generated and compared to the hash value stored in the database. If it matches, the user is granted access\footnote{If you ever use a website that can help you to \emph{recover} your password then they probably aren't hashing passwords. In this case you should probably question the security of that site and their ability to keep your data safe.}. Whilst you could use the hashes available in PyCrypto for user passwords, this is no longer the most secure approach. Rather you should use a type of password hash that has been specifically designed to be hard to crack. Such hashes are known as \emph{key derivation functions} and are designed to significantly slow down the process of hashing a value so that brute force attacks, where you try to calculate all possible hashes, become significantly expensive in terms of time to calculate. This contrasts with hashes used for checksumming, which obviously need to run as fast as possible.
+\paragraph{} Hash functions can be used in password management and storage. Web sites should only store the hash of a password and not the raw password itself. This way only the user knows the real password. When the user logs in, the hash of the password input is generated and compared to the hash value stored in the database. If it matches, the user is granted access\footnote{If you ever use a website that can help you to \emph{recover} your password then they probably aren't hashing passwords. In this case you should probably question the security of that site and their ability to keep your data safe.}. Whilst you could use the hashes available in PyCrypto for user passwords, this is no longer the most secure approach. Rather you should use a type of password hash that has been specifically designed for use to store password hash-values and thus mitigates many of the drawbacks of generic cyrptographic hash functions in this context. Such hashes are known as \emph{key derivation functions} and are designed to significantly slow down the process of hashing a value so that brute force attacks, where you try to calculate all possible hashes, become significantly expensive in terms of time to calculate. This contrasts with hashes used for checksumming, which obviously need to run as fast as possible. 
 
+\paragraph{} BCrypt is the OpenBSD Blowfish password hashing algorithm that is described in a paper by Niels Provos and David Mazieres called "A Future-Adaptable Password Scheme"\footnote{\url{http://www.openbsd.org/papers/bcrypt-paper.ps}}. There is a Python wrapper for this algorithm called py-bcrypt\footnote{\url{http://www.mindrot.org/projects/py-bcrypt/}} that you should use to hash password in your web-apps, at least until this algorithm is demonstrated to be flawed or a stronger system is proposed.
 
-\paragraph{} You can install PyBCrypt using the pip tool as follows (NB. If you haven't installed Pip yet then visit section \ref{pip} first before continuing):
+\paragraph{} You can install py-bcrypt using the pip tool as follows (NB. If you haven't installed Pip yet then visit section \ref{pip} first before continuing):
 
 \begin{lstlisting}[style=DOS]
     $ pip install bcrypt
 \end{lstlisting}
 
-\paragraph{} 
+\paragraph{} As well as implementing a password derivation algorithm, bcrypt can also salt the supplied password so that the hashed-value is more resistant to rainbow-table based attacks. When you use the hashpw function, you can either pass in the pre-generated salt or else call gensalt() directly and the salt is stored within the generated hash-value. To hash a password we do the following:
+
+\begin{lstlisting}[style=DOS]
+    >>> import bcrypt
+    >>> hash = bcrypt.hashpw('secretpassword', bcrypt.gensalt())
+    >>> hash
+    '$2b$12$5KkwUyRUDEooMWAMBOLdnuiOIJPvG2dYmP5nNyhSs1hW1xdovn0Ni'
+\end{lstlisting}
+
+\paragraph{} First we import bcrypt, then we create a new hashed value using the supplied password and asking bcrypt to generate a salt. We only need to store the hash-value after that as the salt is stored within the hash-value. For example, you could now store the hash-value in your user database. When we need to verify a user's password we would do the following, assuming that you have retrieved the hash-value from your user DB as `hash' and that the supplied password is stored in `pass':
+
+\begin{lstlisting}[style=DOS]
+    >>> hash == bcrypt.hashpw('secretpassword', hash)
+    True
+\end{lstlisting}
+
+\paragraph{} and if the supplied password is incorrect we will see something like this:
+
+\begin{lstlisting}[style=DOS]
+    >>> hash == bcrypt.hashpw('badpassword', hash)
+    False
+\end{lstlisting}
+
+\paragraph{} This should be enough to get you started in storing your user's data securely. The rule of thumb is to keep your security arrangements as simple as possible because unwarranted complexity can hide weaknesses. You should also not implment your own security arrangements if there are already well tested alternatives. Encryption is a game for specialists and the liklihood is that you will not crate anything as good as what is already available.
+
 
 %\end{comment}
 
