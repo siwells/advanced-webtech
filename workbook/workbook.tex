@@ -2090,8 +2090,75 @@ for a little bit of style</p>
 
 \chapter{Data Storage}
 \label{lab08}
+\paragraph{} Many web-apps are increasingly data driven. Whilst there are discussions to be had about the correct balance of static and dynamic functionality\footnote{A completely static website, e.g. one that has been designed to be static or has been `\emph{flattened}' can be {\bf{very}} scalable. The equipment that powered Github pages was for many years very modest yet made tens of thousands of static web-pages for many open source projects. \emph{NB.} Github pages also hosts the web pages for this module as well as hosting our public source code repository.}, it is often the case that a database is an important part of managing the data associated with a web site.
+
+\paragraph{} The easiest way to get started with data storage for this module is to use SQLite3. You can install SQLite3 using the Levinux extension manager, TCE, as follows  (NB. If you haven't used TCE yet then visit section \ref{tce} first before continuing):
+
+\begin{lstlisting}[style=DOS]
+    $ tce-load -wi sqlite3-bin.tcz
+\end{lstlisting}
+
+\paragraph{} Using SQLite3 from Python is quite straightforward if you have worked with a relational database before. You will need to import the Python SQLite3 interface library, set a location where the SQLite database will be stored, initialise a connection to the DB. 
+
+
+\begin{lstlisting}[style=DOS]
+    >>> import sqlite3
+    >>> DB = 'var/sqlite3.db'
+    >>> conn = sqlite3.connect(DB)
+    >>> cursor = conn.cursor()
+\end{lstlisting}
+
+\paragraph{} In this case we have performed our imports, then created a DB object that stores the location and name of our database file, e.g. sqlite3.db which is stored in the relative \emph{var} directory. We then connected to our database file and stored the connection in the variable called \emph{conn} before retrieving a cursor that we can use to work with our database connection.
+
+\paragraph{} Now we have retrieved a cursor we can use it to insert and remove data from our database as well querying the data stored in it. First though, we need to set up a table. Let's create a table to store music called \emph{albums}.
+
+\begin{lstlisting}[style=DOS]
+    >>> cursor.execute(""" CREATE TABLE albums
+    ... (title text, artist text, release_date text, publisher text, media_type text)
+    ... """)
+    <sqlite3.Cursor object at 0x1054ec570>
+    >>> conn.commit()
+\end{lstlisting}
+
+\paragraph{} Notice that we used a multi-line Python string which is wrapped in tiple quotes. Now we can add some data to our database, lets add a couple of albums:
+
+\begin{lstlisting}[style=DOS]
+    >>> cursor.execute('INSERT INTO albums VALUES ("Greatest Hits", "Roy Orbison", "30.11.1977", "SWRecords", "vinyl")')
+    <sqlite3.Cursor object at 0x1054ec570>
+    >>> conn.commit()
+\end{lstlisting}
+
+\paragraph{} We can use a simple SQL query to see the contents of our fledgeling database as follows:
+
+\begin{lstlisting}[style=DOS]
+    >>> for row in cursor.execute("SELECT rowid, * FROM albums ORDER BY artist"):
+    ...   print row
+    ...
+\end{lstlisting}
+
+\paragraph{} We can also use SQL to carry out more complex queries but the following should give us a flavour of what we can do:
+
+\begin{lstlisting}[style=DOS]
+    >>> sql = "SELECT * FROM albums WHERE artist=?"
+    >>> cursor.execute(sql, [("Roy Orbison")])
+    <sqlite3.Cursor object at 0x1054ec570>
+    >>> cursor.fetchall()
+    [(u'Greatest Hits', u'Roy Orbison', u'30.11.1977', u'SWRecords', u'vinyl')]
+\end{lstlisting}
+
+\paragraph{} In this case we just defined an SQL statement which we stored in the dql variable then we executed that statement using the cursor.execture function and a supplied term ``Roy Orbison'' to search for. As this matched a record in the database we had a record in the list that cursor.fetchall() returns. We can also use wildcards and the SQL ``like'' keyword to find close but not exact matches to our query term, e.g.
+
+\begin{lstlisting}[style=DOS]
+    >>> term = "orbi"
+    >>> cursor.execute("SELECT * FROM albums WHERE artist LIKE '%{term}%'".format(term=term))
+    <sqlite3.Cursor object at 0x1054ec570>
+    >>> cursor.fetchall()[(u'Greatest Hits', u'Roy Orbison', u'30.11.1977', u'SWRecords', u'vinyl')]
+\end{lstlisting}
+
 \paragraph{} 
 
+
+\paragraph{} There are many data storage mechanisms and the availabilty of high-quality and performant datastores has increased greatly in recent years with the advent of the NoSQL approach. This approach suggests that there are {\bf{N}}ot {\bf{O}}nly {\bf{SQL}} based approaches to storing data but many approaches, and the one that you choose should be based upon a sound assessment of the nature of the problem that you are tackling as well as the knowledge and experience of your development team. So, for example, there are a number of column-oriented, document oriented, graph-oriented, and key-value datastores, and many hybrids, which can be very useful when developing new web-apps. For example, when trying out various solutions to a problem it can be useful to use a schemaless datastore to hold your initial attempts at building a data model so that you do not waste time prematurely attempting to identify good database schema or relational models. 
 
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
@@ -2516,6 +2583,30 @@ Calls the run() function of the Flask app class instance to start our developmen
 \end{lstlisting}
 
 \paragraph{} Obviously we already have flask installed in Levinux but if we didn't then we could use this simple command to just install it. 
+
+\section{TCE}
+\label{tce}
+\paragraph{} TCE is the Tiny Core Linux Extension manager and provides a way to download and install pre-built packages of software. Because Levinux is built on the foundations laid by Tiny Core we get to take advantages of all the benefits of both Levinux and the underlying Linux distribution.
+
+\paragraph{} Table \ref{key-table} summarises some of the key commands for managin extensions on a Tiny Core derived Linux distribution.
+
+\begin{table}
+    \begin{tabular}{ll}
+    {\bf Task}                          & {\bf Command} \\
+    Install a package from the repo     & tce-load -wi pkg \\
+    Install from a local file           & tce-load -i pkg \\
+    Search apt-cache search pattern	    & tce-ab \\
+    List installed packages             & ls /usr/local/tce.installed \\
+    \end{tabular}
+    \caption {TCE Commands}
+    \label{key-table}
+\end{table}
+
+\paragraph{} So, for instance, to install the end-user tools for SQLite3 we would execute the following:
+
+\begin{lstlisting}[style=DOS]
+    $ tce-load -wi sqlite3-bin.tcz
+\end{lstlisting}
 
 \backmatter
 
