@@ -2092,6 +2092,8 @@ for a little bit of style</p>
 \label{lab08}
 \paragraph{} Many web-apps are increasingly data driven. Whilst there are discussions to be had about the correct balance of static and dynamic functionality\footnote{A completely static website, e.g. one that has been designed to be static or has been `\emph{flattened}' can be {\bf{very}} scalable. The equipment that powered Github pages was for many years very modest yet made tens of thousands of static web-pages for many open source projects. \emph{NB.} Github pages also hosts the web pages for this module as well as hosting our public source code repository.}, it is often the case that a database is an important part of managing the data associated with a web site.
 
+\section{Brief Introduction to SQLite3}
+\label{sqlite3-intro}
 \paragraph{} The easiest way to get started with data storage for this module is to use SQLite3. You can install SQLite3 using the Levinux extension manager, TCE, as follows  (NB. If you haven't used TCE yet then visit section \ref{tce} first before continuing):
 
 \begin{lstlisting}[style=DOS]
@@ -2157,6 +2159,103 @@ for a little bit of style</p>
 
 \paragraph{} For more advanced SQL queries we should look to the SQL documentationbecause this module isn't really about SQL query construction. For now however we can move on to look at how to integrate an SQLite3 database with Flask.
 
+\section{Using SQLite3 with Flask}
+\label{sqlite3-flask}
+\paragraph{} Now we have seen how SQLite3 works with Python as a general data storage mechanism we can now look at how, with the addition of a few simple functions, we can provide a robust mechanism for storing our web-app's data.
+
+\paragraph{} We'll start with defining a schema file that can be used to initialise our database as follows:
+
+\begin{lstlisting}
+DROP TABLE if EXISTS albums;
+
+CREATE TABLE albums (
+    title text,
+    artist text,
+    media_type text
+);
+\end{lstlisting}
+
+\paragraph{} This schema just deletes any existing table called `albums' then create a new table called `albums' with three text fields to store the `title', `artist' and `media type' of the albums. We can now use the schema in a Flask file. Let's look at a basic Flask app that includes a single route and some datastorage using SQLite3:
+
+\begin{lstlisting}
+from flask import Flask, g
+import sqlite3
+
+from flask import Flask
+app = Flask(__name__)
+db_location = 'var/test.db'
+
+def get_db():
+    db = getattr(g, 'db', None)
+    if db is None:
+        db = sqlite3.connect(db_location)
+        g.db = db
+    return db
+
+@app.teardown_appcontext
+def close_db_connection(exception):
+    db = getattr(g, 'db', None)
+    if db is not None:
+        db.close()
+
+def init_db():
+    with app.app_context():
+        db = get_db() 
+        with app.open_resource('schema.sql', mode='r') as f:
+            db.cursor().executescript(f.read())
+        db.commit()
+
+@app.route("/")
+def root():
+    db = get_db()
+    db.cursor().execute('insert into albums values ("American Beauty", "Grateful Dead", "CD")')
+    db.commit()
+
+    page = []
+    page.append('<html><ul>')
+    sql = "SELECT rowid, * FROM albums ORDER BY artist"
+    for row in db.cursor().execute(sql):
+        page.append('<li>')
+        page.append(str(row))
+        page.append('</li>')
+
+    page.append('</ul><html>')
+    return ''.join(page)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", debug=True)
+\end{lstlisting}
+
+\paragraph{} There are four things to notice here:
+
+\begin{enumerate}
+\item The init\_db function loads our schema file and initialises a new database. We could call init\_db() each time we restart the app but this would re-initialise the data each time. Instead we will create a separate external file that calls this function whenever we need it \emph{we shall come back to this in a moment}.
+\item The get\_db function can be called from within a route to get access to our database connection, e.g.
+\begin{lstlisting}[style=DOS]
+db = get_db()
+\end{lstlisting}
+and we can then get a cursor using
+\begin{lstlisting}[style=DOS]
+db.cursor()
+\end{lstlisting}
+\item The close\_db\_connection function is a \emph{decorated} function that is automatically called to close the db connection whenever necessary. This is usually when a request end which causes that current context of the flask app to end.
+\item Our root function which defined the `/' route does two things, it stores a new album in the database each time the route is accessed. Secondly, this function executes a simple SQL query to retrieve all the entries from the albums table then constructs a small HTML file to display those entries. 
+\end{enumerate}
+
+\paragraph{} If we now run this flask app then we will get an error when we hit the `/' route so there is one last thing to do. The error occurs because we don't call the init\_db function from anywhere. We probably only want to do this once when we deploy our web-app, otherwise we will lose all of the contents of the DB so we can create an external Python script, `init\_db.py', that will import the init\_db function then execute it to initialise a new database.
+
+\begin{lstlisting}
+from test import init_db
+init_db()
+\end{lstlisting}
+
+\paragraph{} We can now call our script before we start our flask app for the first time to initialise the database as follows:
+
+\begin{lstlisting}[style=DOS]
+$  python init_db.py
+\end{lstlisting}
+
+\paragraph{} This should be enough SQLite3 and Flask integration to get started storing data. Obviously there is lots more to learn about the functionality that SQLite3 offers but that is an exercise for your self-directed study.
 
 \paragraph{} There are many data storage mechanisms and the availabilty of high-quality and performant datastores has increased greatly in recent years with the advent of the NoSQL approach. This approach suggests that there are {\bf{N}}ot {\bf{O}}nly {\bf{SQL}} based approaches to storing data but many approaches, and the one that you choose should be based upon a sound assessment of the nature of the problem that you are tackling as well as the knowledge and experience of your development team. So, for example, there are a number of column-oriented, document oriented, graph-oriented, and key-value datastores, and many hybrids, which can be very useful when developing new web-apps. For example, when trying out various solutions to a problem it can be useful to use a schemaless datastore to hold your initial attempts at building a data model so that you do not waste time prematurely attempting to identify good database schema or relational models. 
 
