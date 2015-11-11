@@ -1,2 +1,2 @@
-from test import init_db
+from datastore import init_db
 init_db()
