@@ -2648,10 +2648,15 @@ Calls the run() function of the Flask app class instance to start our developmen
 \paragraph{} Pip is a package management tool for Python libraries and is really easy to use. On Levinux we have to install Pip so we must do the following:
 
 \begin{lstlisting}[style=DOS]
-    $ easy_install pip
+    $ sudo su
+    # easy_install pip
+    # exit
+    $
 \end{lstlisting}
 
-\paragraph{} This will install pip. We can now use Pip to install whichever Python libraries we want to use. First, let's list the installed Python libraries
+\paragraph{} What this does is enter the \emph{superuser} (SU) role, then it installs pip. The superuser role has more powers than a regular user so once we have installed pip we want to exit the superuser role back to the normal user role that we logged in as. The change in role is indicated by the change in prompt that we see from \emph{\$} to \emph{\#}. We can now use Pip to install whichever Python libraries we want to use as a normal user (not as a superuser). 
+
+\paragraph{} First, let's list the installed Python libraries
 
 \begin{lstlisting}[style=DOS]
     $ pip freeze
