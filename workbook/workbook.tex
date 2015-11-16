@@ -2454,10 +2454,10 @@ $  python init_db.py
 
 \paragraph{} What we have done is install three Tiny Core Linux extensions using the \emph{tce-load} command. We then switched to the superuser role and used easy\_instal to install the Pip tool. Finally we used Pip to install bcrypt, which then used the libraries and tools we installed earlier to compile the C code within the bcrypt distribution.
 
-\paragraph{} In the next case we download the pre-compiled Python egg then use easy\_install to install it:
+\paragraph{} In the next case we download the pre-compiled Python egg\footnote{Available from \url{https://www.dropbox.com/s/x2vs6e9trv1yuon/py_bcrypt-0.4-py2.7-linux-i686.egg?dl=0}} then use easy\_install to install it:
 
 \begin{lstlisting}[style=DOS]
-    $ curl -L -o py_bcrypt-0.4-py2.7-linux-i686.egg https://DROPBOXLINK
+    $ curl -L -o py_bcrypt-0.4-py2.7-linux-i686.egg https://www.dropbox.com/s/x2vs6e9trv1yuon/py_bcrypt-0.4-py2.7-linux-i686.egg?dl=1
     $ sudo su
     # easy_install py_bcrypt-0.4-py2.7-linux-i686.egg
     # exit
