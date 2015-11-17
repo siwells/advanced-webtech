@@ -2284,6 +2284,9 @@ $  python init_db.py
     $
 \end{lstlisting}
 
+\paragraph{} What we did here was to change to the superuser role using sudo. We then installed the Python egg using easy\_install. We then exited the superuser role and used python with the -c option to check that our egg had installed properly. All the call to python is doing is compiling the code that we passed in. The code we passed in is a library import command and if the Crypto library is available then there will be no feedback, just our prompt. If there is any other output then the pycrypto library is not available. Notice that the name of the library that we import within Python is different to the name of the library that we installed.
+
+
 \paragraph{} You can now import and use PyCrypto within your web-apps, however let's first explore what the library can do in the Python REPL, so launch python in your shell, e.g.
 
 \begin{lstlisting}[style=DOS]
@@ -2442,23 +2445,7 @@ $  python init_db.py
 
 \paragraph{} BCrypt is the OpenBSD Blowfish password hashing algorithm that is described in a paper by Niels Provos and David Mazieres called "A Future-Adaptable Password Scheme"\footnote{\url{http://www.openbsd.org/papers/bcrypt-paper.ps}}. There is a Python wrapper for this algorithm called py-bcrypt\footnote{\url{http://www.mindrot.org/projects/py-bcrypt/}} that you should use to hash password in your web-apps, at least until this algorithm is demonstrated to be flawed or a stronger system is proposed.
 
-\paragraph{} You have a few options for installing py-bcrypt. Usually we would just install Python libraries using Pip but unfortunately py-bcrypt incorporate some code written in the C language which means that we need to have an entire build toochain for the C language, in addition to our Python tools in order to build the C part. The alternative is to use the Python egg that I have already built and which can by downloaded from the module web-page.
-
-\paragraph{} As this is a useful learning opportunity I will give both solutions. Firstly the long way by building from source:
-
-\begin{lstlisting}[style=DOS]
-    $ tce-load -wi gcc.tcz
-    $ tce-load -wi python-dev.tcz
-    $ tce-load -wi compiletc.tcz
-    $ sudo su
-    # easy_install pip
-    # pip install bcrypt
-    # exit 
-\end{lstlisting}
-
-\paragraph{} What we have done is install three Tiny Core Linux extensions using the \emph{tce-load} command. We then switched to the superuser role and used easy\_instal to install the Pip tool. Finally we used Pip to install bcrypt, which then used the libraries and tools we installed earlier to compile the C code within the bcrypt distribution.
-
-\paragraph{} In the next case we download the pre-compiled Python egg\footnote{Available from \url{https://www.dropbox.com/s/x2vs6e9trv1yuon/py_bcrypt-0.4-py2.7-linux-i686.egg?dl=1}} then use easy\_install to install it:
+\paragraph{} Just like for the PyCrypto library we will download and install a pre-compiled Python egg\footnote{Available from \url{https://www.dropbox.com/s/x2vs6e9trv1yuon/py_bcrypt-0.4-py2.7-linux-i686.egg?dl=1}} then use easy\_install to install it, for example:
 
 \begin{lstlisting}[style=DOS]
     $ curl -L -o py_bcrypt-0.4-py2.7-linux-i686.egg https://www.dropbox.com/s/x2vs6e9trv1yuon/py_bcrypt-0.4-py2.7-linux-i686.egg?dl=1
@@ -2468,9 +2455,6 @@ $  python init_db.py
     $ python -c "import bcrypt"
     $
 \end{lstlisting}
-
-\paragraph{} What we did here was to change to the superuser role using sudo. We then installed the Python egg using easy\_install. We then exited the superuser role and used python with the -c option to check that our egg had installed properly. All the call to python is doing is compiling the code that we passed in. The code we passed in is a library import command and if the bcrypt library is available then there will be no feedback, just our prompt. If there is any other output then the bcrypt library is not available.
-
 
 \paragraph{} As well as implementing a password derivation algorithm, bcrypt can also salt the supplied password so that the hashed-value is more resistant to rainbow-table based attacks. When you use the hashpw function, you can either pass in the pre-generated salt or else call gensalt() directly and the salt is stored within the generated hash-value. To hash a password we do the following:
 
