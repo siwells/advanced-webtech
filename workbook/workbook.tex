@@ -2821,6 +2821,102 @@ Calls the run() function of the Flask app class instance to start our developmen
     $ tce-load -wi sqlite3-bin.tcz
 \end{lstlisting}
 
+\section{Build Python Eggs}
+\label{eggs}
+\paragraph{} Sometime we want to precompile a Python library for distribution rather than installing an entire compiler toolchain and all the associated libraries. Let's use the example of building PyCrypto and Py-BCrypt from source into Python eggs.
+
+\subsection{PyCrypto}
+\label{pycrypto_egg}
+
+\paragraph{} We can install the necessary libraries and toolchain to build the PyCrypto library then use Pip as follows:
+
+\begin{lstlisting}[style=DOS]
+    $ tce-load -wi gcc.tcz python-dev.tcz compiletc.tcz gmp-dev.tcz
+    $ sudo su
+    # easy_install pip
+    # pip install pycrypto
+    # exit 
+\end{lstlisting}
+
+\paragraph{} Additionally, with a minor edit we can also create a Python egg. First we need to download the sourcecode for PyCrypto\footnote{The source code for Py-Crypto can be retrieved from the project's PyPi page: \url{https://pypi.python.org/pypi/pycrypto}}.
+
+\begin{lstlisting}[style=DOS]
+    $ curl -L -o pycrypto.tar.gz https://pypi.python.org/packages/source/p/pycrypto/pycrypto-2.6.1.tar.gz
+\end{lstlisting}
+
+\paragraph{} Now we can unzip and untar the file to unpack our PyCrypto source code directory which we will enter then open setup.py to edit:
+
+\begin{lstlisting}[style=DOS]
+    $ gunzip pycrypto.tar.gz 
+    $ tar xvf pycrypto.tar
+    $ cd pycrypto02.6.1/
+    $ vim setup.py
+\end{lstlisting}
+
+\paragraph{} Now we need to add the following import the setup.py
+
+\begin{lstlisting}
+    from setuptools import setup, Extension, Command
+\end{lstlisting}
+
+\paragraph{} Once we have saved and exited setup.py we can build our egg:
+\begin{lstlisting}[style=DOS]
+    $ python setup.py bdist_egg
+\end{lstlisting}
+
+\paragraph{} You will find the egg in the dist sub-directory and can install the egg using:
+\begin{lstlisting}[style=DOS]
+    $ easy_install pycrypto-2.6.1-py2.7-linux-i686.egg
+\end{lstlisting}
+
+\paragraph{} NB. Some of these commands may need adjustment as new versions of the libraries are released but the broad process should not change.
+
+
+\subsection{Py-BCrypt}
+\label{pybcrypt_egg}
+
+\paragraph{} Installing py-bcrypt from source is very similar to installing PyCrypto but with a few small but important changes in the details. We can install the necessary libraries and toolchain to build the py-bcrypt library using Pip as follows:
+
+\begin{lstlisting}[style=DOS]
+    $ tce-load -wi gcc.tcz python-dev.tcz compiletc.tcz
+    $ sudo su
+    # easy_install pip
+    # pip install py-bcrypt
+    # exit 
+\end{lstlisting}
+
+\paragraph{} Additionally, with a minor edit we can also create a Python egg. First, having installed the pre-requisites above, we need to download the sourcecode for py-bcrypt\footnote{The source code for Py-BCrypt can be retrieved from the project's PyPi page: \url{https://pypi.python.org/pypi/py-bcrypt/}}.
+
+\begin{lstlisting}[style=DOS]
+    $ curl -L -o py-bcrypt.tar.gz https://pypi.python.org/packages/source/p/py-bcrypt/py-bcrypt-0.4.tar.gz
+\end{lstlisting}
+
+\paragraph{} Now we can unzip and untar the file to unpack our py-bcrypt source code directory
+
+\begin{lstlisting}[style=DOS]
+    $ gunzip py-bcrypt.tar.gz 
+    $ tar xvf pybcrypt.tar
+    $ cd py-bcrypt-0.4/
+\end{lstlisting}
+
+\paragraph{} We can now build our egg:
+\begin{lstlisting}[style=DOS]
+    $ python setup.py bdist_egg
+\end{lstlisting}
+
+\paragraph{} You will find the egg in the dist sub-directory and you can copy this egg to other instances of Levinux then install the egg without needing a build toolchain using:
+\begin{lstlisting}[style=DOS]
+    $ easy_install py_bcrypt-0.4-py2.7-linux-i686.egg
+\end{lstlisting}
+
+\paragraph{} NB. Some of these commands may need adjustment as new versions of the libraries are released but the broad process should not change.
+
+
+
+
+
+
+
 \backmatter
 
 \bibliographystyle{plain}
