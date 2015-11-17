@@ -2493,6 +2493,103 @@ $  python init_db.py
 \paragraph{} This should be enough to get you started in storing your user's data securely. The rule of thumb is to keep your security arrangements as simple as possible because unwarranted complexity can hide weaknesses. You should also not implment your own security arrangements if there are already well tested alternatives. Encryption is a game for specialists and the liklihood is that you will not crate anything as good as what is already available.
 
 
+\section{Secure login with BCrypt \& Flask}
+\label{login}
+\paragraph{} Now let's combine our use of bcrypt for password hashing with some Flask decorators and Python functions so that we can protect specified routes from being accessed by users who have not supplied the correct credentials. We'll start by breaking down what we need in our Flask app. Firstly we need some routes, a default `/' route, a `/secret/' route, and a `/logout/' route. Secret is the route that we will protect from access by unauthorised users. The default route will present a login form then check the login credentials and will either reshow the login form, if authorisation fails, or else redirect to the secret route if our login is successful. Finally our logout route is used to reset the authorisation within our app as otherwise we would have to delete our cookies each time we wanted to log out.
+
+\paragraph{} We'll start by putting together our simple login form, which should be stored in a \emph{templates} folder under our main python app file:
+
+\begin{lstlisting}
+<html>
+<head>
+</head>
+<body>
+
+<form name="login_form" action="" method="post">
+
+    <input type="email" placeholder="Email" name="email">
+    <input type="password" placeholder="Password" name="password">
+    <button type="submit" class="btn" name="button" value="login">
+        Sign In
+    </button>
+
+</form>
+
+</body>
+<html>
+\end{lstlisting}
+
+\paragraph{} As you can see this merely present two input boxes, one each for the email and password respectively, and a button. When the button is pressed the form is POSTed to the route that is listening for it, in our case the \emph{root} route.
+
+\paragraph{} Now let's see the flask app itself which is stored in \emph{login.py}
+
+\begin{lstlisting}
+import bcrypt
+from functools import wraps
+from flask import Flask, redirect, render_template, request, session, url_for
+from flask import Flask
+
+app = Flask(__name__)
+app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+
+valid_email = 'person@napier.ac.uk'
+valid_pwhash = bcrypt.hashpw('secretpass', bcrypt.gensalt())
+
+def check_auth(email, password):
+    if(email == valid_email and 
+        valid_pwhash == bcrypt.hashpw(password.encode('utf-8'), valid_pwhash)):
+            return True
+    return False
+
+def requires_login(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        status = session.get('logged_in', False)
+        if not status:
+            return redirect(url_for('.root'))
+        return f(*args, **kwargs)
+    return decorated
+
+@app.route('/logout/')
+def logout():
+    session['logged_in'] = False
+    return redirect(url_for('.root'))
+
+@app.route("/secret/")
+@requires_login
+def secret():
+    return "Secret Page"
+
+@app.route("/", methods=['GET', 'POST'])
+def root():
+    if request.method == 'POST':
+        user = request.form['email']
+        pw = request.form['password']
+        
+        if check_auth(request.form['email'], request.form['password']):
+            session['logged_in'] = True
+            return redirect(url_for('.secret'))
+    return render_template('login.html')
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", debug=True)
+\end{lstlisting}
+
+\paragraph{} Because we are keeping this login example as simple as possible, you will notice that the user credentials are hard-coded into the example using the \emph{valid\_email} and \emph{valid\_pwhash} variables. Notice also that valid\_pwhash doesn't store the password but the hashed and salted version of the password. This means that we cannot easily recover the user's password if they forget it. In a real app we would store these credentials in a user database then retrieve them as required, however we have not included that here in order to simplify the example.
+
+\paragraph{} We also have some utility functions, for example the check\_auth function that takes in an email and password, then compares them to the stored user and hashed password, returning True or False depending upon whether they match or not. 
+\paragraph{} Next we have a decorator function called `requires\_login' that we use to \emph{decorate} any Flask route that can only be viewed by a logged in user. If the user is not logged in then they are redirected to the `/' route. The only check that we are doing within this decorator is seeing whether there is a `logged\_in' session variable. If this check evaluates to True then the user is considered to be logged in, and not otherwise.
+
+\paragraph{} The `logout' route merely removes the session variable that determines whether a user is logged in or not then redirects to the `/' route.
+
+\paragraph{} The `secret' route just displays a string indicating that it is secret. Notice the additional decorator on this route. Not only do we have the `@app.route' decorator that tells Flask to treat this function as a web-app route, but we also have the `@requires\_login' route which causes the `requires\_login' function to be run \emph{before} the `secret' route is executed.
+
+\paragraph{} Finally, the `root' route displays our login template. If a POST is received then the check\_auth route is called with the supplied credentials to determine whether the user is logged in.
+
+\paragraph{} This is a relatively low-security way to implement a login mechanism for a Flask app. It is susceptible to various attacks, for example, a replay-attack; if an attacker were to copy a logged in user's cookie into their own browser then they would be treated as logged in, even though they had made no changes to the cookie. They wouldn't however be able to log in again as they would not have valid credentials to do so, so this attack can be mitigated to some degree by setting a timeout on the length of the user's authentication period. Another defence is to use encrypted tokens that increment for each request a user makes so that there is a strict sequence of interactions between the user and the app. If any interaction supplies an incorrect (or reused) token then the user is automatically logged out and asked to supply their credentials. Achieving a secure login that is not in any way vulnerable to attacks is a difficult task but as a developer and designer we should also evaluate the likelihood of various attacks, for example, the replay attack described above would require an attacker to gain access to your users secure cookie stored in their browser which would mean that the user is likely already heavily compromised.
+
+\paragraph{} However all is not lost. If we securely store our user's data and hash passwords and other sensitive data, and if we also follow a privacy-by-design methodology and only store data that is necessary for the effective functionality of our app, we can at least reduce the effects of a successful attack in terms of our user's personal data. If we are also active in logging the behaviour of our app, checking those logs, and reviewing our codebase for known vulnerabilities or attack vectors then we will also be reducing the likelihood of a successful attack occuring.
+
 %\end{comment}
 
 
