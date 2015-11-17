@@ -2273,10 +2273,15 @@ $  python init_db.py
 
 \section{Using PyCrypto Library for data encryption}
 \label{pycrypto}
-\paragraph{} PyCrypto\footnote{\url{https://www.dlitz.net/software/pycrypto/}} is the Python Cryptography Toolkit and provides a range of useful tools for encyrpting and working with encrypted data in Python. You can install PyCrypto using the pip tool as follows (NB. If you haven't installed Pip yet then visit section \ref{pip} first before continuing):
+\paragraph{} PyCrypto\footnote{\url{https://www.dlitz.net/software/pycrypto/}} is the Python Cryptography Toolkit and provides a range of useful tools for encyrpting and working with encrypted data in Python. Because our Levinux install is stripped down and does not include a full compiler toolchain for languages like C, which pycrypto uses, we can instead install a prebuilt PyCrypto library as follows:
 
 \begin{lstlisting}[style=DOS]
-    $ pip install pycrypto
+    $ curl -L -o pycrypto-2.6.1-py2.7-linux-i686.egg https://www.dropbox.com/s/meuvy3d7h1n7k3r/pycrypto-2.6.1-py2.7-linux-i686.egg?dl=1
+    $ sudo su
+    # easy_install pycrypto-2.6.1-py2.7-linux-i686.egg
+    # exit
+    $ python -c "import Crypt"
+    $
 \end{lstlisting}
 
 \paragraph{} You can now import and use PyCrypto within your web-apps, however let's first explore what the library can do in the Python REPL, so launch python in your shell, e.g.
