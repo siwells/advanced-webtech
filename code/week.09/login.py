@@ -6,12 +6,12 @@ from flask import Flask
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
-user = 'person@napier.ac.uk'
-pwhash = bcrypt.hashpw('secretpass', bcrypt.gensalt())
+valid_email = 'person@napier.ac.uk'
+valid_pwhash = bcrypt.hashpw('secretpass', bcrypt.gensalt())
 
 def check_auth(email, password):
-    if(email == user and 
-        pwhash == bcrypt.hashpw(password.encode('utf-8'), pwhash)):
+    if(email == valid_email and 
+        valid_pwhash == bcrypt.hashpw(password.encode('utf-8'), valid_pwhash)):
             return True
     return False
 
@@ -39,8 +39,6 @@ def root():
     if request.method == 'POST':
         user = request.form['email']
         pw = request.form['password']
-        print user, pw
-        print pwhash
         
         if check_auth(request.form['email'], request.form['password']):
             session['logged_in'] = True
