@@ -2245,7 +2245,7 @@ db.cursor()
 \paragraph{} If we now run this flask app then we will get an error when we hit the `/' route so there is one last thing to do. The error occurs because we don't call the init\_db function from anywhere. We probably only want to do this once when we deploy our web-app, otherwise we will lose all of the contents of the DB so we can create an external Python script, `init\_db.py', that will import the init\_db function then execute it to initialise a new database.
 
 \begin{lstlisting}
-from test import init_db
+from datastore import init_db
 init_db()
 \end{lstlisting}
 
