@@ -1,4 +1,4 @@
-
++ [As We May Think](http://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/) - Vannevar Bush (1945)
 + [Scalable Web Architecture and Distributed Systems](http://www.aosabook.org/en/distsys.html)
 + [A 360 Degree View of the Entire Netflix Stack](http://highscalability.com/blog/2015/11/9/a-360-degree-view-of-the-entire-netflix-stack.html)
 + [Why Static Website Generators Are The Next Big Thing](http://www.smashingmagazine.com/2015/11/modern-static-website-generators-next-big-thing/)
