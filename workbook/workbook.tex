@@ -2286,6 +2286,24 @@ $  python init_db.py
 
 \paragraph{} What we did here was to change to the superuser role using sudo. We then installed the Python egg using easy\_install. We then exited the superuser role and used python with the -c option to check that our egg had installed properly. All the call to python is doing is compiling the code that we passed in. The code we passed in is a library import command and if the Crypto library is available then there will be no feedback, just our prompt. If there is any other output then the pycrypto library is not available. Notice that the name of the library that we import within Python is different to the name of the library that we installed.
 
+\begin{framed}
+{\textbf{IMPORTANT} When we use easy\_install or pip to add a new library for Python to use then we also need to make the new addition \emph{persistent}. This is straightforward. We add the new folder, into which our new Python library was installed, to the \emph{/opt/.filetool.lst} file then run the \emph{filetool.sh} script which takes all the folders from .filetool.lst and saves them so that they are available after you reboot. For example, after we install the pycrypto egg, but before we reboot we must do the following:
+\begin{enumerate}
+\item Open /opt/.filetool.lst in vim, e.g. 
+\begin{lstlisting}[style=DOS]
+    $ vim /opt/.filetool.lst
+\end{lstlisting}
+\item Add the location of the pycrypto package folder to the end of the list of folders in ./filetool.lst (one folder per line), e.g. \emph{/usr/local/lib/python2.7/site-packages/pycrypto-2.6.1-py2.7-linux-i686.egg}
+\item Run the filetool.sh script, e.g.
+\begin{lstlisting}[style=DOS]
+    $ filetool.sh -b
+\end{lstlisting}
+    and after a few moments your newly installed libraries will persist between reboots.
+\end{enumerate}
+
+}
+\end{framed}
+
 
 \paragraph{} You can now import and use PyCrypto within your web-apps, however let's first explore what the library can do in the Python REPL, so launch python in your shell, e.g.
 
@@ -2455,6 +2473,8 @@ $  python init_db.py
     $ python -c "import bcrypt"
     $
 \end{lstlisting}
+
+\paragraph{} Notice that after install bcrypt we also need to make the new library persistent across reboots of Levinux using the same process that we used earlier for the pycrypto library\footnote{This time however we add the following location \emph{/usr/local/lib/python2.7/site-packages/py\_bcrypt-0.4-py2.7-linux-i686.egg/} to the end of the list in .filetool.lst}
 
 \paragraph{} As well as implementing a password derivation algorithm, bcrypt can also salt the supplied password so that the hashed-value is more resistant to rainbow-table based attacks. When you use the hashpw function, you can either pass in the pre-generated salt or else call gensalt() directly and the salt is stored within the generated hash-value. To hash a password we do the following:
 
