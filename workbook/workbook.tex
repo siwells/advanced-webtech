@@ -1749,7 +1749,7 @@ name = loggingapp.log
 location = var/
 level = DEBUG
 \end{lstlisting}
-\paragraph{} Notice the logging section towards the end which defines the name of the log file `'loggingapp.log' the location, our var/ directory that we just created, and the default log level, the granularity of the logging events to record. 
+\paragraph{} Notice the logging section towards the end which defines the name of the log file `loggingapp.log' the location, our var/ directory that we just created, and the default log level, the granularity of the logging events to record. 
 \paragraph{} We now need to set up our envionrment to match the config file. We need a subdirectory called `var' which is at the same level as our `etc', `static' and `templates' directories. We now need to create an empty file in `var' which has the same name as the log file. This directory will be the location that our new log files will write to. We can do this with touch, e.g.
 
 \begin{lstlisting}[style=DOS]
@@ -1757,8 +1757,7 @@ level = DEBUG
     $ touch var/loggingapp.log
 \end{lstlisting}
 
-\paragraph{} Having set everything up all the configuration details and the basic environment we now need to make use of that set up within our python app:
-
+\paragraph{} Having set everything up all the configuration details and the basic environment we now need to make use of that set up within our python app. Create a new file called `loggingapp.py' and enter the following code:
 \begin{lstlisting}
 import ConfigParser
 import logging
