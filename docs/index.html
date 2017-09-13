@@ -35,7 +35,27 @@
 
 <p>This module is about the web, what it is, what we can do with it, and what it might be like in the future. Rather than focus on the user side of web technology, such as CSS and Javascript, we are going to take a more holistic approach and examine both the server and client side. We shall look at HTTP (the core of all web technologies) and learn how APIs, Web Services, & RESTful architectures are built to move data around. We will then delve into some more topical discussions, starting with security & privacy on the web, then looking at adding intelligence (Semantic Web), adding increased, scalable interaction (Realtime Web) and private, anonymous, and un-censorable web-technologies (Dark Web). We wrap up the module by examining a few technologies that might form the basis of future web capabilities like Blockchain and IPFS.</p>
 
+<h3>Quickstart</h3>
+<p>  Skim through this page to that you have some awareness of the range of module materials. We have a learning environment, some software tools, a workbook, lecture slides, and source code examples (in a Git repository). We also have various miscellaneous things, a wiki, an issue tracker (for if you find a mistake in the workbook or code examples).</p>
+
+<p>set up your learning environment You have three choices for working with the learning environment (we will discuss this this afternoon in the lecture)
+<ol>
+<li>Levinux (Default - will be deprecated after this year) - Available from the <b>Learning Environment</b> section below.</li>
+<li>Ubuntu server on ENU virtual infrastucture (experimental this year but will become default in subsequen years)</li>
+<li>Install Python & Python-Flask onto your own laptop (easy on a Mac or Linux laptop but more complex on Windows [Python is a pain on windows]).</li>
+<li>Create a Linux VM and install Python, Python-Flask, SQlite, Python-SQLite, Git, Vim, Pycrypto, Py-Bcrypt (I am not officially going to support this option as installing and administrating a Linux is outside the scope of this module [but I am happy to talk about it and help solve problems once direct module related issues have been handled]).</li></p>
+
+<p>Download a copy of the workbook from the link in the <b>Workbook</b> section below. We will use the workbook during the labs, for example, this week the workbook will explain how to use the learning environment. Work through the workbook in your own time but try to aim for one chapter per week as a minimum. Work your way through the first chapter. You can read ahead if you like, but just the first chapter means that you will be well prepared to get stuck into some code next week. Note that the workbook, particularly the first chapter is geared towards Levinux, however all the tools that we use within Levinux are equally applicable to the other learning environment options outlined above, for example, all the Python Flask examples will run just as well under Ubuntu (or any other Linux). So if the workbook says "shell into Levinux" then you can easily read this as shell into Linux, or Ubuntu, or a VM of Linux. However if you have installed Python & Flask directly onto your laptop then you can run the code directly and not worry about using SSH.</p>
+
+<p>If you're confused at this stage, that's fine. We're going to get to grips with a bunch of new tools that are sometimes complex and difficult but will make use much better developers in the long run. I'll go through things in detail during the first lecture so make a note of any questions you have.</p>
+
+
+
+
+</p>
+
 <h3>Learning Environment</h3>
+<h4>Levinux</h4>
 <p>We use <a href="http://levinux.com/#1">Levinux</a> as our learning environment. This is a Linux distribution based upon Tiny Core Linux (for the kernel), BusyBox (for the userland), and a selection of Tiny-Core extensions that build everything into a self-contained Python web development environment including Git, Python, Python Flask and various other tools</p>
 
 <p>Levinux now has all software used in the module pre-installed so you no longer need to run the scripts to install Python, Git, or Vim. Levinux seems to run most reliably from a USB stick (<b>this is recommended</b>). This also means that you can easily take all of your code and data with you to run on any other machine (rather than being tied to a university lab machine).</p>
