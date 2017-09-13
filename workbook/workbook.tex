@@ -202,41 +202,41 @@
 \label{fig:levinux-logged-in}
 \end{figure}
 
-\paragraph{} At this point, Levinux is a minimal Linux system which has a basic set of tools but doesn't yet include any of the web development software or libraries that we will be using in this module. At this point you therefore have the option of jumping ahead to section \ref{linux} to learn a little more basic Linux, otherwise you could look at the SSH section which explains how to log in to Levinux multiple times using a tool called Secure Shell (SSH). If instead you want to get stuck in to getting your learning environment set up then you should proceed with the following steps which will install the following software:
-\begin{enumerate}
-\item Vim: A command-line based text editor
-\item Python: A powerful programming language
-\item Python-Flask: A Python library that makes it simple to build server-side web-applications
-\item Various other supplementary libraries and tools that will help us to build some excellent web apps
-\end{enumerate}
+%\paragraph{} At this point, Levinux is a minimal Linux system which has a basic set of tools but doesn't yet include any of the web development software or libraries that we will be using in this module. At this point you therefore have the option of jumping ahead to section \ref{linux} to learn a little more basic Linux, otherwise you could look at the SSH section which explains how to log in to Levinux multiple times using a tool called Secure Shell (SSH). If instead you want to get stuck in to getting your learning environment set up then you should proceed with the following steps which will install the following software:
+%\begin{enumerate}
+%\item Vim: A command-line based text editor
+%\item Python: A powerful programming language
+%\item Python-Flask: A Python library that makes it simple to build server-side web-applications
+%\item Various other supplementary libraries and tools that will help us to build some excellent web apps
+%\end{enumerate}
 
-\paragraph{} These tools are not installed in Levinux by default because it keeps the size of the download smaller. NB. You can also install many other software packages from the Tiny Core Linux archive or from source code because this is, after all, a full Linux operating system installation. To install our extra software we do the following:
+%\paragraph{} These tools are not installed in Levinux by default because it keeps the size of the download smaller. NB. You can also install many other software packages from the Tiny Core Linux archive or from source code because this is, after all, a full Linux operating system installation. To install our extra software we do the following:
 
-\subsection{Installing Vim}
+%\subsection{Installing Vim}
 
-\paragraph{} Log into Levinux if you haven't already done so then enter the following command at the prompt:
-\begin{lstlisting}[style=DOS]
-    tc@box:~$ ./drinkme.sh
-\end{lstlisting}
-\paragraph{} ./drinkme.sh runs a script that installs Vim. You will be prompted to confirm that this is what you want to do so enter `2' when asked(this might take a little while to completeas the software is being downloaded and installed into your virtual harddrive). Once the script is computer your should get your prompt back so that you can type more commands. You can launch Vim by typing `vim' at the prompt as follows (but if you are going to do that then you should probably take a look at section \ref{vim} of the notes which covers basic use of Vim):
+%\paragraph{} Log into Levinux if you haven't already done so then enter the following command at the prompt:
+%\begin{lstlisting}[style=DOS]
+%    tc@box:~$ ./drinkme.sh
+%\end{lstlisting}
+%\paragraph{} ./drinkme.sh runs a script that installs Vim. You will be prompted to confirm that this is what you want to do so enter `2' when asked(this might take a little while to completeas the software is being downloaded and installed into your virtual harddrive). Once the script is computer your should get your prompt back so that you can type more commands. You can launch Vim by typing `vim' at the prompt as follows (but if you are going to do that then you should probably take a look at section \ref{vim} of the notes which covers basic use of Vim):
 
-\begin{lstlisting}[style=DOS]
-    tc@box:~$ vim
-\end{lstlisting}
+%\begin{lstlisting}[style=DOS]
+%    tc@box:~$ vim
+%\end{lstlisting}
 
-\subsection{Installing the Web Development Environment}
-\label{installing_environment}
-\paragraph{} Again, if you are not logged in to Levinux then do so then enter the following command at the prompt: 
+%\subsection{Installing the Web Development Environment}
+%\label{installing_environment}
+%\paragraph{} Again, if you are not logged in to Levinux then do so then enter the following command at the prompt: 
 
-\begin{lstlisting}[style=DOS]
-    tc@box:~$ sh ./Pipulate.sh 
-\end{lstlisting}
-\paragraph{} Again, just as for Vim, this runs a script called Pipulate.sh which installs Python, Python-Flask, a bunch of libraries, and Git. 
+%\begin{lstlisting}[style=DOS]
+%    tc@box:~$ sh ./Pipulate.sh 
+%\end{lstlisting}
+%\paragraph{} Again, just as for Vim, this runs a script called Pipulate.sh which installs Python, Python-Flask, a bunch of libraries, and Git. 
 
-\paragraph{} These scripts basically sets up our development environment enabling us to edit, run, and control our source code.
+%\paragraph{} These scripts basically sets up our development environment enabling us to edit, run, and control our source code.
 
-\subsection{Shutting Down Levinux}
-\paragraph{} The last thing we need to know about is how to safely shutdown our Levinux installation. Whilst logged in we can use the following command:
+%\subsection{Shutting Down Levinux}
+\paragraph{} The next thing we need to know about is how to safely shutdown our Levinux installation. Whilst logged in we can use the following command:
 \begin{lstlisting}[style=DOS]
     tc@box:~$ sudo poweroff
 \end{lstlisting}
