@@ -35,48 +35,7 @@
 
 <p>This module is about the web, what it is, what we can do with it, and what it might be like in the future. Rather than focus on the user side of web technology, such as CSS and Javascript, we are going to take a more holistic approach and examine both the server and client side. We shall look at HTTP (the core of all web technologies) and learn how APIs, Web Services, & RESTful architectures are built to move data around. We will then delve into some more topical discussions, starting with security & privacy on the web, then looking at adding intelligence (Semantic Web), adding increased, scalable interaction (Realtime Web) and private, anonymous, and un-censorable web-technologies (Dark Web). We wrap up the module by examining a few technologies that might form the basis of future web capabilities like Blockchain and IPFS.</p>
 
-<h3>Quickstart</h3>
-<p>Skim through this page to that you have some awareness of the range of module materials. We have a learning environment, some software tools, a workbook, lecture slides, and source code examples (in a Git repository). We also have various miscellaneous things, a wiki, an issue tracker (for if you find a mistake in the workbook or code examples).</p>
-
-<p>Set up your learning environment You have three choices for working with the learning environment (we will discuss this this afternoon in the lecture)<br/>
-
-[1] <em>Levinux</em> (Default - will be deprecated after this year) - Available from the <b>Learning Environment</b> section below.<br/>
-
-[2] <em>Ubuntu server</em> - using the ENU virtual infrastucture (experimental this year but will become default in subsequent years)<br/>
-
-[3] <em>Local Install</em> - Install Python & Python-Flask onto your own laptop (easy on a Mac or Linux laptop but more complex on Windows [Python is a pain on windows]).<br/>
-
-[4] <em>Linux VM</em> - Create a Linux virtual machine, run it in VirtualBox, and install Python, Python-Flask, SQlite, Python-SQLite, Git, Vim, Pycrypto, Py-Bcrypt (I am not officially going to support this option as installing and administrating a Linux is outside the scope of this module [but I am happy to talk about it and help solve problems once direct module related issues have been handled]).</p>
-
-<p>Download a copy of the workbook from the link in the <b>Workbook</b> section below. We will use the workbook during the labs, for example, this week the workbook will explain how to use the learning environment. Work through the workbook in your own time but try to aim for one chapter per week as a minimum. Work your way through the first chapter. You can read ahead if you like, but just the first chapter means that you will be well prepared to get stuck into some code next week. Note that the workbook, particularly the first chapter is geared towards Levinux, however all the tools that we use within Levinux are equally applicable to the other learning environment options outlined above, for example, all the Python Flask examples will run just as well under Ubuntu (or any other Linux). So if the workbook says "shell into Levinux" then you can easily read this as shell into Linux, or Ubuntu, or a VM of Linux. However if you have installed Python & Flask directly onto your laptop then you can run the code directly and not worry about using SSH.</p>
-
-<p>If you're confused at this stage, that's fine. We're going to get to grips with a bunch of new tools that are sometimes complex and difficult but will make use much better developers in the long run. I'll go through things in detail during the first lecture so make a note of any questions you have.</p>
-
-
-<h3>Learning Environment</h3>
-<h4>Levinux</h4>
-<p>We use <a href="http://levinux.com/#1">Levinux</a> as our learning environment. This is a Linux distribution based upon Tiny Core Linux (for the kernel), BusyBox (for the userland), and a selection of Tiny-Core extensions that build everything into a self-contained Python web development environment including Git, Python, Python Flask and various other tools</p>
-
-<p>Levinux now has all software used in the module pre-installed so you no longer need to run the scripts to install Python, Git, or Vim. Levinux seems to run most reliably from a USB stick (<b>this is recommended</b>). This also means that you can easily take all of your code and data with you to run on any other machine (rather than being tied to a university lab machine).</p>
-
-<ul>
-<li><a href="https://www.dropbox.com/s/69jegtutfxz781b/levinux-master_napier.zip?dl=1">Levinux (Napier Edition)</a></li>
-</ul>
-
-<p>You must properly extract Levinux from its zip archive. Don't try to run it from the compressed file as this won't work. Windows built in extractor also has issues extracting all of the files from the zip archive so I recommend using this portable version of 7zip:</p>
-
-<ul>
-<li><a href="https://www.dropbox.com/s/z37h2ko4x1y8lmo/7-ZipPortable_16.02.paf.exe?dl=1">7zip Portable</a></li>
-</ul>
-
-<p>Once your Levinux system is up and running you will need to log into it. Don't log in directly to the Levinux window as this has keyboard encoding issues if you are using a non-English keyboard. You also lose the scrollback buffer so are unable to see the output of commands if they are more than a window in size. Instead log in using PuTTY (you can open as many PuTTY windows as you like, or need, in order to work efficiently, for example a window to edit in, another to run your server in, perhaps another for Git):</p>
-
-<ul>
-<li><a href="https://www.dropbox.com/s/36pdafv8v9n4s6r/putty.exe?dl=1">PuTTY</a></li>
-</ul>
-
-
-<h3>Workbook & Notes</h3>
+<h3>Workbook, Notes, & Labs</h3>
 
 <p>The workbook is updated throughout the trimester so it is worth downloading a new copy each week so that you don't miss new sections or bugfixes.</p>
 
@@ -86,8 +45,7 @@
 
 <p>If you notice a mistake in the workbook then feel free to open an issue in the module's <a href="https://github.com/siwells/teaching_set09103/issues">issue tracker</a>. Even better, all the materials are in the module's git repo so also feel free to clone, fix, and issue a pull-request.</p>
 
-<h3>Labs</h3>
-
+<!--<h3>Labs</h3>-->
 <p>During each weeks lab you should work through a chapter of the workbook. For example in week 1 work through chapter 1, in week 2, chapter 2, and so on. As the module develops, and especially as you start to think about and work on your coursework assignments then you might benefit from reading ahead, or jumping to specific chapters that are useful or interesting. This is entirely fine.</p>
 <h3>Lectures</h3>
 
@@ -119,6 +77,27 @@
 <li><a href="https://github.com/siwells/teaching_set09103/wiki">Module Wiki</a> - You can also <a href="git@github.com:siwells/teaching_set09103.wiki.git">clone the entire wiki</a> using Git if you want a local copy of your own</li>
 <li><a href="https://github.com/siwells/teaching_set09103/issues">Module Issue Tracker</a></li>
 <li><a href="https://github.com/siwells/teaching_set09103">Module Git Repository</a> You can clone the entire module using this <a href="git@github.com:siwells/teaching_set09103.git">clone URL</a></li>
+</ul>
+
+<h3>Tools</h3>
+<p>Levinux is our backup learning environment after the Ubuntu Development Server. Levinux is a Linux distribution based upon Tiny Core Linux (for the kernel), BusyBox (for the userland), and a selection of Tiny-Core extensions that build everything into a self-contained Python web development environment including Git, Python, Python Flask and various other tools</p>
+
+<p>Levinux now has all software used in the module pre-installed so you no longer need to run the scripts to install Python, Git, or Vim. Levinux seems to run most reliably from a USB stick (<b>this is recommended</b>). This also means that you can easily take all of your code and data with you to run on any other machine (rather than being tied to a university lab machine).</p>
+
+<ul>
+<li><a href="https://www.dropbox.com/s/69jegtutfxz781b/levinux-master_napier.zip?dl=1">Levinux (Napier Edition)</a></li>
+</ul>
+
+<p>You must properly extract Levinux from its zip archive. Don't try to run it from the compressed file as this won't work. Windows built in extractor also has issues extracting all of the files from the zip archive so I recommend using this portable version of 7zip:</p>
+
+<ul>
+<li><a href="https://www.dropbox.com/s/z37h2ko4x1y8lmo/7-ZipPortable_16.02.paf.exe?dl=1">7zip Portable</a></li>
+</ul>
+
+<p>Once your Levinux system is up and running you will need to log into it. Don't log in directly to the Levinux window as this has keyboard encoding issues if you are using a non-English keyboard. You also lose the scrollback buffer so are unable to see the output of commands if they are more than a window in size. Instead log in using PuTTY (you can open as many PuTTY windows as you like, or need, in order to work efficiently, for example a window to edit in, another to run your server in, perhaps another for Git):</p>
+
+<ul>
+<li><a href="https://www.dropbox.com/s/36pdafv8v9n4s6r/putty.exe?dl=1">PuTTY</a></li>
 </ul>
 
 
