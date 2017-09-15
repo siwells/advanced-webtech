@@ -176,7 +176,9 @@
 
 \paragraph{} Levinux is basically, a set of scripts and programs that host a Linux install within a very lightweight virtual environment. The scripts manage how Levinux runs and enable it to run seamlessly across different host platforms (like Linux, Mac OS, and Windows). The programs include things like QEMU, mentioned earlier, and various virtual harddrives that are where the Linux system is installed. The specific Linux distribution that is used in Levinux is called `Tiny Core Linux'\footnote{\url{http://tinycorelinux.net/}} which is about 10MB in size and boots into a minimal command line Linux environment.
 
-\paragraph{} Getting started with Levinux is fairly straightforward. Download levinux-master.zip from the Levinux website\footnote{\url{http://mikelev.in/ux/}}. The whole download should be around 25MB. Copy the zip file to somewhere where you want to store it, for example, a thumbdrive with 512MB free space is a good idea as you can then take your work away with you. Extract Levinux from the zip archive (i.e. right click and the zip archive and select ``Extract All...''. Don't just double click the archive as this will fail in interesting ways). Open the newly extract directory called levinux-master and double click the file called ``PipulateWindows'' (NB. If you are on OS X then just double-click ``Pipulate.app'' or if on Linux the run ``PipulateLinux.sh'').
+\paragraph{} Getting started with Levinux is fairly straightforward. Download levinux-master-napier.zip from the module website\footnote{\url{https://siwells.github.io/teaching_set09103/}}. The whole download should be around 48MB. This is twice the size of the core Levinux download because all our tools, like Python, Flask, Vim, and Git, are presinstalled. 
+
+\paragraph{} Copy the zip file to somewhere where you want to store it, for example, a thumbdrive with 512MB free space is a good idea as you can then take your work away with you. If you are on Windows then extract Levinux from the zip archive using the 7-zip tool (again available from the module website). On OSX you can just double click the zip archive to extract everything correctly but Windows zip extraction doesn't alway appear to work correctly. Don't just double click the archive as this will fail in interesting ways). Open the newly extract directory called levinux-master and double click the file called ``PipulateWindows'' (NB. If you are on OS X then just double-click ``Pipulate.app'' or if on Linux the run ``PipulateLinux.sh'').
 
 \paragraph{} When Levinux runs, your operating system might tell you that your firewall has blocked certain features or ask for permission to allow access to certain features. You should grant access when asked. Levinux will now load and you should see something similar to th windows displayed in the following figure:
 
@@ -242,7 +244,9 @@
 \end{lstlisting}
 \paragraph{} Which will cause Levinux to shutdown safely. If you are on the screen shown in figure \ref{fig:levinux-welcome} then you can just hit `4' then press $<$enter$>$. Remember, Levinux is a full computer system, even if it is running within another host system. Just as you wouldn't just hit the power button on your computer to turn it off, or at least you shouldn't, if you do that then stop it now. Instead, you should always follow the correct shut-down procedure for an operating system which gives it an opportunity to tidy itself up and clear up resources that are used. Doing anything else risks corrupting your installation so that it won't work correctly anymore and this is just as true for Levinux as it is for any other operating system.
 
-
+\section{Development Server}
+\label{devserver}
+\paragraph{} The university has heap of server hardware that is used to provide a virtual infrastructure for us. Within this hardware we have a virtual machine that has been assembled purely for our use. It is based on Ubuntu Server and has all of the same software installed that we would use in Levinux, e.g. Python, Flask, SQLite, Vim, etc. We can access this server using PuTTY, or any other SSH client using our regular Napier credentialy, e.g. your matriculation number and password. The server is located at \url{set09103.napier.ac.uk}
 
 \section{SSH}
 \label{ssh}
@@ -252,15 +256,21 @@
 \textbf{IMPORTANT TIP} Once Levinux has booted, don't log directly into it. Instead, minimise the Levinux window and always log in using SSH, e.g. PuTTY, instead. This has many advantages but the main one is that you get a scrolling window so that you can see earlier commands or any output bigger than a single window of text. Additionally, PuTTy handles different keyboard layouts much better than Levinux so if you are using a French or German (or other) keyboard then this is the solution you need to get the keys you press to match the output on screen.
 \end{framed}
 
-\paragraph{} If you are on Linux or OS X then you will already have a version of SSH installed and all you need to do is open a terminal and type the following:
+\paragraph{} If you are on Linux or OS X then you will already have a version of SSH installed and all you need to do is open a terminal and type the following to log into Levinux:
 
 \begin{lstlisting}[style=DOS]
     $ ssh tc@localhost -p 2222
 \end{lstlisting}
 
-\paragraph{} then enter the password `foo' when prompted.
+\paragraph{} then enter the password `foo' when prompted. Alternatively, use
 
-\paragraph{} However if you are on Windows then your will need to download an SSH client. The most popular client for Windows is called PuTTY\footnote{\url{http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe}}. Download it, put it somewhere safe where you can access it then double click it to run. There is no need to install PuTTY as it is very portable. When PuTTY runs you will be presented with the following screen:
+\begin{lstlisting}[style=DOS]
+    $ ssh MATRICNUMBER@set09103.napier.ac.uk -p 22
+\end{lstlisting}
+
+\paragraph{} to log into the Ubuntu development server. NB. You \emph{MUST} replace MATRICNUMBER with your actual matriculation number from your napier credentials.
+
+\paragraph{} If you are on Windows then your will need to download an SSH client as this is not a standard Windows tool. The most popular client for Windows is called PuTTY\footnote{\url{http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe}}. Download it, put it somewhere safe where you can access it then double click it to run. There is no need to install PuTTY as it is very portable. When PuTTY runs you will be presented with the following screen:
 
 \begin{figure}[H]
 \centering
@@ -269,16 +279,26 @@
 \label{fig:putty-empty}
 \end{figure}
 
-\paragraph{} You need to enter some connection details into this window as follows:
+\paragraph{} You need to enter some connection details into this window as follows (for Levinux):
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.5\textwidth]{images/putty_complete.png}
-\caption{The PuTTY Window with completed connection details}
+\includegraphics[width=0.5\textwidth]{images/putty_complete_levinux.png}
+\caption{The PuTTY Window with completed connection details for Levinux}
 \label{fig:putty-complete}
 \end{figure}
 
-\paragraph{} You might be presented with the following window:
+\paragraph{} or like this for the development server (again remembering to replace matric-number with your actual matriculation number):
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{images/putty_complete_devserver.png}
+\caption{The PuTTY Window with completed connection details for the development server}
+\label{fig:putty-complete}
+\end{figure}
+
+
+\paragraph{} In either case you might be presented with a window similar to the following, the details will change depending upon whether you are logging into Levinux or the dev server, especially if this is the first time you are logging into the remote server:
 
 \begin{figure}[H]
 \centering
@@ -296,10 +316,10 @@
 \label{fig:putty-login}
 \end{figure}
 
-\paragraph{} Remember, you can repeat this process with PuTTY as many times as required to get yourself enough shells into the Levinux server to make things easier to work with\footnote{This is not the best way to work with multiple shells. Another, more powerful way is to use a shell multiplexer, my favourite is one called Screen (\url{https://www.gnu.org/software/screen/}) but that is yet another tool to learn, and another set of commands, so lets try to keep things \emph{reasonably} simple}.
+\paragraph{} Remember, you can repeat this process with PuTTY as many times as required to get yourself enough shells into either Levinux or the development server to make things easier to work with\footnote{This is not the best way to work with multiple shells. Another, more powerful way is to use a shell multiplexer, my favourite is one called Screen (\url{https://www.gnu.org/software/screen/}) but that is yet another tool to learn, and another set of commands, so lets try to keep things \emph{reasonably} simple for now}.
 
 \begin{framed}
-\textbf{IMPORTANT TIP} I usually use SSH to log into my Levinux installation at least twice. This gives me a window to edit text in and a window to test my code in. Often I will also have a third window open which I use for command line interaction, Git commits, and testing API calls using cURL, but two is the minimum for a nice development setup - Remember, this is your development environment so you might as well take some time to set it up nicely and so that you can work more productively.
+\textbf{IMPORTANT TIP} I usually use SSH to log in at least twice. This gives me a window to edit text in and a window to test my code in. Often I will also have a third window open which I use for command line interaction, Git commits, and testing API calls using cURL, but two is the minimum for a nice development setup - Remember, this is your development environment so you might as well take some time to set it up nicely and so that you can work more productively.
 \end{framed}
 
 
