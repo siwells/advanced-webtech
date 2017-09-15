@@ -665,17 +665,19 @@ print "Hello Napier"
 
 \paragraph{} Flask supports us in building web-apps that conform to the Python Web Server Gateway Interface (WSGI)\footnote{The WSGI standard is described in this Python Pep:\url{https://www.python.org/dev/peps/pep-0333/}. A PEP is a Python Enhancement Proposal and is the main way that the planned development of the Python language progresses.}. The goal of WSGI is to make it easy to develop and deploy Python web-app, regardless of the library that is used. So developers can find a library that they find useful, or helps them to tackled their development task, but the output of the process, the web-app has know features and capabilities which means that any server that supports the WSGI can run the web-app. This is similar to what happened with web-app development in Java, where the servlet API means that many tools can be used to build a Java web-app and many web-servers can then run the app.
 
-\begin{framed}
-\textbf{IMPORTANT} The version of Levinux that we have used from the \url{http://levinux.com/} site does not forward port 5000. This is the port that we will access in our browser to see our web-apps. We have two solutions, the first is to download a new version of Levinux (Napier Edition) from the SET09103 Moodle page and set up a fresh environment (you will have to run the pipulate and drinkme scripts again. The alternative, which might wreck your version of Levinux and mean you have to start again anyway is to edit two of the startup scripts within Levinux. To ensure that your installation stays completely portable there are scripts to edit. The first is here Pipulate.app/Contents/MacOS/qemu32.bat and you need to add the following line between the similar lines for higher and lower port numbers:
-\begin{lstlisting}
-    -redir tcp:5000::5000 ^
-\end{lstlisting}
-Similarly we need to edit the Pipulate.app/Contents/Resources/qemuonmac.sh file to add the following line:
-\begin{lstlisting}
-    -redir tcp:5000::5000 \
-\end{lstlisting}
-Ensure that both edits are exactly as shown. If you have done it wrong then worst case scenario is that your Levinux install won't start. The othe likely failure is that Levinux will start but the port won't forward properly.
-\end{framed}
+\paragraph{} When we run a Flask web-app, that app will be accessible in a web browser on a particulr network port. Each member of the class will have been assigned a port number of their own for use on the Ubuntu dev server (this doesn't appliy to Levinux. Ensure that you set the port number that your app runs on to the number you have been assigned and only use that number. For example if you have been assigned the port number ``9103'' then you would access \url{http://set09103.napier.ac.uk:9103} in your web browser.
+
+%\begin{framed}
+%\textbf{IMPORTANT} The version of Levinux that we have used from the \url{http://levinux.com/} site does not forward port 5000. This is the port that we will access in our browser to see our web-apps. We have two solutions, the first is to download a new version of Levinux (Napier Edition) from the SET09103 Moodle page and set up a fresh environment (you will have to run the pipulate and drinkme scripts again. The alternative, which might wreck your version of Levinux and mean you have to start again anyway is to edit two of the startup scripts within Levinux. To ensure that your installation stays completely portable there are scripts to edit. The first is here Pipulate.app/Contents/MacOS/qemu32.bat and you need to add the following line between the similar lines for higher and lower port numbers:
+%\begin{lstlisting}
+%    -redir tcp:5000::5000 ^
+%\end{lstlisting}
+%Similarly we need to edit the Pipulate.app/Contents/Resources/qemuonmac.sh file to add the following line:
+%\begin{lstlisting}
+%    -redir tcp:5000::5000 \
+%\end{lstlisting}
+%Ensure that both edits are exactly as shown. If you have done it wrong then worst case scenario is that your Levinux install won't start. The othe likely failure is that Levinux will start but the port won't forward properly.
+%\end{framed}
 
 \section{Python Flask ``Hello Napier''}
 \label{hello-napier}
@@ -690,8 +692,12 @@ def hello():
     return "Hello World!"
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0' port=9103)
 \end{lstlisting}
+
+\begin{framed}
+\textbf{VERY IMPORTANT} Change port=9103 to whatever port your have been assigned by the module leader. If you are not sure ask.
+\end{framed}
 
 \begin{framed}
 \textbf{IMPORTANT} Don't just copy and paste code from the PDF. This is for two very good reasons. The first is that Python is `white-space sensitive'. This means that Python uses whitespace as part of the layout of code, instead of using things like curly braces such as `\{' and `\}'. So if you get spaces, tabs, and other whitespace characters mixed up in your file, which can easily happen if you copy and paste, then it will affect the indentation of the file (although perhaps not in a way that you can tell visibly because whitespace can all look pretty much the same). The second very good reason is that typing in the code counts as `deliberate practise'. You are more likely to remember stuff if you do it multiple times and typing it in the first time counts as the first opportunity to practise.
@@ -703,7 +709,7 @@ if __name__ == "__main__":
     $ python hello.py
 \end{lstlisting}
 
-\paragraph{} This command causes our web-app to be run using the Flask development server which is really useful and fast for debugging during development. If everything goes well then you should see output similar to the following in your terminal:
+\paragraph{} This command causes our web-app to be run using the Flask development server which is really useful and fast for debugging during development. If everything goes well then you should see output similar to the following in your terminal (NB. The port number displayed will match what you put in your code):
 
 \begin{lstlisting}[style=DOS]
 tc@box:~$ python src/hello.py 
@@ -711,7 +717,7 @@ tc@box:~$ python src/hello.py
  * Restarting with stat
 \end{lstlisting}
 
-\paragraph{} Congratulations. You now have your first Python web-app running. You can visit the page generated by Flask in a web browser. Just start up a browser in your host OS, e.g. in Windows when running Levinux in the lab. Although the output from Flask in your terminal tell you which address (and port) your app is running at '0.0.0.0' doesn't appear to reliably resolve on Windows so it is best to navigate to \url{localhost:5000}:
+\paragraph{} Congratulations. You now have your first Python web-app running. You can visit the page generated by Flask in a web browser. Just start up a browser in your host OS, e.g. in Windows when running Levinux in the lab. Although the output from Flask in your terminal tell you which address (and port) your app is running at '0.0.0.0' doesn't appear to reliably resolve on Windows so it is best to navigate to \url{localhost:5000} where you have replaced ``5000'' with your personal port number:
 
 \begin{figure}[H]
 \centering
