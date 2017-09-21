@@ -900,7 +900,7 @@ if __name__ == "__main__":
   app.run(host='0.0.0.0', debug=True)
 \end{lstlisting}
 
-\paragraph{} Now if we visit our web-app but use an address that doesn't exist (just make something up after the http://localhost:5000/ bit) we should see something like this:
+\paragraph{} Now if we visit our web-app but use an address that doesn't exist (just make something up after the \url{http://localhost:5000/} bit) we should see something like this:
 
 \begin{figure}[H]
 \centering
@@ -974,7 +974,7 @@ if __name__ == "__main__":
 
 \paragraph{} Notice how we have used a standard HTML image (img) tag, filled in the src attibute using the output from url\_for, then concatenated the three strings together to form the string that is returned by the static\_example\_img function. I wonder what other HTML tags could be used to return information from a URL? Perhaps we could build entire web-pages this way, by just concatenating various sections of HTML to make an entire page....\footnote{You can do this, and you can return \emph{any} HTML tags this way and build up quite complex pages. However in chapter \ref{style} we will look at how we can use templates to design how our pages look using a mixture of HTML and special coding tags to dynamically build pure HTML responses.}.
 
-\paragraph{} If you now visit \url{http://0.0.0.0:5000/static-example/img} you will see the relative URL for the image file something like this:
+\paragraph{} If you now visit \url{http://localhost:5000/static-example/img} you will see the relative URL for the image file something like this:
 
 \begin{figure}[H]
 \centering
