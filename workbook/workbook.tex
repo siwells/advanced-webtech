@@ -698,12 +698,18 @@ def hello():
     return "Hello World!"
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0' port=9103)
+    app.run(host='0.0.0.0')
 \end{lstlisting}
 
-\begin{framed}
-\textbf{VERY IMPORTANT} Change port=9103 to whatever port your have been assigned by the module leader. If you are not sure ask.
-\end{framed}
+\paragraph{} If you are running this in the Ubuntu VM then you need to alter this line:
+\begin{lstlisting}
+    app.run(host='0.0.0.0')
+\end{lstlisting}
+\paragraph{}to this:
+\begin{lstlisting}
+    app.run(host='0.0.0.0', port=XXXX)
+\end{lstlisting}
+\paragraph{}where XXXX is whatever port your have been assigned by the module leader. Look on the module website for the list of assigned port numbers which assigns a port to each students matriculation number. If you are not sure ask.
 
 \begin{framed}
 \textbf{IMPORTANT} Don't just copy and paste code from the PDF. This is for two very good reasons. The first is that Python is `white-space sensitive'. This means that Python uses whitespace as part of the layout of code, instead of using things like curly braces such as `\{' and `\}'. So if you get spaces, tabs, and other whitespace characters mixed up in your file, which can easily happen if you copy and paste, then it will affect the indentation of the file (although perhaps not in a way that you can tell visibly because whitespace can all look pretty much the same). The second very good reason is that typing in the code counts as `deliberate practise'. You are more likely to remember stuff if you do it multiple times and typing it in the first time counts as the first opportunity to practise.
