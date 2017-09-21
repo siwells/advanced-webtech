@@ -38,10 +38,12 @@ def send(gmail_user, gmail_pwd, to, subject, text, attach=None):
         mailServer.sendmail(gmail_user, to, msg.as_string())
         # Should be mailServer.quit(), but that crashes...
         mailServer.close()
+        return True
     except:
-        app.loggger.error("Couldn't send confirmation email: " + str(text))
+        # app.loggger.error("Couldn't send confirmation email: " + str(text)) - Causes crash
+        # TODO: fix error logging here so that it doesn't cause a crash.
         pass
 
 if __name__ == '__main__':
 
-    send("siwells@gmail.com", "Hello from python!", "This is a email sent with python")
+    send("gordonswan@me.com", "Hello from python!", "This is a email sent with python")

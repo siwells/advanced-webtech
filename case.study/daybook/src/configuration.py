@@ -21,8 +21,12 @@ def init(app):
         app.config['port'] = config.get("daybook", "port")
         app.config['url'] = config.get("daybook", "url")
 
+        app.config['send_mail'] = config.get("email", "sendmail")
         app.config['email_address'] = config.get("email", "address")
         app.config['email_password'] = config.get("email", "password")
+
+        app.config['db_username'] = config.get("dbconnect", "username")
+        app.config['db_password'] = config.get("dbconnect", "password")
 
         app.config['userdb_name'] = config.get("userdb", "name")
         app.config['userdb_ipaddress'] = config.get("userdb", "ip_address")
