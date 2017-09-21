@@ -16,7 +16,7 @@ def add_user(db, email, password, first_name, last_name, lang):
     #    if not exists_email(db, email):
     salt = bcrypt.gensalt()
 
-    pw_crypted = bcrypt.hashpw(password, salt)
+    pw_crypted = bcrypt.hashpw(password.encode('utf-8'), salt)
     
     user_doc = { "email": email, "uuid": new_uuid, "password_hash": pw_crypted, "salt": salt, "first_name": first_name, "last_name": last_name, "default_language": lang, "verified": "false"}
     
@@ -35,7 +35,7 @@ def check_password(db, email, password):
     if doc is not None:
         salt = doc['salt']
         pw_hash = doc['password_hash']    
-        pw_crypted = bcrypt.hashpw(password, salt)
+        pw_crypted = bcrypt.hashpw(password.encode('utf-8'), salt)
         if pw_hash == pw_crypted:
             return True
     print "No user document retrieved from " + str(db) + " for user " + email
@@ -75,7 +75,7 @@ def set_password(db, uuid, new_pass):
     if uuid in db:
         doc = db[uuid]
         salt = doc['salt']
-        pw_hash = bcrypt.hashpw(new_pass, salt)
+        pw_hash = bcrypt.hashpw(new_pass.encode('utf-8'), salt)
         doc['password_hash'] = pw_hash
         doc_id, rev = db.save(doc)
 

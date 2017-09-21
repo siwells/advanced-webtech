@@ -29,11 +29,15 @@ from functools import wraps
 
 import db
 
-userdb = db.init_db(app.config["userdb_name"], app.config["userdb_ipaddress"] + ":" + app.config["userdb_port"])
-db.add_views(userdb)
+if(app.config["db_username"] != "" and app.config["db_password"] != ""):
 
-datadb = db.init_db(app.config["datadb_name"], app.config["datadb_ipaddress"] + ":" + app.config["datadb_port"])
-db.entries_for_user(datadb)
+    userdb = db.init_db(app.config["userdb_name"], app.config["userdb_ipaddress"] + ":" + app.config["userdb_port"], app.config["db_username"], app.config["db_password"])
+    db.add_views(userdb)
+
+    datadb = db.init_db(app.config["datadb_name"], app.config["datadb_ipaddress"] + ":" + app.config["datadb_port"], app.config["db_username"], app.config["db_password"])
+    db.entries_for_user(datadb)
+else:
+    raise NameError('DB Username or Password cannot be Null')
 
 import data
 import mail
@@ -100,9 +104,13 @@ def root():
                     subject = gettext("SUPERHUB Project :: New Journey Diary Account")
                     content = gettext("A new SUPERHUB Journey Diary account has been created for the following email address: {kwarg}. You should now be able to log into the journey diary and record your journeys.").format(kwarg=request.form['email'])
 
-                    mail.send(app.config['email_address'], app.config['email_password'], request.form['email'], subject, content)
-
-                    msg = gettext("An email has been sent to {kwarg} so that you can verify your email address. However you can log into your account immediately.").format(kwarg=request.form['email'])
+                    # Added a toggle for the email confirmation service, as it was causing problems on my server. You can re-enable it in the config.
+                    if (app.config['send_mail'] == "True"):
+                        mail.send(app.config['email_address'], app.config['email_password'], request.form['email'], subject, content)
+                        msg = gettext("An email has been sent to {kwarg} so that you can verify your email address. However you can log into your account immediately.").format(kwarg=request.form['email'])
+                    else:
+                        msg = gettext("A confirmation email could not be sent at this time. You can still sign in to your account right away")
+                        app.logger.warn("Confirmation email was not sent to " +str(request.form['email'])+" as outgoing mail is disabled. See config.")
                     
                     logline = { 'type':'New user reqistration', 'timestamp': str(datetime.now().isoformat()), 'data': {'email': request.form['email'], 'uuid':uuid}, 'payload': None}                    
                     app.logger.info( json.dumps(logline) )
