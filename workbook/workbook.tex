@@ -831,7 +831,7 @@ tc@box:~$ python src/hello.py
 \paragraph{} In flask, web addresses or URLs are called routes. To add more routes to your web-app you use the app.route decorator. You just write a new Python function then add a decorator for each one to make the function into a route. For example, in the following web-app we have 3 routes:
 
 \begin{lstlisting}
-from flask import Flask, redirect, url_for, abort
+from flask import Flask
 app = Flask(__name__)
 
 @app.route("/")
@@ -954,7 +954,7 @@ if __name__ == "__main__":
 \paragraph{} which will store an image file called \emph{vmask.jpg} in the directory in which the command is run. You can then use the following to display the file:
 
 \begin{lstlisting}
-from flask import Flask, url_for, abort
+from flask import Flask, url_for
 app = Flask(__name__)
 
 @app.route("/")
