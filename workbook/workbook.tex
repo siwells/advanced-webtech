@@ -1944,7 +1944,7 @@ FAILED (failures=1)
 
 \chapter{Using Bootstrap to Add Style}
 \label{lab07}
-\paragraph{} We have concentrated so far on building well designed web apps that include useful features from Flask that enable us to test and configure our apps. However, we haven't spent a lot of time on making things look nice. The most we have done is use templates, in section \ref{style}, to scaffold the consistent generation of HTML for our users to read. We have alsoused static files, which we can use for things like Javascript, Cascading Style Sheets (CSS), icons and images, back in Section \ref{static}. We can further exploit the `/static/' directory to give us an easy way to add some style to our flask app as this is the correct place to store all of those elements that would be made to make our pages look nice. We should recognise however that this module is not a \emph{web design} module, so we shall not spend time concentrating on the design of beautiful web sites, but we shall take a short cut to get a decent and consistent basic design that provide basic framework which can be further modified to produce a beautiful app.
+\paragraph{} We have concentrated so far on building well designed web apps that include useful features from Flask that enable us to test and configure our apps. However, we haven't spent a lot of time on making things look nice. The most we have done is use templates, in section \ref{style}, to scaffold the consistent generation of HTML for our users to read. We have also used static files, which we can use for things like Javascript, Cascading Style Sheets (CSS), icons and images, back in Section \ref{static}. We can further exploit the `/static/' directory to give us an easy way to add some style to our flask app as this is the correct place to store all of those elements that would be made to make our pages look nice. We should recognise however that this module is not a \emph{web design} module, so we shall not spend time concentrating on the design of beautiful web sites, but we shall take a short cut to get a decent and consistent basic design that provide basic framework which can be further modified to produce a beautiful app.
 
 \paragraph{} Bootstrap is a set of CSS files and supporting Javascript that make it straightforward to add a basic style, with a selection of different layouts, to your web-app. Originally, Bootstrap was developed by Twitter as an easy way to \emph{bootstrap} from plain HTML to a site with a basic overall design which can be enhanced and which at least looks consistent. This removes the need to initially develop HTML and CSS for layout elements like headers and footers, or menus, all you have to do is use those elements that Bootstrap has pre-defined. You can of course alter these pre-defined elements but at least you don't have to design them when you are also struggling to implement all of the actual functionality.
 
@@ -2032,7 +2032,7 @@ for a little bit of style</p>
 </html>
 \end{lstlisting}
 
-\paragraph{} Notice how all we ahve done is add a relative link, in line 4, to the Bootstrap CSS file. Also note that we used the url\_for function to get the root of the static directory and that all of the URL aspects are enclosed in Jinja2's double curly braces.  Even, just including the bootstrap CSS has already got things looking different:
+\paragraph{} Notice how all we have done is add a relative link, in line 4, to the Bootstrap CSS file. Also note that we used the url\_for function to get the root of the static directory and that all of the URL aspects are enclosed in Jinja2's double curly braces.  Even, just including the bootstrap CSS has already got things looking different:
 
 \begin{figure}[H]
 \centering
@@ -2086,7 +2086,7 @@ for a little bit of style</p>
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src={{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 </body>
 </html>
 \end{lstlisting}
