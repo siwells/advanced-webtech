@@ -111,7 +111,7 @@
 \textsc{\LARGE \bfseries SET09103 Advanced Web Technologies}\\[0.5cm]
 
 \hrulefill \\[0.4cm]
-{\huge \bfseries Notes \& Workbook 2017-2018 \\[0.4cm] }
+{\huge \bfseries Notes \& Workbook 2018-2019 \\[0.4cm] }
 \hrulefill \\[1.5cm]
 
 \begin{minipage}{0.4\textwidth}
@@ -148,150 +148,55 @@
 \paragraph{} There will be a number of core steps involved in getting acquainted with the learning environment:
 
 \begin{enumerate}
-\item Levinux - Our self-contained, virtualised Linux server which runs within Windows (or on OS X or even under Linux itself)
+\item Linux Development Server - Our Linux server which runs on the ENU virtual infrastructure.
 \item SSH - To enable us to connect from our Windows machine to our virtual Linux machine
 \item Basic Linux Usage at the command line
 \item Vim - This is our \emph{non-graphical} editor that we shall use to write our source code
 \item Git - We shall use Git to store our source code and to ``hand in'' our coursework assignments
 \end{enumerate}
 
-\paragraph{} By the end of this section of the module you should be able to start Levinux (our Linux virtual server), log in to Linux using SSH, navigate around the command-line of our linux server, use Vim to edit our files, and use Git to store our files. This constitutes a core set of tools that should allow you to log into almost any Linux server, whether a very small one running on a Raspberry Pi\footnote{\url{https://www.raspberrypi.org}} or a very large one, for example the top 10 fastest supercomputers in the world all run a version of Linux\footnote{\url{http://www.top500.org/lists/2015/06/}}, and feel quite at home very quickly. I am not expecting you to achieve all of this in just a single lab session, but you should accomplish this easily within the lab \emph{and} this week's self-study time.
+\paragraph{} By the end of this section of the module you should be able to access our Linux server by logging in using SSH, navigate around the command-line, use Vim to edit our files, and use Git to store our files. This constitutes a core set of tools that should allow you to log into almost any Linux server, whether a very small one running on a Raspberry Pi\footnote{\url{https://www.raspberrypi.org}} or a very large one, for example the top 10 fastest supercomputers in the world all run a version of Linux\footnote{\url{http://www.top500.org/lists/2015/06/}}, and feel quite at home very quickly. I am not expecting you to achieve all of this in just a single lab session, but you should accomplish this easily within the lab \emph{and} this week's self-study time.
 
 \begin{framed}
 \textbf{IMPORTANT} It is a good habit for you to keep notes whenever you are learning a new tool or environment. I keep a textfile on my computer which also means that I can occasionally copy and paste commands if necessary. This way you won't have to immediately remember how you solved a problem but can look how you did it last time. This makes the whole process much less frustrating. It is how I learned to work with Linux and Git and I still refer to my notes every so often when trying to do something that I rarely do and can't quite remember the syntax for.
 \end{framed}
 
 
-\section{Levinux}
-\label{levinux}
-\paragraph{} Levinux\footnote{\url{http://www.levinux.com}} is a tiny Linux virtual server. It has just enough software installed so that you can learn about and get comfortable with a Linux system, but not so many tools that it becomes too daunting. It does however give you a launchpad from which to explore the wider world of Unix-style operating systems. If you get comfortable with Levinux then you shouldn't feel (too) lost trying any other Linux distribution. In fact the best introduction to Levinux and what it can do is probably that from the creator of Linux:\\
+\section{Linux Development Server}
+\label{linux}
+\paragraph{} The university has a heap of server hardware that is used to provide a virtual infrastructure for us. Within this hardware we have a virtual machine that has been assembled purely for our use. Our Linux server use the Ubuntu server distribution\footnote{\url{https://www.ubuntu.com}} and has just enough software installed so that we can learn about and get comfortable with a Linux system, but not so many tools that it becomes too daunting. From now on when I refer to the ``dev server'' I shall mean this Ubuntu Linux server in the universitie's virtual infrastructure.
 
+\paragraph{} It will give you a launchpad from which to explore the wider world of Unix-style operating systems. If you get comfortable with our Linux server then you shouldn't feel (too) lost trying any other Linux distribution. What you will notice however is that our Linux server is command line only. There is no GUI, no mouse, no point-and-click, and no graphical software. Instead we will have to get used to interacting with the computer using text commands. This is because the vast majority of web servers are text-only. Graphical interfaces provide more complexity, more things to go wrong, and require more hardware to support them whereas we want our web-servers to be robust and performant. Consider this an introduction to how the majority of real-world web-servers exist.
 
-\say{The micro Linux distribution known as Levinux (download ~25 MB) is a tiny virtual Linux server that runs from USB or Dropbox with a double-click (no install or admin rights required) on Macs, Windows or Linux PCs—making it the perfect learning environment, and way to run \& keep your code safe for life! Think of it as an introduction to old-skool—more relevant now then ever as Linux/Unix gets embedded into everything, with an emphasis on an actual running Python/Flask web app that you can tear apart and do whatever you want with.}\\
-{\bf Mike Levin} \hfill \url{http://mikelev.in/ux/}
-
-\paragraph{} Because Levinux is so tiny you can run it easily, without needing to install it, just unzip and click to run. Levinux runs just like any other program on your desktop machine can run from your H: drive, in dropbox, or on a thumb drive. The system can be started by double clicking and you can move the same thumbdrive between different operating systems, e.g. between the Windows machines in the Napier labs and an OS X laptop, and run the exact same Linux environment.
-
-\paragraph{} The magic that makes this possible is QEMU\footnote{\url{http://wiki.qemu.org/Main_Page}}, emulator software that provides a way to run virtual machines and has been important to the VirtualBox\footnote{\url{https://www.virtualbox.org}} and Android Virtual Device infrastructure\footnote{\url{https://developer.android.com/tools/devices/index.html}}.
-
-\paragraph{} Levinux is basically, a set of scripts and programs that host a Linux install within a very lightweight virtual environment. The scripts manage how Levinux runs and enable it to run seamlessly across different host platforms (like Linux, Mac OS, and Windows). The programs include things like QEMU, mentioned earlier, and various virtual harddrives that are where the Linux system is installed. The specific Linux distribution that is used in Levinux is called `Tiny Core Linux'\footnote{\url{http://tinycorelinux.net/}} which is about 10MB in size and boots into a minimal command line Linux environment.
-
-\paragraph{} Getting started with Levinux is fairly straightforward. Download levinux-master-napier.zip from the module website\footnote{\url{https://siwells.github.io/teaching_set09103/}}. The whole download should be around 48MB. This is twice the size of the core Levinux download because all our tools, like Python, Flask, Vim, and Git, are presinstalled. 
-
-\paragraph{} Copy the zip file to somewhere where you want to store it, for example, a thumbdrive with 512MB free space is a good idea as you can then take your work away with you. If you are on Windows then extract Levinux from the zip archive using the 7-zip tool (again available from the module website). On OSX you can just double click the zip archive to extract everything correctly but Windows zip extraction doesn't alway appear to work correctly. Don't just double click the archive as this will fail in interesting ways). Open the newly extract directory called levinux-master and double click the file called ``PipulateWindows'' (NB. If you are on OS X then just double-click ``Pipulate.app'' or if on Linux the run ``PipulateLinux.sh'').
-
-\paragraph{} When Levinux runs, your operating system might tell you that your firewall has blocked certain features or ask for permission to allow access to certain features. You should grant access when asked. Levinux will now load and you should see something similar to th windows displayed in the following figure:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.75\textwidth]{images/levinux_welcome.png}
-\caption{Levinux Welcome Screen}
-\label{fig:levinux-welcome}
-\end{figure}
-
-\paragraph{} If you hit option 2 then you will immediately be able to log in to Levinux using the following credentials:
-
-\begin{framed}
-    \textbf{Username:} tc\blank{2cm} \textbf{Password:} foo
-\end{framed}
-
-\paragraph{} You should now see something like the following figure:
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.75\textwidth]{images/levinux_loggedin.png}
-\caption{The first screen after logging into Levinux}
-\label{fig:levinux-logged-in}
-\end{figure}
-
-%\paragraph{} At this point, Levinux is a minimal Linux system which has a basic set of tools but doesn't yet include any of the web development software or libraries that we will be using in this module. At this point you therefore have the option of jumping ahead to section \ref{linux} to learn a little more basic Linux, otherwise you could look at the SSH section which explains how to log in to Levinux multiple times using a tool called Secure Shell (SSH). If instead you want to get stuck in to getting your learning environment set up then you should proceed with the following steps which will install the following software:
-%\begin{enumerate}
-%\item Vim: A command-line based text editor
-%\item Python: A powerful programming language
-%\item Python-Flask: A Python library that makes it simple to build server-side web-applications
-%\item Various other supplementary libraries and tools that will help us to build some excellent web apps
-%\end{enumerate}
-
-%\paragraph{} These tools are not installed in Levinux by default because it keeps the size of the download smaller. NB. You can also install many other software packages from the Tiny Core Linux archive or from source code because this is, after all, a full Linux operating system installation. To install our extra software we do the following:
-
-%\subsection{Installing Vim}
-
-%\paragraph{} Log into Levinux if you haven't already done so then enter the following command at the prompt:
-%\begin{lstlisting}[style=DOS]
-%    tc@box:~$ ./drinkme.sh
-%\end{lstlisting}
-%\paragraph{} ./drinkme.sh runs a script that installs Vim. You will be prompted to confirm that this is what you want to do so enter `2' when asked(this might take a little while to completeas the software is being downloaded and installed into your virtual harddrive). Once the script is computer your should get your prompt back so that you can type more commands. You can launch Vim by typing `vim' at the prompt as follows (but if you are going to do that then you should probably take a look at section \ref{vim} of the notes which covers basic use of Vim):
-
-%\begin{lstlisting}[style=DOS]
-%    tc@box:~$ vim
-%\end{lstlisting}
-
-%\subsection{Installing the Web Development Environment}
-%\label{installing_environment}
-%\paragraph{} Again, if you are not logged in to Levinux then do so then enter the following command at the prompt: 
-
-%\begin{lstlisting}[style=DOS]
-%    tc@box:~$ sh ./Pipulate.sh 
-%\end{lstlisting}
-%\paragraph{} Again, just as for Vim, this runs a script called Pipulate.sh which installs Python, Python-Flask, a bunch of libraries, and Git. 
-
-%\paragraph{} These scripts basically sets up our development environment enabling us to edit, run, and control our source code.
-
-%\subsection{Shutting Down Levinux}
-\paragraph{} The next thing we need to know about is how to safely shutdown our Levinux installation. Whilst logged in we can use the following command:
-\begin{lstlisting}[style=DOS]
-    tc@box:~$ sudo poweroff
-\end{lstlisting}
-\paragraph{} Which will cause Levinux to shutdown safely. If you are on the screen shown in figure \ref{fig:levinux-welcome} then you can just hit `4' then press $<$enter$>$. Remember, Levinux is a full computer system, even if it is running within another host system. Just as you wouldn't just hit the power button on your computer to turn it off, or at least you shouldn't, if you do that then stop it now. Instead, you should always follow the correct shut-down procedure for an operating system which gives it an opportunity to tidy itself up and clear up resources that are used. Doing anything else risks corrupting your installation so that it won't work correctly anymore and this is just as true for Levinux as it is for any other operating system.
-
-\section{Development Server}
-\label{devserver}
-\paragraph{} The university has heap of server hardware that is used to provide a virtual infrastructure for us. Within this hardware we have a virtual machine that has been assembled purely for our use. It is based on Ubuntu Server and has all of the same software installed that we would use in Levinux, e.g. Python, Flask, SQLite, Vim, etc. We can access this server using PuTTY, or any other SSH client using our regular Napier credentialy, e.g. your matriculation number and password. The server is located at \url{set09103.napier.ac.uk}
+\paragraph{} Because our server is command line only we'll have to learn some new tools, or at least new ways to interact with tools that we might have already seen, but via GUIs. Our development server has Python, Flask, SQLite, and Vim installed as well as the standard Linux command line tools. When you log in, the text environment that you are presented with is called a shell and the name of the specific shell we use is called BASH. BASH is, in itself, a programming environment which will run `BASH scripts'. BASH is really useful for whipping up quick bits of code to solve problems, especially those that involve lots of repetition, i.e. the kinds of things that a computer is good at. We will access this server using PuTTY, or any other SSH client using our regular Napier credentials, e.g. your matriculation number and password. The server is located at \url{set09103.napier.ac.uk}
 
 \section{Alternative Learning Environments}
 \label{alternatives}
-\paragraph{} If you have an OSX or Linux laptop then you can easily install Python, Flask, Vim and all the other tools locally without needing to use either Levinux or the dev server. Talk to the module leader or the demonstrator about this.
+\paragraph{} If you have an OSX or Linux laptop then you can easily install Python, Flask, Vim and all the other tools locally without needing to use the development server. Talk to the module leader or the demonstrator about this. However you should note that you will need to put your coursework assignments onto the development server for the hand-in and demonstration so you should not ignore it until the deadline because this will be stressful for you.
 
 \paragraph{} A second alternative is to install a Linux, like Ubuntu server, into a virtual machine running under VirtualBox on your own laptop. This is quite advanced and will require non-trivial understanding of Linux and virtualisation. For this reason it's not directly supported but is an allowable option for students who are confident of their Linux admin skills.
 
+\paragraph{} Finally, you can also, if you really must, install Python and the Flask library onto your Windows machine. However, in this case you should note that the Windows command line is very different to that provided in Linux and Mac OS.
+
 \section{SSH}
 \label{ssh}
-\paragraph{} SSH which stands for `Secure Shell' is a tool for logging in to remote servers. We can use SSH to access Levinux as this provides us with an easy way to log in multiple times, e.g. have multiple shells (command lines) open and logged in to Levinux. The advantage of having multiple shells is that we can edit and save a program in one shell and run the program and monitor output in another shell. As you can imagine, this is very useful when we are developing new web apps on our Levinux server.
+\paragraph{} SSH which stands for `Secure Shell' is a tool for logging in to remote servers. This means that you get a window on your local machine into which you can type commands. These commands are executed by the remote server and the results are displayed to you in the window on your local machine. We will use SSH to access the dev server. Note that you can run SSH multiple times to provide us with an easy way to get multiple windows so that we can easily multi-task on the remote machine. For example, one advantage of having multiple shells is that we can edit and save a program in one shell and run the program and monitor output in another shell. As you can imagine, this is very useful when we are developing new web apps on the dev server.
 
-\begin{framed}
-\textbf{IMPORTANT TIP} Once Levinux has booted, don't log directly into it. Instead, minimise the Levinux window and always log in using SSH, e.g. PuTTY, instead. This has many advantages but the main one is that you get a scrolling window so that you can see earlier commands or any output bigger than a single window of text. Additionally, PuTTy handles different keyboard layouts much better than Levinux so if you are using a French or German (or other) keyboard then this is the solution you need to get the keys you press to match the output on screen.
-\end{framed}
-
-\paragraph{} If you are on Linux or OS X then you will already have a version of SSH installed and all you need to do is open a terminal and type the following to log into Levinux:
-
-\begin{lstlisting}[style=DOS]
-    $ ssh tc@localhost -p 2222
-\end{lstlisting}
-
-\paragraph{} then enter the password `foo' when prompted. Alternatively, use
+\paragraph{} If you are on Linux or OS X then you will already have a version of SSH installed and all you need to do is open a terminal and type the following to log into the dev server:
 
 \begin{lstlisting}[style=DOS]
     $ ssh MATRICNUMBER@set09103.napier.ac.uk -p 22
 \end{lstlisting}
 
-\paragraph{} to log into the Ubuntu development server. NB. You \emph{MUST} replace MATRICNUMBER with your actual matriculation number from your napier credentials.
+\paragraph{} to log into the dev server. NB. You \emph{MUST} replace MATRICNUMBER with your actual matriculation number from your napier credentials. Note that we should be very careful to type commands accurately, especially the log in command above, and to also to type our password accurately. If we make too many mistakes then the security service on the server will ban you for a period of time. This is a protection to stop attackers from trying multiple attempts at our passwords in order to gain access to the machine.
 
-\paragraph{} If you are on Windows then your will need to download an SSH client as this is not a standard Windows tool. The most popular client for Windows is called PuTTY\footnote{\url{http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe}}. Download it, put it somewhere safe where you can access it then double click it to run. There is no need to install PuTTY as it is very portable. When PuTTY runs you will be presented with the following screen:
+\paragraph{} If you are on Windows then your will need to download an SSH client as this is not a standard Windows tool. The most popular client for Windows is called PuTTY\footnote{\url{http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe}}. There is also a link to a cached copy of PuTTY from the module web page. Download PuTTy, put it somewhere safe where you can access it then double click it to run. There is no need to install PuTTY as it is very portable. When PuTTY runs you will be presented with the following screen:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\textwidth]{images/putty_empty.png}
 \caption{The PuTTY Window after you load it}
 \label{fig:putty-empty}
-\end{figure}
-
-\paragraph{} You need to enter some connection details into this window as follows (for Levinux):
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.5\textwidth]{images/putty_complete_levinux.png}
-\caption{The PuTTY Window with completed connection details for Levinux}
-\label{fig:putty-complete}
 \end{figure}
 
 \paragraph{} or like this for the development server (again remembering to replace matric-number with your actual matriculation number):
@@ -304,7 +209,7 @@
 \end{figure}
 
 
-\paragraph{} In either case you might be presented with a window similar to the following, the details will change depending upon whether you are logging into Levinux or the dev server, especially if this is the first time you are logging into the remote server:
+\paragraph{} In either case you might be presented with a window similar to the following, especially if this is the first time you are logging into the remote server:
 
 \begin{figure}[H]
 \centering
@@ -313,16 +218,16 @@
 \label{fig:putty-alert}
 \end{figure}
 
-\paragraph{} If so, you can just click the `Yes' button. If all goes well you should now be presented with a login window for Levinux and all you have to do is type in the password (remember the password is `foo') and you should get a command line shell on your Levinux server.
+\paragraph{} If so, you can just click the `Yes' button. If all goes well you should now be presented with a login window for the dev server and all you have to do is type in your ENU password. You should then be presented with a command line shell on the dev server. Note that some details may vary depending upon which OS you are accessing the dev server from and depending upon your user name. The following is only indicative of what to expect:
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.75\textwidth]{images/putty_login.png}
-\caption{The PuTTY login Window}
-\label{fig:putty-login}
+\caption{The dev-server login Window}
+\label{fig:dev-server-login-window}
 \end{figure}
 
-\paragraph{} Remember, you can repeat this process with PuTTY as many times as required to get yourself enough shells into either Levinux or the development server to make things easier to work with\footnote{This is not the best way to work with multiple shells. Another, more powerful way is to use a shell multiplexer, my favourite is one called Screen (\url{https://www.gnu.org/software/screen/}) but that is yet another tool to learn, and another set of commands, so lets try to keep things \emph{reasonably} simple for now}.
+\paragraph{} Remember, you can repeat this process with PuTTY as many times as required to get yourself enough shells into the development server to make things easier to work with\footnote{This is not the best way to work with multiple shells. Another, more powerful way is to use a shell multiplexer, my favourite is one called Screen (\url{https://www.gnu.org/software/screen/}) but that is yet another tool to learn, and another set of commands, so lets try to keep things \emph{reasonably} simple for now}.
 
 \begin{framed}
 \textbf{IMPORTANT TIP} I usually use SSH to log in at least twice. This gives me a window to edit text in and a window to test my code in. Often I will also have a third window open which I use for command line interaction, Git commits, and testing API calls using cURL, but two is the minimum for a nice development setup - Remember, this is your development environment so you might as well take some time to set it up nicely and so that you can work more productively.
@@ -335,23 +240,25 @@
 \paragraph{} When we first log in to Linux we will see a prompt, a place where we can type commands. It looks something like this:
 
 \begin{lstlisting}[style=DOS]
-    tc@box:~$ 
+    40001111@soc-web-liv-12:~$ 
 \end{lstlisting}
-\paragraph{} This simply means that user `tc' (short for tinycore, the default user that you logged in as) is logged into the machine called `box'. The `:' is merely a separate between the user@machine part of the prompt and the next part `{\raise.17ex\hbox{$\scriptstyle\sim$}}' which is your current location in the filesystem. The tilde or `{\raise.17ex\hbox{$\scriptstyle\sim$}}' symbol is used on Linux machines to mean your home directory.
+\paragraph{} This simply means that the user `40001111' is logged into the machine called `soc-web-liv-12'. The `:' is merely a separate between the user@machine part of the prompt and the next part `{\raise.17ex\hbox{$\scriptstyle\sim$}}' which is your current location in the filesystem. The tilde or `{\raise.17ex\hbox{$\scriptstyle\sim$}}' symbol is used on Linux machines to mean your home directory. Finally the `\$' symbol is your ``prompt'', the place where anything you type will be displayed.
 
-\paragraph{} Linux has a file system, a way for all of the files that make up the running system to be organised hierarchically, just like Windows. However, on Linux the file system is organised a little differently. Instead of starting at `C:' the Linux file systems starts with `/' which is also known as the ``root'' of the filesystem. The word root is used because the Linux filesystem is shaped like a tree. All of the resources that you can access, such as your own files, are located at some level somewhere within the tree. An advantage of the Linux approach is that, when you add extra hard-drives, or mount network resources, instead of extra drive letters, all of your resources get mounted within the tree, e.g. /Volumes/Web might be the path to a remove web server and /media/cdrom might be the path to your CD-Rom drive. But other than that, from a basic user-oriented perspective, both Windows and Linux file systems are a hierarchical collection of files and directories in which any given directory might contain zero or more files or child directories.
+\paragraph{} Note that in the remainder of this workbook, we'll just show the `\$' part of the prompt to simplify the examples.
+
+\paragraph{} Linux has a file system, a way for all of the files that make up the running system to be organised hierarchically, just like Windows. However, on Linux the file system is organised a little differently. Instead of starting at `C:' the Linux file systems starts with `/' which is also known as the ``root'' of the filesystem. The word root is used because the Linux filesystem is shaped like a tree. All of the resources that you can access, such as your own files, are located at some level somewhere within the tree. An advantage of the Linux approach is that, when you add extra hard-drives, or mount network resources, instead of extra drive letters, all of your resources get mounted within the tree, e.g. /volumes/web might be the path to a remote web server and /media/cdrom might be the path to your CD-Rom drive\footnote{if you still have such an old-fangled device}. But other than that, from a basic user-oriented perspective, both Windows and Linux file systems are a hierarchical collection of files and directories in which any given directory might contain zero or more files or child directories.
 
 \paragraph{} When you log in you will be located in your own directory, called your ``home'' directory which is located in the filesystem tree at 
 
 \begin{lstlisting}[style=DOS]
-    /home/tc
+    /home/YOUR-MATRIC-NUMBER
 \end{lstlisting}
-\paragraph{} You can see where you are in the filesystem by typing
+\paragraph{} You can always see where you are in the filesystem by typing
 
 \begin{lstlisting}[style=DOS]
     $ pwd
 \end{lstlisting}
-\paragraph{} which is short for print working directory or tell me where I am. You can type this anywhere you have a prompt. Also, no matter where you navigate to within the file system you can always return to your home directory by typing:
+\paragraph{} which is short for ``print working directory'' or ``tell me where I am''. The pwd command will give you the full hierarchical list of folders, from the root, to your current location in the file-system. You can type this anywhere you have a prompt. Also, no matter where you navigate to within the file system you can always return to your home directory by typing:
 
 \begin{lstlisting}[style=DOS]
     $ cd
@@ -375,12 +282,11 @@
     $ ls
 \end{lstlisting}
 
-to list the files in the current directory. If you try this now you will see that your home directory contains a few default files and folders
-e.g.
+to list the files in the current directory. If you try this now you will be able to the files in your own home directory. There will probably be none at this point but don't worry, that will soon change. My test account for the dev server gave the following output:
 
 \begin{lstlisting}[style=DOS]
-    tc@box:~$ ls
-    Pipulate.sh  Recipe.sh    drinkme.sh   htdocs/
+    $ ls
+    test  test.py
 \end{lstlisting}
 
 \paragraph{} Now we can create new files in our home directory quite easily using touch, e.g.
@@ -392,8 +298,8 @@ e.g.
 \paragraph{} which should give us something like this:
 
 \begin{lstlisting}[style=DOS]
-    tc@box:~$ ls
-    Pipulate.sh   Recipe.sh     drinkme.sh    htdocs/       testfile.txt
+    $ ls
+    testfile.txt
 \end{lstlisting}
 
 \paragraph{} We can also create new directories using the `mkdir' which means make directory
@@ -404,55 +310,54 @@ e.g.
 \paragraph{} which results in
 
 \begin{lstlisting}[style=DOS]
-    tc@box:~$ ls
-    Pipulate.sh    drinkme.sh     testdirectory/
-    Recipe.sh      htdocs/        testfile.txt
+    $ ls
+    testdirectory/    testfile.txt
 \end{lstlisting}
-\paragraph{} We can also move files around using the `cp' and `mv' commands which are short for copy and move respectively. Let's see them in action; first we will make a copy of testfile.txt then move the copy into the testdirectory:
+
+\paragraph{} We can also move files around using the `cp' and `mv' commands which are short for ``copy'' and ``move'' respectively. Let's see them in action; first we will make a copy of testfile.txt then move the copy into the testdirectory:
+
 \begin{lstlisting}[style=DOS]
-    tc@box:~$ cp testfile.txt testfile2.txt
-    tc@box:~$ ls
-    Pipulate.sh    drinkme.sh     testdirectory/ testfile2.txt
-    Recipe.sh      htdocs/        testfile.txt
-    tc@box:~$ mv testfile2.txt testdirectory/
-    tc@box:~$ ls
-    Pipulate.sh    drinkme.sh     testdirectory/
-    Recipe.sh      htdocs/        testfile.txt
-    tc@box:~$ ls testdirectory/
+    $ cp testfile.txt testfile2.txt
+    $ ls
+    testdirectory/ testfile2.txt  testfile.txt
+    $ mv testfile2.txt testdirectory/
+    $ ls
+    testdirectory/    testfile.txt
+    $ ls testdirectory/
     testfile2.txt
 \end{lstlisting}
 
 \paragraph{} Notice that in this example we passed an argument, the name of a directory `testdirectory' to the ls command and this caused the contents of testdirectory to be listed instead of the current directory. We can do that with any directory that we have access to.
 
 \paragraph{} Finally we might want to delete files to keep things tidy. We can use the `rm' command to remove files, e.g.
+
 \begin{lstlisting}[style=DOS]
-    tc@box:~$ rm testfile.txt 
-    rm: remove 'testfile.txt'? y
-    tc@box:~$ ls
-    Pipulate.sh    Recipe.sh      drinkme.sh     htdocs/        testdirectory/
+    $ rm testfile.txt 
+    $ ls
+    testdirectory/
 \end{lstlisting}
+
 \paragraph{} We can use also use rm to remove directories, however, by default we get this behaviour:
+
 \begin{lstlisting}[style=DOS]
-    tc@box:~$ rm testdirectory/
-    rm: 'testdirectory' is a directory
+    $ rm testdirectory/
+    rm: cannot remove 'testdirectory/': Is a director
 \end{lstlisting}
+
 \paragraph{} What we need to do instead is to supply some options to the rm command. We need rm to act recursively, that means move into the specified directory and delete its contents and we also need to force rm not to stop and ask us for each file whether it should be deleted. We there fore need to use rm as follows:
 \begin{lstlisting}[style=DOS]
-    tc@box:~$ ls
-    Pipulate.sh    Recipe.sh      drinkme.sh     htdocs/        testdirectory/
-    tc@box:~$ rm -rf testdirectory/
-    tc@box:~$ ls
-    Pipulate.sh  Recipe.sh    drinkme.sh   htdocs/
+    $ ls
+    testdirectory/
+    $ rm -rf testdirectory/
+    $ ls
+
 \end{lstlisting}
-\paragraph{} Of all the commands we have met so far, rm is the only one that can do any real damage. rm -rf could conceivably delete all of your files and directories if the command is executed in the wrong place. As a rule it is probably worth only making changes within your home directory, e.g. /home/tc, whilst working on exercises in this module, that way you are less likely to destroy your Levinux install accidentally and have to start again. However because it is easy to set up and run a new Levinux instance you can afford to experiment because if you destroy your Levniux instance you can always start again. You should however, especially once you start writing code in Levinux, keep backups of anything that you will need to use again such as the code for your courseworks.
+
+\paragraph{} Of all the commands we have met so far, rm is the only one that can do any real damage. rm -rf could conceivably delete all of your files and directories if the command is executed in the wrong place. As a result you should, especially once you start writing code on the dev server for your assignments and lab exercises, keep backups of anything that you will need to use again. This goes twice for the code for your coursework assignments. Note that one of the tools we'll learn later, Git, is specifically designed to help you back up your code to other locations, such as GitHub or BitBucket so the best thing to do is to learn to use Git well rather than looking for non-standard alternatives.
 
 \paragraph{} There are many, many more commands than just these. In fact you can do much more with the command line than you can with graphical tools. However, this should be enough for you to get started and is enough for you to be able to create and delete files and directories, to navigate the file system hierarchy, to list the contents of directories, and to view the contents of files. 
 
-\paragraph{} To do more exploration of Linux, you can of course experiment with Levinux. Another good place to start is the Linux Zoo site\footnote{\url{http://www.linuxzoo.net}} which offere online virtual machines, more information, and a number of tutorials. Particularly the Linux Zoo ``essential Linux'' pages\footnote{\url{http://linuxzoo.net/page/intro.html}} which explain in more depth some of the tools that we have already covered plus many many more.
-
-
-
-
+\paragraph{} To do more exploration of Linux, you can of course experiment on the dev server. Your account is quite limited in what it can do so you shouldn't be able to do too much damage. Another good place to start is the Linux Zoo site\footnote{\url{http://www.linuxzoo.net}} which offere online virtual machines, more information, and a number of tutorials. Particularly the Linux Zoo ``essential Linux'' pages\footnote{\url{http://linuxzoo.net/page/intro.html}} which explain in more depth some of the tools that we have already covered plus many many more.
 
 
 
@@ -469,7 +374,7 @@ e.g.
 
 \paragraph{} Start Vim by typing Vim at the prompt:
 \begin{lstlisting}[style=DOS]
-    tc@box:~$ vim
+    $ vim
 \end{lstlisting}
 \paragraph{} and you will see something similar to the following:
 
@@ -509,19 +414,19 @@ e.g.
 
 \paragraph{} Let's start Vim again and actually edit some text. This time when Vim starts you need to press `i' for (i)nsert to enter the edit mode. You can now type away to your hearts content. When you are ready to save the file you can enter the command mode and type :w for (w)rite. If the file doesn't have a filename you will get a message to that effect so, with a new file that isn't yet saved you can us :w filenname.txt (where filename.txt is the name of the file that you want to create). This file will then be created in whichever directory you were in when you started Vim.
 
-\paragraph{} There is \textbf{A LOT} to learn in Vim. The easiest way to do that is to just use it. There are many online resources that teach you how to use Vim but two of my favourites are:
+\paragraph{} There is \textbf{A LOT} to learn in Vim. All those shortcuts are really a language for manipulating text. The easiest way to learn Vim, just like any new tool, is to use it. There are alsoe many online resources that teach you how to use Vim but two of my favourites are:
 \begin{enumerate}
 \item The Open Vim Tutorial: \url{http://www.openvim.com/}
 \item Vim Adventures: \url{http://vim-adventures.com/}
 \end{enumerate}
 
-There is also a cribsheet of useful commands in section \ref{cribsheet_vim}.
+\paragraph{} I recommend visiting those site and particularl trying some of the exercises to get used to some of the core Vim functionality. There is also a cribsheet of useful commands in section \ref{cribsheet_vim}.
 
 \section{Git}
 \label{git}
 \paragraph{} Git is a source control system that enables you to keep track of your source code, its history and any changes you make. Git can be used to track any file but is most efficient and best suited when used only with textual files. Because Git is a \emph{distributed} source control system it works very well to enable groups of people to work on the same source code as well as supporting experimenting with your code, trying out lots of different ideas in separate \emph{branches} (which are a bit like a copy of your code but with tools to help manage that copy and support re-integrating it with your main source tree if you want to), and being able to roll back to an earlier version if you decide you have take a wrong turn.
 
-\paragraph{} Whilst you might have seen Git before, perhaps as a plugin to an IDE or as a standalone GUI app, Git is primarily a command line application, so we shall use it to get our source code in and out of Levinux.
+\paragraph{} Whilst you might have seen Git before, perhaps as a plugin to an IDE or as a standalone GUI app, Git is primarily a command line application, so we shall use it to get our source code in and out of the dev server.
 
 %\begin{framed}
 \textbf{IMPORTANT} We shall use Git to support the hand-in of courseworks in this module so you should get familiar with it as soon as possible. A good place to start is by dipping into the Git SCM book\footnote{\url{http://git-scm.com/book/en/v2/Getting-Started-About-Version-Control}}.
@@ -538,7 +443,7 @@ There is also a cribsheet of useful commands in section \ref{cribsheet_vim}.
 
 %\end{framed}
 
-\paragraph{} Git is already installed in our learning environment, whether Levinux or the set09103VM. In order to use it we have to do a couple of things. Log into Levinux then do the following (obviously replace my email address and name with your own):
+\paragraph{} Git is already installed in our learning environment. In order to use it we have to do a couple of things. Log into the dev server then do the following (obviously replace my email address and name with your own):
 \begin{lstlisting}[style=DOS]
     $ git config --global user.email "s.wells@napier.ac.uk"
     $ git config --global user.name "Simon Wells"
@@ -576,7 +481,7 @@ There is also a cribsheet of useful commands in section \ref{cribsheet_vim}.
 
 \chapter{Learning Environment Part \#2}
 \label{lab2}
-\paragraph{} After last weeks extravaganza of new tools, we will only introduce two new tools this week, the Python language and a Python Library for developing web applications called Flask. By the end of this weeks practical work you should be able to build a simple `Hello Napier' web app using Python and Python-Flask which is hosted on and runs within our simple Levinux Virtual Linux environment and whose source code is pushed to our personal Github (or Bitbucket) repositories. 
+\paragraph{} After last weeks extravaganza of new tools, we will only introduce two new tools this week, the Python language and a Python Library for developing web applications called Flask. By the end of this weeks practical work you should be able to build a simple `Hello Napier' web app using Python and Python-Flask which is hosted on and runs within our learning environment and whose source code is pushed to our personal Github (or Bitbucket) repositories. 
 
 \begin{framed}
 \textbf{VERY IMPORTANT} The work this week builds directly on last week so if you haven't finished working through chapter \ref{lab1} then it is best to do that first or you will probably get horribly stuck.
@@ -584,10 +489,10 @@ There is also a cribsheet of useful commands in section \ref{cribsheet_vim}.
 
 \section{Python}
 \label{python}
-\paragraph{} Python\footnote{\url{https://www.python.org/}} is a very useful programming language and much of its popularity stems from the fact that it is easy to get a lot done with having to write too much code. We already have Python installed in Levinux and ready to use. We can run Python by typing its name in the terminal, e.g.
+\paragraph{} Python\footnote{\url{https://www.python.org/}} is a very useful programming language and much of its popularity stems from the fact that it is easy to get a lot done with having to write too much code. We already have Python installed on the dev server ready to use. We can run Python by typing its name in the terminal, e.g.
 
 \begin{lstlisting}[style=DOS]
-tc@box:~$ python
+$ python
 Python 2.7.10 (default, May 25 2015, 09:55:35) 
 [GCC 4.9.1] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
@@ -596,25 +501,25 @@ Type "help", "copyright", "credits" or "license" for more information.
 \paragraph{} This starts the Python Read-Evaluate-Print-Loop or REPL in which we can type Python commands and get immediate output. To exit the REPL we type `quit()' which will return us to the Linux shell, e.g.
 
 \begin{lstlisting}[style=DOS]
-tc@box:~$ python
+$ python
 Python 2.7.10 (default, May 25 2015, 09:55:35) 
 [GCC 4.9.1] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
 >>> quit()
-tc@box:~$ 
+$ 
 \end{lstlisting}
 
 \paragraph{} Here is the traditional `Hello Napier' program in Python (try it out for yourself):
 
 \begin{lstlisting}[style=DOS]
-tc@box:~$ python
+$ python
 Python 2.7.10 (default, May 25 2015, 09:55:35) 
 [GCC 4.9.1] on linux2
 Type "help", "copyright", "credits" or "license" for more information.
 >>> print "Hello Napier"
 Hello Napier
 >>> quit()
-tc@box:~$
+$
 \end{lstlisting}
 
 \paragraph{} The REPL is very useful for trying out bits of Python as you are learning and also for interactively developing code and analysing data. There are super-charged REPLs and related tools such as iPython\footnote{\url{http://ipython.org/}} and iPython notebooks\footnote{\url{http://ipython.org/notebook.html}} which are used in data science and data analysis. However, once we are comfortable with the Python syntax, we will mostly want to run Python scripts, so let's do that.
@@ -635,7 +540,7 @@ print "Hello Napier"
 
 \paragraph{} Congratulations. Another first. You just ran your very first Python script. All we will really do from now on in the remainder of this module is build on top of this basic script in order to build our own web-apps. However, we shall have some help along the way from some really excellent libraries so don't worry, we shan't build everything from scratch.
 
-\paragraph{} Now the best thing to do is to learn some Python syntax by exploring some of the excellent online `learn Python' tutorials that are available. Some of them are interactive, so you can type directly into the web-site and get results. Others just give you exercises to do yourself and you can do those exercises in Python on our Levinux platform. Here are a few, in order of usefulness according to me, but many more are just a Google search away:
+\paragraph{} Now the best thing to do is to learn some Python syntax by exploring some of the excellent online `learn Python' tutorials that are available. Some of them are interactive, so you can type directly into the web-site and get results. Others just give you exercises to do yourself and you can do those exercises in Python on our dev server platform. Here are a few, in order of usefulness according to me, but many more are just a Google search away:
 
 \begin{enumerate}
 \item Learn Python the hard way: \url{http://learnpythonthehardway.org/book/}
@@ -672,19 +577,7 @@ print "Hello Napier"
 
 \paragraph{} Flask supports us in building web-apps that conform to the Python Web Server Gateway Interface (WSGI)\footnote{The WSGI standard is described in this Python Pep:\url{https://www.python.org/dev/peps/pep-0333/}. A PEP is a Python Enhancement Proposal and is the main way that the planned development of the Python language progresses.}. The goal of WSGI is to make it easy to develop and deploy Python web-app, regardless of the library that is used. So developers can find a library that they find useful, or helps them to tackled their development task, but the output of the process, the web-app has know features and capabilities which means that any server that supports the WSGI can run the web-app. This is similar to what happened with web-app development in Java, where the servlet API means that many tools can be used to build a Java web-app and many web-servers can then run the app.
 
-\paragraph{} When we run a Flask web-app, that app will be accessible in a web browser on a particulr network port. Each member of the class will have been assigned a port number of their own for use on the Ubuntu dev server (this doesn't appliy to Levinux. Ensure that you set the port number that your app runs on to the number you have been assigned and only use that number. For example if you have been assigned the port number ``9103'' then you would access \url{http://set09103.napier.ac.uk:9103} in your web browser.
 
-%\begin{framed}
-%\textbf{IMPORTANT} The version of Levinux that we have used from the \url{http://levinux.com/} site does not forward port 5000. This is the port that we will access in our browser to see our web-apps. We have two solutions, the first is to download a new version of Levinux (Napier Edition) from the SET09103 Moodle page and set up a fresh environment (you will have to run the pipulate and drinkme scripts again. The alternative, which might wreck your version of Levinux and mean you have to start again anyway is to edit two of the startup scripts within Levinux. To ensure that your installation stays completely portable there are scripts to edit. The first is here Pipulate.app/Contents/MacOS/qemu32.bat and you need to add the following line between the similar lines for higher and lower port numbers:
-%\begin{lstlisting}
-%    -redir tcp:5000::5000 ^
-%\end{lstlisting}
-%Similarly we need to edit the Pipulate.app/Contents/Resources/qemuonmac.sh file to add the following line:
-%\begin{lstlisting}
-%    -redir tcp:5000::5000 \
-%\end{lstlisting}
-%Ensure that both edits are exactly as shown. If you have done it wrong then worst case scenario is that your Levinux install won't start. The othe likely failure is that Levinux will start but the port won't forward properly.
-%\end{framed}
 
 \section{Python Flask ``Hello Napier''}
 \label{hello-napier}
@@ -694,43 +587,48 @@ print "Hello Napier"
 from flask import Flask
 app = Flask(__name__)
 
-@app.route("/")
-def hello():
-    return "Hello World!"
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0')
+@app.route('/')
+def hello_world():
+    return 'Hello Napier'
 \end{lstlisting}
-
-\paragraph{} If you are running this in the Ubuntu VM then you need to alter this line:
-\begin{lstlisting}
-    app.run(host='0.0.0.0')
-\end{lstlisting}
-\paragraph{}to this:
-\begin{lstlisting}
-    app.run(host='0.0.0.0', port=XXXX)
-\end{lstlisting}
-\paragraph{}where XXXX is whatever port your have been assigned by the module leader. Look on the module website for the list of assigned port numbers which assigns a port to each students matriculation number. If you are not sure ask.
 
 \begin{framed}
 \textbf{IMPORTANT} Don't just copy and paste code from the PDF. This is for two very good reasons. The first is that Python is `white-space sensitive'. This means that Python uses whitespace as part of the layout of code, instead of using things like curly braces such as `\{' and `\}'. So if you get spaces, tabs, and other whitespace characters mixed up in your file, which can easily happen if you copy and paste, then it will affect the indentation of the file (although perhaps not in a way that you can tell visibly because whitespace can all look pretty much the same). The second very good reason is that typing in the code counts as `deliberate practise'. You are more likely to remember stuff if you do it multiple times and typing it in the first time counts as the first opportunity to practise.
 \end{framed}
 
-\paragraph{} Type in the `Hello Napier' code from above or get it from the module's Git repository. Save the code in a file called hello.py then run it by executing the following command in the same directory where hello.py is stored:
+\paragraph{} Type in the `Hello Napier' code from above or get it from the module's Git repository. Save the code in a file called hello.py
+
+\paragraph{} When we run a Flask web-app, that app will be accessible in a web browser on a particular network port. Each member of the class will have been assigned a pair of port numbers of their own for use on the dev server. Ensure that you set the port number that your app runs on to the numbers you have been assigned and \emph{only} use those numbers. For example if you have been assigned the port numbers ``9103'' ``9104'' then you would access either \url{http://set09103.napier.ac.uk:9103} or \url{http://set09103.napier.ac.uk:9104} from your web browser. Note that you will not use both numbers for a single app. The aim is to use one number for each assignment so that your marker can see your running code for demonstration purposes. Now we need to set up our ports. The module leader will have assigned you a pair of individuals ports that your web-apps can run on and hence made available to a web-browser. Look on the module website for the list of assigned port numbers which assigns a port to each students matriculation number. If you are not sure ask. You should \emph{only} use the ports assigned to you and no others. This is very important as deviating from this guidance will affect the experience for everyone on the module.
+
+\paragraph{} Enter the following commands into the terminal:
 
 \begin{lstlisting}[style=DOS]
-    $ python hello.py
+    $ export FLASK_APP=hello.py
+    $ export FLASK_ENV=development
 \end{lstlisting}
 
-\paragraph{} This command causes our web-app to be run using the Flask development server which is really useful and fast for debugging during development. If everything goes well then you should see output similar to the following in your terminal (NB. The port number displayed will match what you put in your code):
+\paragraph{} where ``hello.py'' matches the name of the Flask web-app's file name. NB. In this case it should actually be ``hello.py'' but later on you will run web-apps that are stored in files with different names.
+
+\paragraph{} We can now run our code by executing the following command in the same directory where hello.py is stored:
 
 \begin{lstlisting}[style=DOS]
-tc@box:~$ python src/hello.py 
- * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+    $ python -m flask run --host=0.0.0.0 --port PORT_NUMBER
+\end{lstlisting}
+
+\paragraph{} Where PORT\_NUMBER is replaced with one of your assigned port numbers. The host argument merely causes our web-app to be available publically. If we didn't include this then we would only be able to access the web-app from the development server Overall, this command causes our web-app to be run using the Flask development server, on a specifc port that we have specified and available to be accessed from any IP address on the Internet. The Flask development server is really useful and fast for debugging during development. If everything goes well then you should see output similar to the following in your terminal (NB. The port number displayed will match what you put in your code):
+
+\begin{lstlisting}[style=DOS]
+    $ python -m flask run --host=0.0.0.0 --port PORT_NUMBER
+ * Serving Flask app "hello.py" (lazy loading)
+ * Environment: development
+ * Debug mode: on
+ * Running on http://127.0.0.1:8888/ (Press CTRL+C to quit)
  * Restarting with stat
-\end{lstlisting}
+ * Debugger is active!
+ * Debugger PIN: 211-020-266
+ \end{lstlisting}
 
-\paragraph{} Congratulations. You now have your first Python web-app running. You can visit the page generated by Flask in a web browser. Just start up a browser in your host OS, e.g. in Windows when running Levinux in the lab. Although the output from Flask in your terminal tell you which address (and port) your app is running at '0.0.0.0' doesn't appear to reliably resolve on Windows so it is best to navigate to \url{localhost:5000} where you have replaced ``5000'' with your personal port number:
+\paragraph{} Congratulations. You now have your first Python web-app running. You can visit the page generated by Flask in a web browser. Just start up a browser in your host OS, e.g. in Windows when accessing the dev server from a lab machine. Although the output from Flask in your terminal tell you which address (and port) your app is running at '0.0.0.0' doesn't appear to reliably resolve on Windows so it is best to navigate to \url{localhost:5000} where you have replaced ``5000'' with your personal port number:
 
 \begin{figure}[H]
 \centering
@@ -744,7 +642,7 @@ tc@box:~$ python src/hello.py
 \paragraph{} Right. Thats all the preliminaries in place for building web-apps in our learning environment. We can now run a small and lightweight, but otherwise similar to full Linux installs, virtualised server which will host our web-apps. We can log in to the server using SSH, navigate the Linux environment, and edit files using VIM. We can also take advantage of the installed Python language and Python-Flask web-app library to build our own web-apps.
 
 \begin{framed}
-\textbf{CHALLENGE} Create a Github or Bitbucket account. Bitbucket allows you to create an unlimited number of private repositories if you use your @napier address to register whereas Github restricts the number of private repos. That said, either site allows you to create as manay public repositories as you like. Create a remote repo in your Github or Bitbucket account called `set09103'. Run Levinux and log in then clone your set09103 repo. Create a new file in your repo called `hello.txt' and put the message ``Hello Simon'' in it then add, commit and push your changes to your remote repo. Once you have done this, check on either Github or Bitbucket to ensure that your text file is in the repo where you expect it to be then send an email to Simon containing the name of your account, which service, Github or Bitbucket, you are using, and the clone url for your set09103 repository. {\emph{If you use a private repository then you will have to add my account as a collaborator. On both Github and Bitbucket my account name is `siwells'}}. I will then pull everyone's repos to ensure that we are all at the same place in our learning. We will then use the set09103 repos as the place to store our coursework projects and for the hand-in. This just means that we have everything in place early before the hand-in deadline.
+\textbf{CHALLENGE} Create a Github or Bitbucket account. Bitbucket allows you to create an unlimited number of private repositories if you use your @napier address to register whereas Github restricts the number of private repos. That said, either site allows you to create as manay public repositories as you like. Create a remote repo in your Github or Bitbucket account called `set09103'. Log into the Linux dev server then clone your set09103 repo. Create a new file in your repo called `hello.txt' and put the message ``Hello Simon'' in it then add, commit and push your changes to your remote repo. Once you have done this, check on either Github or Bitbucket to ensure that your text file is in the repo where you expect it to be then send an email to Simon containing the name of your account, which service, Github or Bitbucket, you are using, and the clone url for your set09103 repository. {\emph{If you use a private repository then you will have to add my account as a collaborator. On both Github and Bitbucket my account name is `siwells'}}. I will then pull everyone's repos to ensure that we are all at the same place in our learning. We will then use the set09103 repos as the place to store our coursework projects and for the hand-in. This just means that we have everything in place early before the hand-in deadline.
 \end{framed}
 
 \paragraph{} Over the next few chapters we will look at a whole host of things we can do with Flask. However you should also rest assured that all of the tools we are learning will prove useful to you at some point in your career and will help you to become the best developers that you can be.
@@ -758,10 +656,10 @@ tc@box:~$ python src/hello.py
 
 \chapter{Python Flask: Debug Mode, Errors, Routing, \& Static Files}
 \label{lab3}
-\paragraph{} The last two weeks have got us to the point where we can build a simple `Hello Napier' web app using Python and Python-Flask hosted within our simple Levinux Virtual Linux environment and whose source code is pushed to our personal Github (or Bitbucket) repositories. We can now start to expand our web-app skills using Python-Flask. We'll start by looking at the debug mode which enables us to tell the Flask development server to do hot reloads of updated code whenever we save our edited python web-app file. This saves us lots of time as we begin to make lots of changes to our web-app. Additionally, we should expect to to see lots of errors. After all we are working with lots of new tools. So we shall look at Flask errors and how to deal with them. Then we will look at routing requests from web browsers to different URLs, basically how to build a tree of web addresses that each fire off a different Python function when the browser tries to access them. Finally we will look at serving up static files, like image files from the file system.
+\paragraph{} The last two weeks have got us to the point where we can build a simple `Hello Napier' web app using Python and Python-Flask hosted within our Linux dev server environment and whose source code is pushed to our personal Github (or Bitbucket) repositories. We can now start to expand our web-app skills using Python-Flask. We'll start by looking at the debug mode which enables us to tell the Flask development server to do hot reloads of updated code whenever we save our edited python web-app file. This saves us lots of time as we begin to make lots of changes to our web-app. Additionally, we should expect to to see lots of errors. After all we are working with lots of new tools. So we shall look at Flask errors and how to deal with them. Then we will look at routing requests from web browsers to different URLs, basically how to build a tree of web addresses that each fire off a different Python function when the browser tries to access them. Finally we will look at serving up static files, like image files from the file system.
 
 \begin{framed}
-\textbf{VERY IMPORTANT} Chapters for this and subsequent weeks build directly on all of the skills learned in the first two chapter, particularly Levinux, Linux, SSH, and Vim from chapter \ref{lab1} and Python and Python Flask from \ref{lab2}.
+\textbf{VERY IMPORTANT} Chapters for this and subsequent weeks build directly on all of the skills learned in the first two chapter, Linux, SSH, and Vim from chapter \ref{lab1} and Python and Python Flask from \ref{lab2}.
 
 \paragraph{} To some degree you can mix and match this and subsequent chapters and subsections to meet your needs, for example, the type of web app you want to build, but you should aim to cover all chapters by the end of the semester.
 \end{framed}
@@ -777,29 +675,26 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
     return "Hello World!"
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0')
 \end{lstlisting}
 
 \paragraph{} When we run this Python flask app using the python command in the terminal, e.g.
 
 \begin{lstlisting}[style=DOS]
-tc@box:~$ python src/hello.py 
+$ python -m flask run --host=0.0.0.0 --port PORT_NUMBER 
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
  * Restarting with stat
 \end{lstlisting}
 
-\paragraph{} Python calls the run function of the app object and executes it. By default run() takes no arguments but we have used the \emph{host='0.0.0.0'} argument to tell flask to allow connections from outside of the local machine, this is what enables us to access the web-app from Windows as by default we would only be able to access the web-app from within Levinux. However both the app object and the run function have a number of other features that we can use. Whilst developing a new web-app one of the most important is the debug mode which we can run by adding debug=True to our call of the run function, e.g.
+\paragraph{} Python calls the run function of the app object and executes it. By default run() takes no arguments but we have used the \emph{host='0.0.0.0'} argument to tell flask to allow connections from outside of the local machine, this is what enables us to access the web-app from Windows as by default we would only be able to access the web-app from within the Linux dev server. However both the app object and the run function have a number of other features that we can use. Whilst developing a new web-app one of the most important is the debug mode which we can run by setting the Flask environment variable to development, e.g.
 
-\begin{lstlisting}
-    app.run(host='0.0.0.0', debug=True)
+\begin{lstlisting}[style=DOS]
+    $ export FLASK_ENV=development
 \end{lstlisting}
 
 \paragraph{} Two important features of the debug mode are
 
 \begin{enumerate}
-\item Causing the development server to automatically restart each time we change our code, e.g. each time we save (\emph{:w $<$ENTER$>$}) our file after editing it in Vim.
+\item Causing the development server to automatically restarted each time we change our code, e.g. each time we save (\emph{:w $<$ENTER$>$}) our file after editing it in Vim.
 \item Printing out debug information and a Python stack trace in the browser so that we can work out what went wrong.
 \end{enumerate}
 
@@ -1057,13 +952,13 @@ if __name__ == "__main__":
 \end{figure}
 
 
-\paragraph{} To test the POST call is slightly more involved for now. As we haven't implemented any HTML yet that is capable of calling this root using a POST request we need to mock one up. We can use cURL for that. The easiest way is to open a new SSH window and log in to your Levinux server then execute cURL locally on the server. We could do the same from Windows but working with the Windows command line is a pain (and we have already invested time in learning the Linux command line so we might as well continue with that. In Levinux you can now just run:
+\paragraph{} To test the POST call is slightly more involved for now. As we haven't implemented any HTML yet that is capable of calling this root using a POST request we need to mock one up. We can use cURL for that. The easiest way is to open a new SSH window and log into the dev server then execute cURL locally on the server. We could do the same from Windows but working with the Windows command line is a pain (and we have already invested time in learning the Linux command line so we might as well continue with that. In Linux you can now just run:
 
 \begin{lstlisting}[style=DOS]
 $ curl -i -X POST http://localhost:5000/account/
 \end{lstlisting}
 
-\paragraph{} Which will give output like this:
+\paragraph{} obviously replacing 5000 with your own port number. This will give output like this:
 
 \begin{lstlisting}[style=DOS]
 HTTP/1.0 200 OK
@@ -1073,7 +968,7 @@ Server: Werkzeug/0.10.4 Python/2.7.10
 Date: Sun, 04 Oct 2015 12:51:12 GMT
 
 POST'ed to /account root
-tc@box:~$ 
+$ 
 \end{lstlisting}
 
 \paragraph{} We can find out what HTTP method was used by checking the request method (as we saw in section \ref{http-methods}). Data transmitted in a POST or PUT request can then be accessed using the form attribute of the request object.
@@ -1337,7 +1232,7 @@ if __name__ == "__main__":
 %%%%%%%%%%%%%%%%%
 \chapter{HTML Templates using Jinja2}
 \label{style}
-\paragraph{} Storing and writing our HTML code in Python as we have done in previous chapters is not a lot of fun. It is finicky and error-prone and doesn't give us much scope for doing interesting things like generating HTML pages on the fly. Luckily there is a solution for that. Using \emph{templates} we can describe the basic layout of a page and sign-post those elements that Python can fill in with actual data. Python uses an external templating engine, called Jinja2\footnote{\url{http://jinja.pocoo.org/2/}} which is already installed in Levinux alongside Python and Python-Flask.
+\paragraph{} Storing and writing our HTML code in Python as we have done in previous chapters is not a lot of fun. It is finicky and error-prone and doesn't give us much scope for doing interesting things like generating HTML pages on the fly. Luckily there is a solution for that. Using \emph{templates} we can describe the basic layout of a page and sign-post those elements that Python can fill in with actual data. Python uses an external templating engine, called Jinja2\footnote{\url{http://jinja.pocoo.org/2/}} which is already installed on the Linux dev server alongside Python and Python-Flask.
 
 \paragraph{} Jinja2 is a fully-fledged Python templating engine and is not dependent upon Flask. So if you were writing another app at some point in your career that outputs HTML pages then Jinja2 is a good option. For the moment though we shall use it exclusively with Flask.
 
@@ -1851,12 +1746,12 @@ if __name__ == '__main__':
 \paragraph{} Now, if everything is set up correctly, then every time we visit \url{http://localhost:5000/} a new log file should be added to var/loggingapp.log and we can use an extra PuTTY window to ``tail'' the log so that we see each new log line appear in realtime. Tailing a log just means to show the last entries in the file and using the `-f' argument to the tail command causes it to follow the log, meaning that each new line is displayed in the terminal like so:
 
 \begin{lstlisting}[style=DOS]
-tc@box:~$ tail -f var/loggingapp.log 
+$ tail -f var/loggingapp.log 
 INFO | 2015-10-13 17:44:37,368 |  logs | root | Logging a test message from /
 INFO | 2015-10-13 17:44:45,104 |  logs | root | Logging a test message from /
 INFO | 2015-10-13 17:44:46,325 |  logs | root | Logging a test message from /
 ^C
-tc@box:~$ 
+$ 
 \end{lstlisting}
 
 \paragraph{} From this we can see that there were three log messages displayed and that the output is arranged into columns. Getting the output nice and neat like this is the main reason we had to write so much code in our python app and config file, but it is really worth it when you are trying to track down a problem.
@@ -1900,7 +1795,7 @@ if __name__ == "__main__":
 \paragraph{} We have create a class for the test and asserted that the response contents match some of our expectations, e.g. that the response status is `200 OK'. Notice in line 2 that we have also imported our flask app source file so that it is accessible from this test script. To use this we just run it in the shell, e.g.
 
 \begin{lstlisting}[style=DOS]
-tc@box:~$ python testing_test.py 
+$ python testing_test.py 
 .
 ----------------------------------------------------------------------
 Ran 1 test in 0.476s
@@ -1918,7 +1813,7 @@ def root():
 \paragraph{} Now the output from our test suite shoudl be similar to the following:
 
 \begin{lstlisting}[style=DOS]
-tc@box:~$ python testing_test.py 
+$ python testing_test.py 
 F
 ======================================================================
 FAIL: test_root (__main__.TestingTest)
@@ -2132,13 +2027,14 @@ for a little bit of style</p>
 
 \section{Brief Introduction to SQLite3}
 \label{sqlite3-intro}
-\paragraph{} The easiest way to get started with data storage for this module is to use SQLite3. You can install SQLite3 using the Levinux extension manager, TCE, as follows  (NB. If you haven't used TCE yet then visit section \ref{tce} first before continuing):
+\paragraph{} The easiest way to get started with data storage for this module is to use SQLite3. SQLite3 is already installed on the dev server. You can run the command line client by executing the following command:
 
 \begin{lstlisting}[style=DOS]
-    $ tce-load -wi sqlite3-bin.tcz
+    $ sqlite3
 \end{lstlisting}
 
-\paragraph{} Using SQLite3 from Python is quite straightforward if you have worked with a relational database before. You will need to import the Python SQLite3 interface library, set a location where the SQLite database will be stored, initialise a connection to the DB. 
+
+\paragraph{} Using SQLite3 from Python is quite straightforward if you have worked with a relational database before. You will need to import the Python SQLite3 interface library, set a location where the SQLite database will be stored, and initialise a connection to the DB. For example,
 
 
 \begin{lstlisting}[style=DOS]
@@ -2311,39 +2207,13 @@ $  python init_db.py
 
 \section{Using PyCrypto Library for data encryption}
 \label{pycrypto}
-\paragraph{} PyCrypto\footnote{\url{https://www.dlitz.net/software/pycrypto/}} is the Python Cryptography Toolkit and provides a range of useful tools for encyrpting and working with encrypted data in Python. Because our Levinux install is stripped down and does not include a full compiler toolchain for languages like C, which pycrypto uses, we can instead install a prebuilt PyCrypto library as follows:
-
+\paragraph{} PyCrypto\footnote{\url{https://www.dlitz.net/software/pycrypto/}} is the Python Cryptography Toolkit and provides a range of useful tools for encyrpting and working with encrypted data in Python. We can check that this library is installed by using the following command:
 \begin{lstlisting}[style=DOS]
-    $ curl -L -o pycrypto-2.6.1-py2.7-linux-i686.egg https://www.dropbox.com/s/meuvy3d7h1n7k3r/pycrypto-2.6.1-py2.7-linux-i686.egg?dl=1
-    $ sudo su
-    # easy_install pycrypto-2.6.1-py2.7-linux-i686.egg
-    # exit
     $ python -c "import Crypto"
     $
 \end{lstlisting}
 
-\paragraph{} What we did here was to change to the superuser role using sudo. We then installed the Python egg using easy\_install. We then exited the superuser role and used python with the -c option to check that our egg had installed properly. All the call to python is doing is compiling the code that we passed in. The code we passed in is a library import command and if the Crypto library is available then there will be no feedback, just our prompt. If there is any other output then the pycrypto library is not available. Notice that the name of the library that we import within Python is different to the name of the library that we installed.
-
-\begin{framed}
-{\textbf{IMPORTANT} When we use easy\_install or pip to add a new library for Python to use then we also need to make the new addition \emph{persistent}. This is straightforward. We add the new folder, into which our new Python library was installed, to the \emph{/opt/.filetool.lst} file then run the \emph{filetool.sh} script which takes all the folders from .filetool.lst and saves them so that they are available after you reboot. For example, after we install the pycrypto egg, but before we reboot we must do the following:
-\begin{enumerate}
-\item Open /opt/.filetool.lst in vim, e.g. 
-\begin{lstlisting}[style=DOS]
-    $ vim /opt/.filetool.lst
-\end{lstlisting}
-\item Add the location of the pycrypto package folder to the end of the list of folders in ./filetool.lst (one folder per line), e.g. \emph{/usr/local/lib/python2.7/site-packages/pycrypto-2.6.1-py2.7-linux-i686.egg/}
-\item Run the filetool.sh script, e.g.
-\begin{lstlisting}[style=DOS]
-    $ filetool.sh -b
-\end{lstlisting}
-    and after a few moments your newly installed libraries will persist between reboots.
-\end{enumerate}
-
-}
-\end{framed}
-
-
-\paragraph{} You can now import and use PyCrypto within your web-apps, however let's first explore what the library can do in the Python REPL, so launch python in your shell, e.g.
+\paragraph{} If you get any output other than a new prompt then the library is not available (in which case you should contact the module leader for a fix). You can now import and use PyCrypto within your web-apps, however let's first explore what the library can do in the Python REPL, so launch python in your shell, e.g.
 
 \begin{lstlisting}[style=DOS]
     $ python
@@ -2501,18 +2371,11 @@ $  python init_db.py
 
 \paragraph{} BCrypt is the OpenBSD Blowfish password hashing algorithm that is described in a paper by Niels Provos and David Mazieres called "A Future-Adaptable Password Scheme"\footnote{\url{http://www.openbsd.org/papers/bcrypt-paper.ps}}. There is a Python wrapper for this algorithm called py-bcrypt\footnote{\url{http://www.mindrot.org/projects/py-bcrypt/}} that you should use to hash password in your web-apps, at least until this algorithm is demonstrated to be flawed or a stronger system is proposed.
 
-\paragraph{} Just like for the PyCrypto library we will download and install a pre-compiled Python egg\footnote{Available from \url{https://www.dropbox.com/s/x2vs6e9trv1yuon/py_bcrypt-0.4-py2.7-linux-i686.egg?dl=1}} then use easy\_install to install it, for example:
-
+\paragraph{} Just like for the PyCrypto library, the BCrypt library should already be installed on the dev server. Check with the following command. Again, if you get any output other than the return of the prompt `\$' then you should contact the module leader for a fix: 
 \begin{lstlisting}[style=DOS]
-    $ curl -L -o py_bcrypt-0.4-py2.7-linux-i686.egg https://www.dropbox.com/s/x2vs6e9trv1yuon/py_bcrypt-0.4-py2.7-linux-i686.egg?dl=1
-    $ sudo su
-    # easy_install py_bcrypt-0.4-py2.7-linux-i686.egg
-    # exit
     $ python -c "import bcrypt"
     $
 \end{lstlisting}
-
-\paragraph{} Notice that after install bcrypt we also need to make the new library persistent across reboots of Levinux using the same process that we used earlier for the pycrypto library\footnote{This time however we add the following location \emph{/usr/local/lib/python2.7/site-packages/py\_bcrypt-0.4-py2.7-linux-i686.egg/} to the end of the list in .filetool.lst}
 
 \paragraph{} As well as implementing a password derivation algorithm, bcrypt can also salt the supplied password so that the hashed-value is more resistant to rainbow-table based attacks. When you use the hashpw function, you can either pass in the pre-generated salt or else call gensalt() directly and the salt is stored within the generated hash-value. To hash a password we do the following:
 
@@ -2684,7 +2547,7 @@ if __name__ == "__main__":
 \subsection{Some useful aliases}
 
 \begin{description}
-\item[{\raise.17ex\hbox{$\scriptstyle\sim$}}] An alias that means your home directory within the filesystem hierarchy. In Levinux, for the user tc this would expand to /home/tc
+\item[{\raise.17ex\hbox{$\scriptstyle\sim$}}] An alias that means your home directory within the filesystem hierarchy. On the Linux dev server, for the user 40001111 this would expand to /home/40001111
 \item[..] An alias that means the parent of the current directory
 \end{description}
 
@@ -2784,7 +2647,7 @@ All our hello() does is to return the string ``Hello Napier''. It is this string
 This is used to control how the Python module and the flask app server is run. We only want to use app.run() if this script is executed from the Python interpreter, e.g. by calling \$python hello.py. If we were to use an app server instead then the app.run() would be performed differently.
 \item[Line 9] \emph{app.run(host='0.0.0.0')
 }\\
-Calls the run() function of the Flask app class instance to start our development server running using this app as the web app. This line also tells the app to run on a network interface that is accessible from an external address, e.g. from the Windows machine that is running Levinux, otherwise our app would only be accessible within Levinux and we don't have a graphical browser installed there.
+Calls the run() function of the Flask app class instance to start our development server running using this app as the web app. This line also tells the app to run on a network interface that is accessible from an external address, e.g. from the Windows machine that is running your SSH connection, otherwise our app would only be accessible within the dev server and we don't have a graphical browser installed there.
 \end{description}
 
 \chapter{Additional Miscellaneous (but useful) Tools}
@@ -2812,14 +2675,11 @@ Calls the run() function of the Flask app class instance to start our developmen
 
 \section{Pip}
 \label{pip}
-\paragraph{} Pip is a package management tool for Python libraries and is really easy to use. On Levinux we have to install Pip so we must do the following:
-
+\paragraph{} Pip is a package management tool for Python libraries and is really easy to use. You can use pip to install Python libraries into your own user account on the server, e.g.
 \begin{lstlisting}[style=DOS]
-    $ sudo su
-    # easy_install pip
-    # exit
-    $
+    $ pip install --user pycrypto
 \end{lstlisting}
+\paragraph{} Although pycrypto is actually already installed so this is a poor example.
 
 \paragraph{} What this does is enter the \emph{superuser} (SU) role, then it installs pip. The superuser role has more powers than a regular user so once we have installed pip we want to exit the superuser role back to the normal user role that we logged in as. The change in role is indicated by the change in prompt that we see from \emph{\$} to \emph{\#}. We can now use Pip to install whichever Python libraries we want to use as a normal user (not as a superuser). 
 
@@ -2853,125 +2713,7 @@ Calls the run() function of the Flask app class instance to start our developmen
     $ pip install flask
 \end{lstlisting}
 
-\paragraph{} Obviously we already have flask installed in Levinux but if we didn't then we could use this simple command to just install it. 
-
-\section{TCE}
-\label{tce}
-\paragraph{} TCE is the Tiny Core Linux Extension manager and provides a way to download and install pre-built packages of software. Because Levinux is built on the foundations laid by Tiny Core we get to take advantages of all the benefits of both Levinux and the underlying Linux distribution.
-
-\paragraph{} Table \ref{key-table} summarises some of the key commands for managin extensions on a Tiny Core derived Linux distribution.
-
-\begin{table}
-    \begin{tabular}{ll}
-    {\bf Task}                          & {\bf Command} \\
-    Install a package from the repo     & tce-load -wi pkg \\
-    Install from a local file           & tce-load -i pkg \\
-    Search available packages	        & tce-ab \\
-    List installed packages             & ls /usr/local/tce.installed \\
-    \end{tabular}
-    \caption {TCE Commands}
-    \label{key-table}
-\end{table}
-
-\paragraph{} So, for instance, to install the end-user tools for SQLite3 we would execute the following:
-
-\begin{lstlisting}[style=DOS]
-    $ tce-load -wi sqlite3-bin.tcz
-\end{lstlisting}
-
-\section{Build Python Eggs}
-\label{eggs}
-\paragraph{} Sometime we want to precompile a Python library for distribution rather than installing an entire compiler toolchain and all the associated libraries. Let's use the example of building PyCrypto and Py-BCrypt from source into Python eggs.
-
-\subsection{PyCrypto}
-\label{pycrypto_egg}
-
-\paragraph{} We can install the necessary libraries and toolchain to build the PyCrypto library then use Pip as follows:
-
-\begin{lstlisting}[style=DOS]
-    $ tce-load -wi gcc.tcz python-dev.tcz compiletc.tcz gmp-dev.tcz
-    $ sudo su
-    # easy_install pip
-    # pip install pycrypto
-    # exit 
-\end{lstlisting}
-
-\paragraph{} Additionally, with a minor edit we can also create a Python egg. First we need to download the sourcecode for PyCrypto\footnote{The source code for Py-Crypto can be retrieved from the project's PyPi page: \url{https://pypi.python.org/pypi/pycrypto}}.
-
-\begin{lstlisting}[style=DOS]
-    $ curl -L -o pycrypto.tar.gz https://pypi.python.org/packages/source/p/pycrypto/pycrypto-2.6.1.tar.gz
-\end{lstlisting}
-
-\paragraph{} Now we can unzip and untar the file to unpack our PyCrypto source code directory which we will enter then open setup.py to edit:
-
-\begin{lstlisting}[style=DOS]
-    $ gunzip pycrypto.tar.gz 
-    $ tar xvf pycrypto.tar
-    $ cd pycrypto02.6.1/
-    $ vim setup.py
-\end{lstlisting}
-
-\paragraph{} Now we need to add the following import the setup.py
-
-\begin{lstlisting}
-    from setuptools import setup, Extension, Command
-\end{lstlisting}
-
-\paragraph{} Once we have saved and exited setup.py we can build our egg:
-\begin{lstlisting}[style=DOS]
-    $ python setup.py bdist_egg
-\end{lstlisting}
-
-\paragraph{} You will find the egg in the dist sub-directory and can install the egg using:
-\begin{lstlisting}[style=DOS]
-    $ easy_install pycrypto-2.6.1-py2.7-linux-i686.egg
-\end{lstlisting}
-
-\paragraph{} NB. Some of these commands may need adjustment as new versions of the libraries are released but the broad process should not change.
-
-
-\subsection{Py-BCrypt}
-\label{pybcrypt_egg}
-
-\paragraph{} Installing py-bcrypt from source is very similar to installing PyCrypto but with a few small but important changes in the details. We can install the necessary libraries and toolchain to build the py-bcrypt library using Pip as follows:
-
-\begin{lstlisting}[style=DOS]
-    $ tce-load -wi gcc.tcz python-dev.tcz compiletc.tcz
-    $ sudo su
-    # easy_install pip
-    # pip install py-bcrypt
-    # exit 
-\end{lstlisting}
-
-\paragraph{} Additionally, with a minor edit we can also create a Python egg. First, having installed the pre-requisites above, we need to download the sourcecode for py-bcrypt\footnote{The source code for Py-BCrypt can be retrieved from the project's PyPi page: \url{https://pypi.python.org/pypi/py-bcrypt/}}.
-
-\begin{lstlisting}[style=DOS]
-    $ curl -L -o py-bcrypt.tar.gz https://pypi.python.org/packages/source/p/py-bcrypt/py-bcrypt-0.4.tar.gz
-\end{lstlisting}
-
-\paragraph{} Now we can unzip and untar the file to unpack our py-bcrypt source code directory
-
-\begin{lstlisting}[style=DOS]
-    $ gunzip py-bcrypt.tar.gz 
-    $ tar xvf pybcrypt.tar
-    $ cd py-bcrypt-0.4/
-\end{lstlisting}
-
-\paragraph{} We can now build our egg:
-\begin{lstlisting}[style=DOS]
-    $ python setup.py bdist_egg
-\end{lstlisting}
-
-\paragraph{} You will find the egg in the dist sub-directory and you can copy this egg to other instances of Levinux then install the egg without needing a build toolchain using:
-\begin{lstlisting}[style=DOS]
-    $ easy_install py_bcrypt-0.4-py2.7-linux-i686.egg
-\end{lstlisting}
-
-\paragraph{} NB. Some of these commands may need adjustment as new versions of the libraries are released but the broad process should not change.
-
-
-
-
+\paragraph{} Obviously we already have flask installed on the dev server but if we didn't then we could use this simple command to just install it. 
 
 
 
