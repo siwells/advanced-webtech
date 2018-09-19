@@ -633,7 +633,19 @@ print "Hello Napier"
 
 \paragraph{} Flask supports us in building web-apps that conform to the Python Web Server Gateway Interface (WSGI)\footnote{The WSGI standard is described in this Python Pep:\url{https://www.python.org/dev/peps/pep-0333/}. A PEP is a Python Enhancement Proposal and is the main way that the planned development of the Python language progresses.}. The goal of WSGI is to make it easy to develop and deploy Python web-app, regardless of the library that is used. So developers can find a library that they find useful, or helps them to tackled their development task, but the output of the process, the web-app has know features and capabilities which means that any server that supports the WSGI can run the web-app. This is similar to what happened with web-app development in Java, where the servlet API means that many tools can be used to build a Java web-app and many web-servers can then run the app.
 
+\paragraph{} The first thing we need to do is ensure that we have the Flask library installed. So execute the following command on the dev server:
 
+\begin{lstlisting}[style=DOS]
+    $ pip install --user flask
+\end{lstlisting}
+
+\paragraph{} This will install the flask library in your local user account (as opposed to a system wide copy)\footnote{You might want to investigate Python's virtualenv or ``virtual environment'' tools for helping you to manage your Python projects and the libraries that they use.}. You can check whether a library is installed by then running the following:
+
+\begin{lstlisting}[style=DOS]
+    $ python -c "import Flask"
+\end{lstlisting}
+
+\paragraph{} If there are no errors or other messages displayed then everything is fine and you can move on. If you do get errors or messages then it might be worth doing some background research to increase your knowledge. You should only need to do this once. Once Flask is installed you can then use it.
 
 \section{Python Flask ``Hello Napier''}
 \label{hello-napier}
