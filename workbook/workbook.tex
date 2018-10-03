@@ -1827,7 +1827,7 @@ $
 
 \section{Testing}
 \label{testing}
-\paragraph{} We can unit test our Python app, to ensure that everything is working correctly. We do this by running a test harness which sets up our Flask app then compares expected outputs to actual outputs, for example, for the following simple web-app:
+\paragraph{} We can unit test our Python app, to ensure that everything is working correctly. We do this by running a test harness which sets up our Flask app then compares expected outputs to actual outputs, for example, for the following simple web-app (testing.py):
 
 \begin{lstlisting}
 from flask import Flask
@@ -1841,7 +1841,7 @@ if __name__ == "__main__":
   app.run(host='0.0.0.0',debug=True)
 \end{lstlisting}
 
-\paragraph{} We can write tests that compare the response returned by a call to the `/' route against what we would expect. For example, is the content correct, is the content type set corretly, is the status value set correctly. Let's see some of these tests now.
+\paragraph{} We can write tests that compare the response returned by a call to the `/' route against what we would expect. For example, is the content correct, is the content type set corretly, is the status value set correctly. Let's see some of these tests now from the testing\_test.py file. Notice that testing\_test.py imports our source file (testing) as well as the unittest library:
 
 \begin{lstlisting}
 import unittest
