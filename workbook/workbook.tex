@@ -2785,6 +2785,252 @@ Calls the run() function of the Flask app class instance to start our developmen
 \paragraph{} Obviously we already have flask installed on the dev server but if we didn't then we could use this simple command to just install it. 
 
 
+\chapter{Python Primer}
+\label{python-primer}
+
+\paragraph{} The goal of the following sections is to give the shortest possible introduction to the most important features of the Python language that you'll need to become familiar with. Obviously Python can do much more, but this is a good starting place. All the examples are using the Python REPL (which is why the prompt starts with `$>>>$'. If you want to run this code in a script then you might have to make minor adjustments in places.
+
+\section{Variables \& Data Types}
+
+\subsection{Variable Assignment}
+\begin{lstlisting}[style=DOS]
+    >>> x=5
+    >>> x
+     5
+\end{lstlisting}
+
+\subsection{Performing Calculations With Variables}
+\paragraph{} Respectively, addition, subtraction, multiplication, exponentiation, remainded (modulo arithmetic, and division.
+\begin{lstlisting}[style=DOS]
+    >>> x+2
+     7
+    >>> x-2
+     5
+    >>> x*2
+     10
+    >>> x**2
+     25
+    >>> x%2
+     1
+    >>> x/float(2)
+     2.5
+\end{lstlisting}
+
+\subsection{Data Types \& Type Conversion}
+\paragraph{} Most of the time Python's strategy for handling different types of data is known as ``Duck Typing'', i.e. if it walks like a duck and sounds like a duck, then it probably is a duck so treat it as a duck. most of the time this works fine, and Python exceptions are fast and efficient so the general rule is to try to use a variable the way you want to use it, catch an exception, and do something different if necessary. Occasionally we need to treat data in particular ways, for example, \emph{coercing} a variable to act as a string. 
+
+\begin{lstlisting}[style=DOS]
+    >>> x=5
+    >>> x
+     5
+    >>> str(x)
+     '5'
+    >>> int(x)
+     5
+    >>> float(x)
+     5.0
+    >>> bool(x)
+     True
+\end{lstlisting}
+\paragraph{} Notice that although we started with our variable, x, being assigned a number value (an integer to be precise), we can wrap our variable in various functions to cause it to be treated as something other than an integer. Notice that each is subtly different, for example, the int is displayed as the number value and nothing more, but the string wraps the value in quotes.
+
+\paragraph{} Let's look at a quick example of treating a variable of one types as though it is a different type. If we want to output the value of a variable with an explanatory message such as when we want to say ``the value of x is '' then add the actual value -- then we need to ensure that value so that it is treated as a string so it can added to the end of the message.
+
+\begin{lstlisting}[style=DOS]
+    >>> x=5
+    >>> y="num is "
+    >>> y+x
+     Traceback (most recent call last):
+       File "<stdin>", line 1, in <module>
+     TypeError: cannot concatenate 'str' and 'int' objects
+    >>> y+str(x)
+     'num is 5'
+\end{lstlisting}
+
+\paragraph{} Notice that when we try to add the integer to our string we get an error, a traceback. However, when we do the same but explicitly say that our integer, x should be handled as a string, we get the desired behaviour.
+
+\section{Help}
+\label{help}
+\paragraph{} We can get help using the builtin help function, e.g.
+
+\begin{lstlisting}[style=DOS]
+    >>> help()
+\end{lstlisting}
+\paragraph{} You can pass items into the help function such as variables and function names to get relevant information about them, e.g.
+
+\begin{lstlisting}[style=DOS]
+    >>> help(str)
+\end{lstlisting}
+
+\paragraph{} Should give you information about the string class.
+
+\section{Strings}
+\label{strings}
+
+\paragraph{} Speaking of strings. If you want a string, then just wrap it in matching quotes, either single quotes, `, or double quotes, ``.
+
+\begin{lstlisting}[style=DOS]
+    >>> my_first_string = 'hello napier'
+    >>> my_first_string
+     'hello napier'
+\end{lstlisting}
+
+\subsection{String Operations}
+\paragraph{} Once we have some strings we can do things with them. We can cause them to be handled multiple times, we concatenate them with other strings, and we can check what the strings contain:
+
+\begin{lstlisting}[style=DOS]
+    >>> my_first_string*2
+     'hello napierhello napier'
+    >>> my_first_string + " and goodbye"
+     'hello napier and goodbye'
+    >>> 'n' in my_first_string
+     True
+\end{lstlisting}
+
+\paragraph{} We can also slice up our strings to work only with particular parts, for example, accessing only the characters at a give, zero-indexed, position, or the sub-string between two positions, or the \emph{head} of the string, from the beginning up to a given index, or the \emph{tail} of the string from a give index to the end:
+
+\begin{lstlisting}[style=DOS]
+    >>> my_first_string[3]
+     'l'
+    >>> my_first_string[0]
+     'h'
+    >>> my_first_string[4:7]
+     'o n'
+    >>> my_first_string[:9]
+     'hello nap'
+    >>> my_first_string[5:]
+     ' napier'
+\end{lstlisting}
+
+\paragraph{} We can perform many more operations on strings, but this is a good start...
+
+\subsection{String Methods}
+\paragraph{} Python strings are objects, and objects generally have methods that you can use to manipulate them. For example, switching the case of the characters that make up the string, either making everything lowercase or uppercase, counting how many instances there are of a given element, replacing particular elements with alternatives, and stripping whitespace from the ends of the string (really useful when consuming strings from other places).
+
+\begin{lstlisting}[style=DOS]
+    >>> my_first_string.upper()
+     'HELLO NAPIER'
+    >>> my_first_string.lower()
+     'hello napier'
+    >>> my_first_string.count('n')
+     1
+    >>> my_first_string.count('e')
+     2
+    >>> my_first_string.replace('e', 'x')
+     'hxllo napixr'
+    >>> my_first_string.strip()
+     'hello napier'
+\end{lstlisting}
+
+
+\section{Lists}
+\paragraph{} Lists are an incredibly important aspect of Python programming\footnote{To be honest, as you continue exploring various prpogramming languages and methods for working with data, you'll probably discover that ``list processing'' is a fundamental method for working with data. Lots of data that we need to work with is presented as sequences of similar objects, events, or datapoints. So having tools to help us to process each element of any arbitrary list is a really powerful tool.}.
+
+\subsection{List Elements}
+\paragraph{} We use the square brackets, `$[$' and `$]$' to enclose a list and we can store anything in a list, even mixtures of different types of data.
+
+\begin{lstlisting}[style=DOS]
+    >>> []
+     []
+    >>> [1,2,3]
+     [1, 2, 3]
+    >>> my_first_list = [1,2,3]
+    >>> my_first_list
+     [1, 2, 3]
+    >>> l1=[2, 2.3, 'string']
+\end{lstlisting}
+
+\paragraph{} We can construct lists in many ways, e.g. from variables, by directly including values, or from other lists:
+\begin{lstlisting}[style=DOS]
+    >>> a='this'
+    >>> b='is'
+    >>> my_list=[a,b,'my','list']
+    >>> my_list
+     ['this', 'is', 'my', 'list']
+    >>> list_of_lists = [['a','list'],['another','list']]
+    >>> list_of_lists
+     [['a', 'list'], ['another', 'list']]
+\end{lstlisting}
+
+\paragraph{} We can then acccess elements of the list in various ways. Compare this to how we performed operations on strings earlier and consider how strings are really just lists of characters. In the following we access the members of the list using the zero-indexed position of the member. Notice that using the minus sign accesses the lists from the tail instead of the head. We can also slice the list using the `:' operator to access various sub-lists
+
+\begin{lstlisting}[style=DOS]
+    >>> my_list[1]
+     'is'
+    >>> my_list[-1]
+     'list'
+    >>> my_list[-2]
+     'my'
+    >>> my_list[-0]
+     'this'
+    >>> my_list[1:3]
+     ['is', 'my']
+    >>> my_list[1:]
+     ['is', 'my', 'list']
+    >>> my_list[:3]
+     ['this', 'is', 'my']
+\end{lstlisting}
+
+\paragraph{} Return to our earlier ``list of lists'', we can also access these \emph{nested lists} using a similar notation:
+
+\begin{lstlisting}[style=DOS]
+    >>> list_of_lists
+     [['a', 'list'], ['another', 'list']]
+    >>> list_of_lists[0]
+     ['a', 'list']
+    >>> list_of_lists[1]
+     ['another', 'list']
+    >>> list_of_lists[1][0]
+     'another'
+\end{lstlisting}
+
+\subsection{List Operations}
+
+\paragraph{} We can perform operations on lists, for example, concatenating or joining them together using the `+' operator, multiplying lists using the `*' operator.
+
+\begin{lstlisting}[style=DOS]
+    >>> my_list
+     ['this', 'is', 'my', 'list']
+    >>> my_list + my_list
+     ['this', 'is', 'my', 'list', 'this', 'is', 'my', 'list']
+    >>> my_list * 2
+     ['this', 'is', 'my', 'list', 'this', 'is', 'my', 'list']
+\end{lstlisting}
+
+\subsection{List Methods}
+
+\paragraph{} We can also use the ethods associated with the list class to interact with a list, e.g. get the index of a list element, count 
+
+\begin{lstlisting}[style=DOS]
+    >>> my_list 
+     ['this', 'is', 'my', 'list']
+    >>> my_list.index('is')
+     1
+    >>> my_list.count('is')
+     1
+    >>> my_list.append("which")
+    >>> my_list.append("is")
+    >>> my_list.append("great")
+    >>> my_list.count('is')
+     2
+    >>> my_list
+     ['this', 'is', 'my', 'list', 'which', 'is', 'great']
+    >>> my_list.sort()
+    >>> my_list
+     ['great', 'is', 'is', 'list', 'my', 'this', 'which']
+    >>> my_list.remove('is')
+    >>> my_list
+     ['great', 'is', 'list', 'my', 'this', 'which']
+    >>> my_list.pop()
+     'which'
+    >>> my_list.pop()
+     'this'
+    >>> my_list.pop(-1)
+     'my'
+\end{lstlisting}
+
+
+
 
 \backmatter
 
