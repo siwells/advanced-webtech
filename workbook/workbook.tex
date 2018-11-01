@@ -2439,7 +2439,14 @@ $  python init_db.py
 
 \paragraph{} BCrypt is the OpenBSD Blowfish password hashing algorithm that is described in a paper by Niels Provos and David Mazieres called "A Future-Adaptable Password Scheme"\footnote{\url{http://www.openbsd.org/papers/bcrypt-paper.ps}}. There is a Python wrapper for this algorithm called py-bcrypt\footnote{\url{http://www.mindrot.org/projects/py-bcrypt/}} that you should use to hash password in your web-apps, at least until this algorithm is demonstrated to be flawed or a stronger system is proposed.
 
-\paragraph{} Just like for the PyCrypto library, the BCrypt library should already be installed on the dev server. Check with the following command. Again, if you get any output other than the return of the prompt `\$' then you should contact the module leader for a fix: 
+\paragraph{} The BCrypt library isn't yet installed so you'll need to install it as follows:
+
+\begin{lstlisting}[style=DOS]
+    $ pip install --user bcrypt
+    $
+\end{lstlisting}
+
+\paragraph{} Now check that it's installed properly with the following command. Again, if you get any output other than the return of the prompt `\$' then you should contact the module leader for a fix: 
 \begin{lstlisting}[style=DOS]
     $ python -c "import bcrypt"
     $
