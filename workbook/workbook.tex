@@ -2275,7 +2275,15 @@ $  python init_db.py
 
 \section{Using PyCrypto Library for data encryption}
 \label{pycrypto}
-\paragraph{} PyCrypto\footnote{\url{https://www.dlitz.net/software/pycrypto/}} is the Python Cryptography Toolkit and provides a range of useful tools for encyrpting and working with encrypted data in Python. We can check that this library is installed by using the following command:
+\paragraph{} PyCrypto\footnote{\url{https://www.dlitz.net/software/pycrypto/}} is the Python Cryptography Toolkit and provides a range of useful tools for encyrpting and working with encrypted data in Python. 
+
+\paragraph{} PyCrypto is a Python library that incorporates some useful cryptography tools. We can install it as follows:
+\begin{lstlisting}[style=DOS]
+    $ pip install --user pycrypto
+    $
+\end{lstlisting}
+
+\paragraph{} We can now check that this library is installed properly by using the following command:
 \begin{lstlisting}[style=DOS]
     $ python -c "import Crypto"
     $
