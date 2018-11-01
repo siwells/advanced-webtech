@@ -2178,7 +2178,7 @@ CREATE TABLE albums (
 );
 \end{lstlisting}
 
-\paragraph{} This schema just deletes any existing table called `albums' then create a new table called `albums' with three text fields to store the `title', `artist' and `media type' of the albums. We can now use the schema in a Flask file. Let's look at a basic Flask app that includes a single route and some datastorage using SQLite3:
+\paragraph{} This schema just deletes any existing table called `albums' then create a new table called `albums' with three text fields to store the `title', `artist' and `media type' of the albums. We can now use the schema in a Flask file. Let's look at a basic Flask app (datastore.py) that includes a single route and some datastorage using SQLite3:
 
 \begin{lstlisting}
 from flask import Flask, g
