@@ -2125,7 +2125,7 @@ for a little bit of style</p>
     >>> conn.commit()
 \end{lstlisting}
 
-\paragraph{} Notice that we used a multi-line Python string which is wrapped in tiple quotes. Now we can add some data to our database, lets add a couple of albums:
+\paragraph{} Notice that we used a multi-line Python string which is wrapped in triple quotes. Now we can add some data to our database, lets add a couple of albums:
 
 \begin{lstlisting}[style=DOS]
     >>> cursor.execute('INSERT INTO albums VALUES ("Greatest Hits", "Roy Orbison", "30.11.1977", "SWRecords", "vinyl")')
@@ -2151,7 +2151,7 @@ for a little bit of style</p>
     [(u'Greatest Hits', u'Roy Orbison', u'30.11.1977', u'SWRecords', u'vinyl')]
 \end{lstlisting}
 
-\paragraph{} In this case we just defined an SQL statement which we stored in the dql variable then we executed that statement using the cursor.execture function and a supplied term ``Roy Orbison'' to search for. As this matched a record in the database we had a record in the list that cursor.fetchall() returns. We can also use wildcards and the SQL ``like'' keyword to find close but not exact matches to our query term, e.g.
+\paragraph{} In this case we just defined an SQL statement which we stored in the sql variable then we executed that statement using the cursor.execute function and a supplied term ``Roy Orbison'' to search for. As this matched a record in the database we had a record in the list that cursor.fetchall() returns. We can also use wildcards and the SQL ``like'' keyword to find close but not exact matches to our query term, e.g.
 
 \begin{lstlisting}[style=DOS]
     >>> term = "orbi"
@@ -2166,7 +2166,7 @@ for a little bit of style</p>
 \label{sqlite3-flask}
 \paragraph{} Now we have seen how SQLite3 works with Python as a general data storage mechanism we can now look at how, with the addition of a few simple functions, we can provide a robust mechanism for storing our web-app's data.
 
-\paragraph{} We'll start with defining a schema file that can be used to initialise our database as follows:
+\paragraph{} We'll start with defining a schema file (schema.sql) that can be used to initialise our database as follows:
 
 \begin{lstlisting}
 DROP TABLE if EXISTS albums;
@@ -2222,7 +2222,7 @@ def root():
         page.append(str(row))
         page.append('</li>')
 
-    page.append('</ul><html>')
+    page.append('</ul></html>')
     return ''.join(page)
 
 if __name__ == "__main__":
@@ -2405,7 +2405,7 @@ $  python init_db.py
     >>> enc = pub.encrypt("hello world from simon", 77)
 \end{lstlisting}
 
-\paragraph{} Where 77 is just a random parameter used by the RSA algorithm when encrypting (you can change it another interger if you like). This gives us a variable called `enc' that contains our enrypted data. In a real system we would store this (or send it to its destination) but we shall just decrypt it again into the plain text. To do this we use the key, which contains the private key, e.g.
+\paragraph{} Where 77 is just a random parameter used by the RSA algorithm when encrypting (you can change it another integer if you like). This gives us a variable called `enc' that contains our enrypted data. In a real system we would store this (or send it to its destination) but we shall just decrypt it again into the plain text. To do this we use the key, which contains the private key, e.g.
 
 \begin{lstlisting}[style=DOS]
     >>> key.decrypt(enc)
