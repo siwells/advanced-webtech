@@ -2094,17 +2094,26 @@ for a little bit of style</p>
 
 \section{Brief Introduction to SQLite3}
 \label{sqlite3-intro}
-\paragraph{} The easiest way to get started with data storage for this module is to use SQLite3. SQLite3 is already installed on the dev server. You can run the command line client by executing the following command:
+\paragraph{} The easiest way to get started with data storage for this module is to use SQLite3. SQLite3 is a self-contained, high-reliability, embedded, full-featured, public-domain, SQL database engine. It is also considered to be the most used database engine in the world, embedded within many apps, the default datastore on Android, and providing database functionality to support many websites. SQLite3 is already installed on the dev server. You can run the command line client by executing the following command:
 
 \begin{lstlisting}[style=DOS]
     $ sqlite3
 \end{lstlisting}
 
-\paragraph{} This gives us a command line for directly manipulating and work with an SQLite database. You can find out a little more about using this tool by typing .help into the tool. We can leave the SQLite tool by typing .exit which should return us to the regular bash shell.
+\paragraph{} This gives us a command line, a bit like the Python REPL, which we can use to directly manipulate and work with SQLite databases. I recommend exploring the SQLite3 documentation\footnote{\url{https://sqlite.org/index.html}} a little and learning about manipulating SQLite databases solely within the SQLite tools before proceeding to using other languages. 
+
+\paragraph{} You can also find out a little more about using this tool by typing .help into the tool. We can leave the SQLite tool by typing .exit which should return us to the regular bash shell. Remember that a database can be used independently of any given software or website so it is useful to be able to interact with our database independently of Python and Flask. To do this we could use the command line client mentioned above, or else there are a lot of third party tools for managing SQLite databases\footnote{Some of these tools are graphical tools for those of you who like that kind of thing ;)}.
 
 
-\paragraph{} We probably really want to work with SQlite from a programming langauge, like Python. Using SQLite3 from Python is quite straightforward if you have worked with a relational database before. You will need to import the Python SQLite3 interface library, set a location where the SQLite database will be stored, and initialise a connection to the DB. For example, start a Python shell (by typing python in the bash shell) then:
+\paragraph{} However we probably really want to work with SQlite from a programming langauge, like Python, because this gives us a way to link our website, or really any piece of software we are writing, to an SQLite database. Using SQLite3 from Python is quite straightforward if you have worked with a relational database before. You will need to import the Python SQLite3 interface library, set a location where the SQLite database will be stored, and initialise a connection to the DB. First though you need to create a database file. I usually store database files in a ``var'' directory. So go ahead and create a directory called var then create a file within that called sqlite3.db.
 
+\begin{lstlisting}[style=DOS]
+    $ mkdir var
+    $ touch var/sqlite3.db
+\end{lstlisting}
+
+
+\paragraph{} We can now use that empty file we just created, sqlite3.db, from Python. Let's explore this for a moment. Instead of diving right into Flask let's just use the Python REPL and manipulate our new database a little to get a feel for interacting with it.  For example, start a Python shell (by typing python in the bash shell) then:
 
 \begin{lstlisting}[style=DOS]
     >>> import sqlite3
