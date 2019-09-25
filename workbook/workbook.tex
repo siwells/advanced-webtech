@@ -652,23 +652,67 @@ print "Hello Napier"
 
 \paragraph{} Flask supports us in building web-apps that conform to the Python Web Server Gateway Interface (WSGI)\footnote{The WSGI standard is described in this Python Pep:\url{https://www.python.org/dev/peps/pep-0333/}. A PEP is a Python Enhancement Proposal and is the main way that the planned development of the Python language progresses.}. The goal of WSGI is to make it easy to develop and deploy Python web-app, regardless of the library that is used. So developers can find a library that they find useful, or helps them to tackled their development task, but the output of the process, the web-app has know features and capabilities which means that any server that supports the WSGI can run the web-app. This is similar to what happened with web-app development in Java, where the servlet API means that many tools can be used to build a Java web-app and many web-servers can then run the app.
 
-\paragraph{} The first thing we need to do is ensure that we have the Flask library installed. So execute the following command on the dev server:
+\subsection{Installation}
+\paragraph{} We should only need to go through this process once. We are going to install some bits of software to enable us to manage python libraries. Flask is a library, but not the only one that we'll use, so having a way to manage different versions of our libraries is a useful thing. It's also the `proper way to do things'. We first need to install Python pip:
 
 \begin{lstlisting}[style=DOS]
-    $ pip install --user flask
+    $ sudo apt install python-pip
 \end{lstlisting}
 
-\paragraph{} This will install the flask library in your local user account (as opposed to a system wide copy)\footnote{You might want to investigate Python's virtualenv or ``virtual environment'' tools for helping you to manage your Python projects and the libraries that they use.}. You can check whether a library is installed by then running the following:
+\paragraph{} Enter your password when prompted and agree ('y') when asked if you want to continue. This will take a few moment to install your software. The command we've just used install a program called pip. We use pip to install and manager libraries of Python sourcecode, such as the web library (Flask) that we're using in this module. We also need a second Python tool that is used to manage sets of Python libraries, so that we can use different versions of libraries for different projects without them all interfering with each other. This tool creates a `virtual environment' for our python web apps to run in and makes sure that the right versions of the right libraries are available to our web-app. The tool we'll use is called `VirtualEnv' and we can install it like so:
+
+\begin{lstlisting}[style=DOS]
+    $ sudo apt install virtualenv
+\end{lstlisting}
+
+\paragraph{} Again you might be asked for a password and whether you want to continue. Enter your password and type `y' when, and if, prompted. When this has complted successfully, we should have our prompt back and both the pip and virtualenv tools will now be available. Each can be invoked by typing it's name at the prompt. They won't do much yet though. One thing to note is that you might get a warning about Python 2.7 deprecation. Don't worry about this and don't try to upgrade your Python version. We'll just use Python 2.7 this trimester and I'll update everything for next academic session to Python 3.
+
+\paragraph{} We can create a virtualenv using the virtualenv command and passing it the name of the environment we want to create. For example, to create an environment called `test' we could do the following:
+\begin{lstlisting}[style=DOS]
+    $ virtualenv test
+\end{lstlisting}
+
+\paragraph{} Once a virtualenv is created we need to activate it, like so:
+\begin{lstlisting}[style=DOS]
+    $ source python-env/bin activate
+\end{lstlisting}
+\paragraph{} This basically changes where Python looks for the libraries that it can use. We can also use the pip freeze tool to see what libraries are installed, like so:
+
+\begin{lstlisting}[style=DOS]
+    $ pip freeze
+\end{lstlisting}
+
+\paragraph{} I don't see Flask amongst the list of installed libraries. Perhaps we'd best install it? We can do that using pip, like so:
+
+\begin{lstlisting}[style=DOS]
+    $ pip install Flask
+\end{lstlisting}
+
+\paragraph{} If you run pip freeze again you will notce that a bunch of new libraries are installed, these include both Flask and a bunch of supplemental ilbraries that Flask uses.
+
+\paragraph{} When we are done working within a Python virtualenv we can close it down by using the deactivate command like so:
+\begin{lstlisting}[style=DOS]
+    $ deactivate
+\end{lstlisting}
+
+\paragraph{} You will need to activate and deactivate your virtualenv whenever you want to run your web-app (or use any of the libraries installed within the virtualenv). When we come to deploy our web-apps for live consumption on the web, we'll set things up to work automatically though, but that comes later. Note that you should only need to install pip and virtualenv once. They will then be installed and available permanently on your VM. You can then create as many virutalenv's as you want or need. One for each project or experiement seems like a good rule of thumb.
+
+\paragraph{} To manage virtualenvs I usually create a folder for each of my Python projects. I then navigate into that folder and create a new virtualenv within it. I usually name each virtualenv as just `env'. When I want to work on a project I just cd into the project folder then `source bin activate' to start the environment. From this point on, until I type deactivate, Python within the current window will use the activated virtualenv. Note that you can run multiple virtualenvs but they must be in different login windows\footnote{or screen or tmux buffers}. This will all seem complicated for now, but you will get used to it and it gives you much more control over your development projects as things develop. You can, and should, read more about virtualenvs. One place to start is in the ``Hitchikers Guide to Python''\footnote{\url{https://docs.python-guide.org/dev/virtualenvs/\#lower-level-virtualenv} - This whole section should be quite interesting and is well worth reading, especially the bit about using pip freeze to create a requirements.txt file, basically a list of libraries that your code uses, so that you anyone who you give your code to can recreate the environment to run it in. Really useful, and efficient because we then don't need to distribute the libraies that our code needs to run, just the code itself.}.
+
+\paragraph{} Assuming that your virtualenv is activated, and that you've got Flask installed (reactivate your virtualenv if not), you can check whether a library, like Flask, is installed by running the following:
 
 \begin{lstlisting}[style=DOS]
     $ python -c "import flask"
 \end{lstlisting}
 
-\paragraph{} If there are no errors or other messages displayed then everything is fine and you can move on. If you do get errors or messages then it might be worth doing some background research to increase your knowledge. You should only need to do this once. Once Flask is installed you can then use it.
+\paragraph{} This just invokes Python and tell it to use the `compile' mode and to take the code that is passed in as an argument, in this case just the Python code to import the flask library. Importing is just our way to tell Python that we want to use a particular library for our code. If the library is available then there will be no output, so if there are no errors or other messages displayed then everything is fine and you can move on. If you do get errors or messages then it might be worth doing some background research to increase your knowledge before asking for help.
 
 \section{Python Flask ``Hello Napier''}
 \label{hello-napier}
-\paragraph{} Here is our first Python Flask app:
+
+\paragraph{} Now we can get on with actually building our first web-app using Python and Flask.
+
+\paragraph{} Here is our first Python Flask app. You'll find an annotated version in Appendix \ref{annotated_hello_napier} that explains what each line is doing, but see if you can work that out yourself first:
 
 \begin{lstlisting}
 from flask import Flask
@@ -683,9 +727,9 @@ def hello_world():
 \textbf{IMPORTANT} Don't just copy and paste code from the PDF. This is for two very good reasons. The first is that Python is `white-space sensitive'. This means that Python uses whitespace as part of the layout of code, instead of using things like curly braces such as `\{' and `\}'. So if you get spaces, tabs, and other whitespace characters mixed up in your file, which can easily happen if you copy and paste, then it will affect the indentation of the file (although perhaps not in a way that you can tell visibly because whitespace can all look pretty much the same). The second very good reason is that typing in the code counts as `deliberate practise'. You are more likely to remember stuff if you do it multiple times and typing it in the first time counts as the first opportunity to practise.
 \end{framed}
 
-\paragraph{} Type in the `Hello Napier' code from above or get it from the module's Git repository. Save the code in a file called hello.py
+\paragraph{} Type in the `Hello Napier' code from above or else get it from the module's Git repository. Save the code in a file called \emph{hello.py}
 
-\paragraph{} When we run a Flask web-app, that app will be accessible in a web browser on a particular network port. Each member of the class will have been assigned a pair of port numbers of their own for use on the dev server. Ensure that you set the port number that your app runs on to the numbers you have been assigned and \emph{only} use those numbers. For example if you have been assigned the port numbers ``9103'' ``9104'' then you would access either \url{http://set09103.napier.ac.uk:9103} or \url{http://set09103.napier.ac.uk:9104} from your web browser. Note that you will not use both numbers for a single app. The aim is to use one number for each assignment so that your marker can see your running code for demonstration purposes. Now we need to set up our ports. The module leader will have assigned you a pair of individuals ports that your web-apps can run on and hence made available to a web-browser. Look on the module website for the list of assigned port numbers which assigns a port to each students matriculation number. If you are not sure ask. You should \emph{only} use the ports assigned to you and no others. This is very important as deviating from this guidance will affect the experience for everyone on the module.
+\paragraph{} Look on the module website for the list of assigned port numbers which assigns a port to each students matriculation number. If you are not sure ask. You should \emph{only} use the ports assigned to you and no others. This is very important as deviating from this guidance will affect the experience for everyone on the module.
 
 \paragraph{} Enter the following commands into the terminal:
 
@@ -699,23 +743,24 @@ def hello_world():
 \paragraph{} We can now run our code by executing the following command in the same directory where hello.py is stored:
 
 \begin{lstlisting}[style=DOS]
-    $ python -m flask run --host=0.0.0.0 --port PORT_NUMBER
+    $ python -m flask run --host=0.0.0.0
 \end{lstlisting}
 
-\paragraph{} Where PORT\_NUMBER is replaced with one of your assigned port numbers. The host argument merely causes our web-app to be available publically. If we didn't include this then we would only be able to access the web-app from the development server Overall, this command causes our web-app to be run using the Flask development server, on a specifc port that we have specified and available to be accessed from any IP address on the Internet. The Flask development server is really useful and fast for debugging during development. If everything goes well then you should see output similar to the following in your terminal (NB. The port number displayed will match what you put in your code):
+\paragraph{} The host argument merely causes our web-app to be available publically. If we didn't include this then we would only be able to access the web-app from within the development server. Overall, this command causes our web-app to be run using the Flask development server and to be made available to be accessed from any IP address on the Internet. The Flask development server is really useful and fast for debugging during development. If everything goes well then you should see output similar to the following in your terminal:
 
 \begin{lstlisting}[style=DOS]
-    $ python -m flask run --host=0.0.0.0 --port PORT_NUMBER
- * Serving Flask app "hello.py" (lazy loading)
+    $ python -m flask run --host=0.0.0.0 * Serving Flask app "hello.py" (lazy loading)
  * Environment: development
  * Debug mode: on
- * Running on http://127.0.0.1:8888/ (Press CTRL+C to quit)
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
  * Restarting with stat
  * Debugger is active!
  * Debugger PIN: 211-020-266
  \end{lstlisting}
 
-\paragraph{} Congratulations. You now have your first Python web-app running. You can visit the page generated by Flask in a web browser. Just start up a browser in your host OS, e.g. in Windows when accessing the dev server from a lab machine. Then visit the following address \url{http://set09103.napier.ac.uk:5000} where you have replaced ``5000'' with your personal port number:
+\paragraph{} Congratulations. You now have your first Python web-app running. 
+
+\paragraph{} When we run a Flask web-app, that app will be accessible in a web browser on a particular network port. By default, Flask runs on port 5000. Your web browser only looks to port 80 be default so we need to tell our browser where to find our app on the given server. You can visit the page generated by Flask in a web browser. Just start up a browser in your host OS, e.g. in Windows when accessing the dev server from a lab machine. Then visit the following address \url{http://webtech-NUMBER.napier.ac.uk:5000} where you have replaced `NUMBER' with your assigned VMs number:
 
 \begin{figure}[H]
 \centering
