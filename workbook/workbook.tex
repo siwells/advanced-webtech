@@ -646,7 +646,7 @@ print "Hello Napier"
 
 \section{Python-Flask}
 \label{python-flask}
-\paragraph{} Python-Flask, or just Flask\footnote{\url{http://flask.pocoo.org/}}, is a Python based microframework for developing websites in Python. Flask is already installed and ready to run. We shall leave all of the nitty gritty of installing and administrating software on a Linux server as an exercise that is outside of the remit of this module and just focus on using the tools that we already have installed.
+\paragraph{} Python-Flask, or just Flask\footnote{\url{https://palletsprojects.com/p/flask/} - This is the main project website for Flask and should be your first port of call for additional information and documentation}, is a Python based microframework for developing websites in Python. Flask is already installed and ready to run. We shall leave all of the nitty gritty of installing and administrating software on a Linux server as an exercise that is outside of the remit of this module and just focus on using the tools that we already have installed.
 
 \paragraph{} Flask includes a lot of useful tools; a development server and debugging tools so that we can run our flask apps during development without needing to run a separate external server like Apache\footnote{\url{http://www.apache.org/}} or NGinX\footnote{\url{https://www.nginx.com/resources/wiki/}}. Obviously if we were deploying our apps in the real world then we would host our web-apps differently. We would use a secure Linux install on a server with access to the external world and would use a good HTTP server, like NGinX, and a WSGI-compliant app-server, like uWSGI\footnote{\url{https://uwsgi-docs.readthedocs.org/en/latest/}}. We might even use a load balancer like Haproxy\footnote{\url{http://www.haproxy.org/}} to enable us to scale our operations. We will look at all of these aspects later in the module but for now we shall concentrate on the development server and a simplified development environment. Flask also has integrated unit-testing support, RESTful request dispatching, templating, to help generate HTML pages, using the Jinja2 tool.
 
@@ -769,12 +769,26 @@ def hello_world():
 \label{fig:flask-hello-napier}
 \end{figure}
 
+
+\section{Reading \& Resources}
+\paragraph{} This chapter only scratches the surface of Flask. You will find much more information at the Flask project's web page. There are also several sites that explain aspects of Flask and might prove useful. Even if you end up reading the same information a few times, you might find that some voice speak to you better than others:
+
+\begin{itemize}
+\item The Flask Documentation\footnote{\url{https://palletsprojects.com/p/flask/}} - The first place to go to for information about the Flask microframework.
+\item Full Stack Python Flask Page\footnote{\url{https://www.fullstackpython.com/flask.html}} - A great list of online resources for Python Flask
+\item How a Flask app works\footnote{\url{http://pythonhow.com/how-a-flask-app-works}}
+\item Miguel Grinberg's Series of articles on Python Flask\footnote{\url{http://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world}} - This became a published book a few years ago and is well worth getting hold of for an end-to-end demonstration of the development of a whole Flask web-app. 
+\end{itemize}
+
 \section{Wrapping Up}
 \label{chapter_02_wrap-up}
 \paragraph{} Right. Thats all the preliminaries in place for building web-apps in our learning environment. We can now run a small and lightweight, but otherwise similar to full Linux installs, virtualised server which will host our web-apps. We can log in to the server using SSH, navigate the Linux environment, and edit files using VIM. We can also take advantage of the installed Python language and Python-Flask web-app library to build our own web-apps.
 
 \begin{framed}
-\textbf{CHALLENGE} Create a Github or Bitbucket account. Bitbucket allows you to create an unlimited number of private repositories if you use your @napier address to register whereas Github restricts the number of private repos. That said, either site allows you to create as manay public repositories as you like. Create a remote repo in your Github or Bitbucket account called `set09103'. Log into the Linux dev server then clone your set09103 repo. Create a new file in your repo called `hello.txt' and put the message ``Hello Simon'' in it then add, commit and push your changes to your remote repo. Once you have done this, check on either Github or Bitbucket to ensure that your text file is in the repo where you expect it to be then send an email to Simon containing the name of your account, which service, Github or Bitbucket, you are using, and the clone url for your set09103 repository. {\emph{If you use a private repository then you will have to add my account as a collaborator. On both Github and Bitbucket my account name is `siwells'}}. I will then pull everyone's repos to ensure that we are all at the same place in our learning. We will then use the set09103 repos as the place to store our coursework projects and for the hand-in. This just means that we have everything in place early before the hand-in deadline.
+\textbf{CHALLENGE \#1} You should already know how to do this and this is, as a result, merely some extrac practise. Create a Github or Bitbucket account. Bitbucket allows you to create an unlimited number of private repositories if you use your @napier address to register whereas Github restricts the number of private repos. That said, either site allows you to create as manay public repositories as you like. Create a remote repo in your Github or Bitbucket account called `set09103'. Log into the Linux dev server then clone your set09103 repo. Create a new file in your repo called `hello.txt' and put the message ``Hello Simon'' in it then add, commit and push your changes to your remote repo. Once you have done this, check on either Github or Bitbucket to ensure that your text file is in the repo where you expect it to be then send an email to Simon containing the name of your account, which service, Github or Bitbucket, you are using, and the clone url for your set09103 repository. {\emph{If you use a private repository then you will have to add my account as a collaborator. On both Github and Bitbucket my account name is `siwells'}}. This is just for practise for the moment. Later, we'll each create a `bare' Git repository in our personal VM. I will clone the repository in your VM (not from GitHub or BitBucket) as part of the coursework assignment submission process, so getting ourselves familiar with, and practising with Git is very important.
+\end{framed}
+\begin{framed}
+\textbf{CHALLENGE \#2} We'll build on the Hello Napier app over the next few weeks, but we haven't yet learned to do much more than return a string from our app (which then displays in the browser). Play around with the hello napier app that we created earlier today. What happens when you return other things in the string? Can you work out how to run some different Python code and return the result? What about getting the app to generate a different random message each time the browser page is refreshed? Finally, as you should already know HTML, investigate what happens when you put some HTML tags in the return string? Could you use this to build a more interesting page? Note that we'll use easier techniques to build HTML pages later, but I want you to get into the habit of doing the following, playing with code, experimenting, and trying out your own ideas, so that you can build your own understanding of how all the various things that we're learning work together.
 \end{framed}
 
 \paragraph{} Over the next few chapters we will look at a whole host of things we can do with Flask. However you should also rest assured that all of the tools we are learning will prove useful to you at some point in your career and will help you to become the best developers that you can be.
@@ -1364,7 +1378,7 @@ if __name__ == "__main__":
 %%%%%%%%%%%%%%%%%
 \chapter{HTML Templates using Jinja2}
 \label{style}
-\paragraph{} Storing and writing our HTML code in Python as we have done in previous chapters is not a lot of fun. It is finicky and error-prone and doesn't give us much scope for doing interesting things like generating HTML pages on the fly. Luckily there is a solution for that. Using \emph{templates} we can describe the basic layout of a page and sign-post those elements that Python can fill in with actual data. Python uses an external templating engine, called Jinja2\footnote{\url{http://jinja.pocoo.org/2/}} which is already installed on the Linux dev server alongside Python and Python-Flask.
+\paragraph{} Storing and writing our HTML code in Python as we have done in previous chapters is not a lot of fun. It is finicky and error-prone and doesn't give us much scope for doing interesting things like generating HTML pages on the fly. Luckily there is a solution for that. Using \emph{templates} we can describe the basic layout of a page and sign-post those elements that Python can fill in with actual data. Python uses an external templating engine, called Jinja2\footnote{\url{https://palletsprojects.com/p/jinja/}} which is already installed on the Linux dev server alongside Python and Python-Flask.
 
 \paragraph{} Jinja2 is a fully-fledged Python templating engine and is not dependent upon Flask. So if you were writing another app at some point in your career that outputs HTML pages then Jinja2 is a good option. For the moment though we shall use it exclusively with Flask.
 
@@ -3115,8 +3129,6 @@ Calls the run() function of the Flask app class instance to start our developmen
     >>> my_list.pop(-1)
      'my'
 \end{lstlisting}
-
-
 
 
 \backmatter
