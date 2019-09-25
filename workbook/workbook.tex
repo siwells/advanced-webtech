@@ -3130,6 +3130,82 @@ Calls the run() function of the Flask app class instance to start our developmen
      'my'
 \end{lstlisting}
 
+\section{JSON}
+\label{json}
+\paragraph{} I don’t go into much detail in the workbook on this topic because it is a data manipulation thing rather than a webby thing, but perhaps an example might help (this was all done in the python command line REPL rather than a script but converting to a python script or using in your Flask app should be trivial):
+
+\paragraph{} We can create a Python dictionary like this:
+\begin{lstlisting}[style=DOS]
+    >>> d = {'firstname':'simon', 'lastname':'wells'}
+    >>> print d
+    {'lastname': 'wells', 'firstname': 'simon’}
+\end{lstlisting}
+
+\paragraph{} We can import the JSON library and use it to create a JSON string representation of a Python dict as follows:
+\begin{lstlisting}[style=DOS]
+import json
+    >>> s = json.dumps(d)
+    >>> print s
+    {"lastname": "wells", "firstname": "simon”}
+\end{lstlisting}
+
+\paragraph{} Notice that the dict and the string appear very similar in terms of output when they are printed? Internally they aren’t the same, one is just a string, but the other, the dict can be accessed by key, e.g.
+\begin{lstlisting}[style=DOS]
+    >>> print d['lastname']
+    'wells'
+\end{lstlisting}
+
+\paragraph{} whereas doing the same with the string gets us an error, e.g.
+\begin{lstlisting}[style=DOS]
+    >>> print s[lastname]
+    Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+    NameError: name 'lastname' is not defined
+\end{lstlisting}
+
+\paragraph{} We can do the reverse, i.e. get a dict back from a JSON encoded string like follows:
+\begin{lstlisting}[style=DOS]
+    >>> d2 = json.loads(s)
+\end{lstlisting}
+
+\paragraph{} Now we can compare the original dict, d, with the new one, d2:
+\begin{lstlisting}[style=DOS]
+    >>> print d2
+    >>> {u'lastname': u'wells', u'firstname': u'simon'}
+    >>> print d
+    {'lastname': 'wells', 'firstname': 'simon’}
+\end{lstlisting}
+
+\paragraph{} The main difference is the ‘u’ which indicates that the strings in the dict are explicitly unicode encoded. We can also access our elements of  the two dicts to compare them, e.g.
+\begin{lstlisting}[style=DOS]
+    >>> print d['lastname']
+    'wells'
+    >>> print d2['lastname']
+    u’wells'
+\end{lstlisting}
+
+\paragraph{} So that is converting between Python dictionaries and JSON encoded strings. Now we want to serialise our string to a file then read them back in. To write our string s to the file “testfile.json” we can do this:
+\begin{lstlisting}[style=DOS]
+    >>> with open('testfile.json', 'w') as outfile:
+    ...    outfile.write(s)
+\end{lstlisting}
+
+\paragraph{} Now open testfile.json in a text editor, like vim, or just use cat to show the contents and check it is the same as the dict/string that we had earlier. I made a small edit to testfile.json in the text editor to add a new key:value pair, e.g. ‘middlename':’none’ so that the information loaded back in differs from the original string written out. Now we just need to read the json file back into a dict within our program so that we can manipulate it, e.g.
+\begin{lstlisting}[style=DOS]
+    >>> with open('testfile.json') as infile:
+    ...    new_dict = json.load(infile)
+    ...    infile.close()
+    ...    print new_dict
+    ... 
+    {u'middlename': None, u'lastname': u'wells', u'firstname': u'simon’}
+\end{lstlisting}
+
+\paragraph{} The only real challenge now is to design the right dictionary structure to capture the information you want to store, i.e. data about your collection….
+
+\paragraph{} NB.   \url{https://jsonlint.com/} is really useful for testing that a bit of JSON is valid and \url{https://docs.python.org/2/library/json.html} documents the Python JSON library
+
+
+
 
 \backmatter
 
