@@ -160,7 +160,7 @@
 \label{overview}
 \paragraph{} How should we use this workbook? Ideally we would work through it on a chapter-by-chapter basis supplementing our work with background reading and wider exploration of each topic introducted. Some chapters will take longer to complete than others, and other chapters will need to be returned to multiple times. This is particularly true for the first two chapters. To learn both Linux and Python in a fortnight is a tall order so I'd suggest working iteratively, do enough to make some progress, then frequently return to the respective chapters to learn a little more, usually by following the links and footnotes to further practise materials.
 
-\paragraph{} In the first week work through the first chapter in the lab section of the workbook. You can read ahead if you want but don't try to run any Flask web-apps on the dev server until you've been assigned your personal port numbers to run your own web-apps on. This week is mostly concerned with the foundation of our learning environment. Logging in, learning to navigate and do simple tasks at the command line, using a non-gui text editor, and using Git. There are links, usually in footnotes, throughout the chapter, for example, to practise the Linux command line then there are online web sites like the \emph{LinuxZoo}\footnote{\url{http://www.linuxzoo.net}} that you can use to practise your skills. Similarly, the links to Vim practise tutorials, particularly the Vim game, will help you practise the skills you need to work efficiently in subsequent weeks. Finally, make sure to work through the linked Git tutorials and ensure that you are confident that you understand each of these tools and their place within the learning environment before moving on to subsequent chapters. 
+\paragraph{} In the first week work through the first chapter in the lab section of the workbook. You can read ahead if you want but don't try to run any Flask web-apps on the dev server until you've been assigned your personal virtual server to run your own web-apps on. This week is mostly concerned with the foundation of our learning environment. Logging in, learning to navigate and do simple tasks at the command line, using a non-gui text editor, and using Git. There are links, usually in footnotes, throughout the chapter, for example, to practise the Linux command line then there are online web sites like the \emph{LinuxZoo}\footnote{\url{http://www.linuxzoo.net}} that you can use to practise your skills. Similarly, the links to Vim practise tutorials, particularly the Vim game, will help you practise the skills you need to work efficiently in subsequent weeks. Finally, make sure to work through the linked Git tutorials and ensure that you are confident that you understand each of these tools and their place within the learning environment before moving on to subsequent chapters. 
 
 \paragraph{} Each chapter is meant to cover about an entire week of study, so don't rush through things within the scheduled lab session just to tell yourself the you've done all the work. As I mentioned in the introduction, topics, whether in lectures or labs are meant to be a starting place, a framework to guide your self-directed study, but not the totality of your learning. 
 
@@ -608,9 +608,8 @@ print "Hello Napier"
 \paragraph{} Save and close first.py then execute the following command in the shell:
 
 \begin{lstlisting}[style=DOS]
-    tc@box:~/src$ python first.py 
+    $ python first.py 
     Hello Napier
-    tc@box:~/src$
 \end{lstlisting}
 
 \paragraph{} Congratulations. Another first. You just ran your very first Python script. All we will really do from now on in the remainder of this module is build on top of this basic script in order to build our own web-apps. However, we shall have some help along the way from some really excellent libraries so don't worry, we shan't build everything from scratch.
@@ -674,7 +673,7 @@ print "Hello Napier"
 
 \paragraph{} Once a virtualenv is created we need to activate it, like so:
 \begin{lstlisting}[style=DOS]
-    $ source python-env/bin activate
+    $ source test/bin/activate
 \end{lstlisting}
 \paragraph{} This basically changes where Python looks for the libraries that it can use. We can also use the pip freeze tool to see what libraries are installed, like so:
 
@@ -729,18 +728,16 @@ def hello_world():
 
 \paragraph{} Type in the `Hello Napier' code from above or else get it from the module's Git repository. Save the code in a file called \emph{hello.py}
 
-\paragraph{} Look on the module website for the list of assigned port numbers which assigns a port to each students matriculation number. If you are not sure ask. You should \emph{only} use the ports assigned to you and no others. This is very important as deviating from this guidance will affect the experience for everyone on the module.
-
-\paragraph{} Enter the following commands into the terminal:
+\paragraph{} Now enter the following commands into the terminal:
 
 \begin{lstlisting}[style=DOS]
     $ export FLASK_APP=hello.py
     $ export FLASK_ENV=development
 \end{lstlisting}
 
-\paragraph{} where ``hello.py'' matches the name of the Flask web-app's file name. NB. In this case it should actually be ``hello.py'' but later on you will run web-apps that are stored in files with different names.
+\paragraph{} where ``hello.py'' matches the name of the Flask web-app's file name. NB. In this case it should actually be ``hello.py'' but later on you will run web-apps that are stored in files with different names. This basically telling the flask library/runtime which file to use as the entrypoint for our flask app and which \emph{mode} to use for deploying our app. In this case we are developing an app so we want to see as much debug information as possible. When deploying live to end-users we would not want to have the development environment enabled though.
 
-\paragraph{} We can now run our code by executing the following command in the same directory where hello.py is stored:
+\paragraph{} Having set everything up we can now run our code by executing the following command in the same directory where hello.py is stored:
 
 \begin{lstlisting}[style=DOS]
     $ python -m flask run --host=0.0.0.0
@@ -826,7 +823,7 @@ def hello():
 \paragraph{} When we run this Python flask app using the python command in the terminal, e.g.
 
 \begin{lstlisting}[style=DOS]
-$ python -m flask run --host=0.0.0.0 --port PORT_NUMBER 
+$ python -m flask run --host=0.0.0.0 
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
  * Restarting with stat
 \end{lstlisting}
@@ -1104,7 +1101,7 @@ if __name__ == "__main__":
 $ curl -i -X POST http://set09103.napier.ac.uk:5000/account/
 \end{lstlisting}
 
-\paragraph{} obviously replacing 5000 with your own port number. This will give output like this:
+\paragraph{} obviously replacing 5000 with the port that your API is running on if you've deployed elsewhere (like 80 or 8080). This will give output like this:
 
 \begin{lstlisting}[style=DOS]
 HTTP/1.0 200 OK
@@ -1649,7 +1646,7 @@ port = 5000
 url = http://127.0.0.1:5000
 \end{lstlisting}
 
-\paragraph{} Our config file can be used to store whichever configuration values we decide we want to support in a flask app. For illustration purposes I have used the debug flag na ip, url, port numbers settings. We can now create a Flask app that uses those values, for example,
+\paragraph{} Our config file can be used to store whichever configuration values we decide we want to support in a flask app. For illustration purposes I have used the debug flag and IP, URL, and port numbers settings. We can now create a Flask app that uses those values, for example,
 
 \begin{lstlisting}
 import ConfigParser
