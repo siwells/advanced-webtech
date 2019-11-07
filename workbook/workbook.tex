@@ -3206,6 +3206,131 @@ import json
 
 
 
+\chapter{Git}
+\label{git}
+
+\paragraph{} This section will eventually contain a quickstart on Git to use as an aide memoire. However, in the meantime, we'll start with just enough to assist in the assignment hand-in.
+
+
+\section{Bare Repositories}
+
+\paragraph{} We need to create a Git repository that can be used as a remote repository, somewhere where you can store your own code, but from which others, like your markers, can retrieve your work. A bare repository is the Git terminology for such a remote Git repository. It's a repo that can be shared between multiple people (assuming they have access to the machine that the repo is stored on, otherwise some additional steps might be required). Note that you don't do work directly in a bare repo, you must clone it to a working location then push any changes that you've committed back to the bare repo.
+
+\paragraph{} Create a folder in your home directory and name it something useful like test-bare-repo, then change directory into your newly created location e.g.:
+
+\begin{lstlisting}[style=DOS]
+    $ mkdir test-bare-repo
+    $ cd test-bare-repo
+\end{lstlisting}
+
+\paragraph{} At the moment this is just a regular folder on the filesystem but Git can add files to turn it into a Git repository. To turn this into a git repository we need to do the following: 
+
+\begin{lstlisting}[style=DOS]
+    $ git init --bare .
+\end{lstlisting}
+
+\paragraph{} In order to use this repository you will need to clone it to a working location on your VM (or on another machine if you are developing in another place and only deploying to your VM.
+
+\begin{framed}
+\textbf{Note} If you \emph{already} have a Git repository set up that you want to use then you can make a bare clone of that repository using a variation on the above command, e.g.
+
+\begin{lstlisting}[style=DOS]
+    $ git clone --bare some-repo-name bare-repo-name
+\end{lstlisting}
+
+\paragraph{} which should give you a message like:
+
+\begin{lstlisting}[style=DOS]
+    Cloning into bare repository 'working-repo.git'...
+    done.
+\end{lstlisting}
+\end{framed}
+
+\paragraph{} As we noted earlier, we can't work directly on a bare repository, we have to clone it to a different location to work on it's contents. Once we've made changes to our working repo, then we can push the changes back to our bare repo. The following sections are a small indicative demonstration of using our bare repo. You might have to adjust paths and filenames to match your actual setup.
+
+\paragraph{} Starting in the bare repo folder run git log, e.g
+
+\begin{lstlisting}[style=DOS]
+    $ git log
+\end{lstlisting}
+
+\paragraph{} You should get output similar to the following:
+
+\begin{lstlisting}[style=DOS]
+    fatal: your current branch 'master' does not have any commits yet
+\end{lstlisting}
+
+\paragraph{} This is just letting us know that our bare repo is empty and hasn't yet got any commits. Note that you can't make changes directly to a bare repo. Instead you should clone it to another location, a working location, then push any changes to your working copy back to the bare repo. Let's do that.
+
+\paragraph{} First we need to make a working copy of our bare repo. Change directory to another location in your account then clone your bare repo to create a working repo:
+
+\begin{lstlisting}[style=DOS]
+    $ git clone test-bare-repo working-repo
+\end{lstlisting}
+
+\paragraph{} This will clone our initial bare repo into a working repo called ``working-repo''.
+
+\paragraph{} You can now move into your working repo and treat it like a regular Git repo, e.g. adding files, commiting them, and then pushing them back to the bare repo. Let's see an example of that. First move into our couserwork working repo and create a new file:
+
+\begin{lstlisting}[style=DOS]
+    $ cd working-repo
+    $ touch hello.txt
+\end{lstlisting}
+
+\paragraph{} Now edit the file, then add it your repo:
+
+\begin{lstlisting}[style=DOS]
+    $ git add hello.txt
+    $ git commit -m "Our first file"
+\end{lstlisting}
+
+\paragraph{} If you run git log now you should see a message like this:
+
+\begin{lstlisting}[style=DOS]
+
+    commit fffd9f14062f39a4abc7360d0b342e7979319277 (HEAD -> master, origin/master)
+    Author: Simon Wells <siwells@gmail.com>
+    Date:   Thu Nov 5 07:33:18 2019 +0000
+
+        Add first file
+\end{lstlisting}
+
+\paragraph{} Now we have made changes to our working repo but we want to push those changes back to our bare repo so that those changes are available to other members of the team. We can do that like this:
+
+\begin{lstlisting}[style=DOS]
+    $ git push
+\end{lstlisting}
+
+\paragraph{} Which should yield a message similar to this (your paths, file, and repo names will likey differ):
+
+\begin{lstlisting}[style=DOS]
+    Counting objects: 3, done.
+    Writing objects: 100% (3/3), 226 bytes | 226.00 KiB/s, done.
+    Total 3 (delta 0), reused 0 (delta 0)
+    To /Users/simon/Desktop/_tmp/test-bare-repo
+     * [new branch]      master -> master
+\end{lstlisting}
+
+\paragraph{} You can now change directory to your bare repository and run git log again to verify that your updates to the repo are reflected accurately in the bare repository.
+
+\paragraph{} Anyone who has read access to the folder on your VM that contains your bare repo can clone it. This includes the markers for this module. You should now create a bare repo in the location specified in the assignment descriptor, e.g. at the following complete pathname:
+
+\begin{lstlisting}[style=DOS]
+    /home/<matriculation-number>/submission/project.git
+\end{lstlisting}
+
+\paragraph{} NB. Recall that your home directory is /home/$<$matriculation-number$>$ so you just need a new sub-directory called submission then a sub-directory of that called project.git which is then initialised as a bare Git repo.
+
+\paragraph{} You should also verify that the bare repo can be cloned to another machine using the command specified in the assignment descriptor, e.g.
+
+\begin{lstlisting}[style=DOS]
+    $ git clone matriculation-number@webtech-NUMBER.napier.ac.uk:~/submission/project.git
+\end{lstlisting}
+
+\paragraph{} NB. You will need to add in your own matriculation number and VM number to complete this command correctly. Try cloning your repository from another machine to verify that it works. You can use a tool like git-bash if your are on a lab machine. It's a good idea to do this way in advance of the hand-in. If you have trouble, aske a lab demonstrator for assistance.
+
+\paragraph{} Two things to note. Firstly, you can set up multiple remote repositories, each of which can act as a backup of your repo and the files that it contains. You can even add GitHub or BitBucket repositories as remotes which can be useful. Secondly, This approach, using a Git remote, is nothin special, it's a standard way to set up a Git repo so that it can be shared between multiple developers, so if you need to do a team project, but you don't want to risk the security or privacy of your code by hosting on a cloud service, then this is one way to solve the problem.
+
 
 \backmatter
 
