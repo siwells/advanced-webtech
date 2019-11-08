@@ -11,12 +11,12 @@ def root():
 
 @app.route('/config/')
 def config():
-  str = []
-  str.append('Debug:'+app.config['DEBUG'])
-  str.append('port:'+app.config['port'])
-  str.append('url:'+app.config['url'])
-  str.append('ip_address:'+app.config['ip_address'])
-  return '\t'.join(str)
+  s = []
+  s.append('debug:'+app.config['DEBUG'])
+  s.append('port:'+app.config['port'])
+  s.append('url:'+app.config['url'])
+  s.append('ip_address:'+app.config['ip_address'])
+  return ', '.join(s)
 
 
 def init(app):
@@ -37,4 +37,5 @@ if __name__ == '__main__':
     app.run(
         host=app.config['ip_address'], 
         port=int(app.config['port']))
+
 
