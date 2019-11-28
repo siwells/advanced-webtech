@@ -3339,6 +3339,150 @@ This basically means that, for submission of our assignment, to make it availabl
 \paragraph{} Two things to note. Firstly, you can set up multiple remote repositories, each of which can act as a backup of your repo and the files that it contains. You can even add GitHub or BitBucket repositories as remotes which can be useful. Secondly, This approach, using a Git remote, is nothin special, it's a standard way to set up a Git repo so that it can be shared between multiple developers, so if you need to do a team project, but you don't want to risk the security or privacy of your code by hosting on a cloud service, then this is one way to solve the problem.
 
 
+\chapter{Deployment}
+\label{deployment}
+
+The final step in our advanced web technologies journey is to deploy the apps that we've been building all trimester. Whilst the way that we've currently been deploying our apps is perfectly fine for development and debugging, there are a few problems:
+
+\begin{enumerate}
+\item Our app isn't available on port 80 - so it is not located in the place that our browser would look at by default. Our users must know to choose a different port and must specifically indicate that in the browser.
+\item Our app stops running when we log out. At the moment we run our app from the command line as a user-level program. What we really want is for an item of server software to manage our app after we log out, and to restart our app if it ever dies.
+\end{enumerate}
+
+\paragraph{} We can solve both of these problems by using a piece of web server software to host our app, and making sure that that server software make our app available at an appropriate address.
+
+\paragraph{} We will use $\mu$WSGI (pronounced micro-whisky) for deployment of our Flask apps. Recall that what makes our Flask apps into web-apps, rather than just Python scripts, is the fact that Flask implements a particular interface, called WGSI, which server software can communicate through to present your app's functionality to users of the Web. There are many server applications available that can serve WSGI apps like our Flask apps, $\mu$WSGI happens to be one of these, and a particularly good one at that.
+
+\paragraph{} First we need to install $\mu$WSGI. This is just a Python package so we can use pip to install it. To keep things simple we'll install it as a system wide Python package rather than using a virtualenv.
+
+\begin{lstlisting}[style=DOS]
+    $ pip install uwsgi
+\end{lstlisting}
+
+
+\paragraph{} Now gather some information to supply to $\mu$WSGI. You will need the following:
+
+\begin{enumerate}
+\item The full path to the main python script for your Flask app.
+\item The full path to the folder in which your main python script for your flask app is located.
+\item The full path to the folder in which your virtualenv is located (this is the folder containing the bin/ include/ and lib/ folders.
+\end{enumerate}
+
+\paragraph{} It is important to note that you shouldn't just type in the commands that follow \emph{as is} because the specific locations and names of your files are important. So you might have to adjust things to match the location of your own files and the names that you've given them\footnote{similar for your matriculation number}. Note that you will also be interacting with the operating system and performing some sysadmin tasks using the sudo command, so you should be careful and take your time to get things right.
+
+\paragraph{} Now, we will need to perform several steps to get $\mu$WSGI to server our app correctly. The first step is just a verification step. Let's supply the information that we just collected to $\mu$WSGI at the command line and check that it works (we can them create configuration files from this information once we know that it works.
+
+\paragraph{} For example, assuming that our flask app is located in this folder: 
+\begin{lstlisting}
+/home/40008609/testapp/ 
+\end{lstlisting}
+in a file called \emph{hello\_flask.py}  that our virtualenv is stored in the same folder and that we want our flask app to think that it is running in the same location (for access to relative folders like static, log locations, and configuration files), then we should be able to run $\mu$WSGI with the following configuration:
+
+\begin{lstlisting}[style=DOS]
+    $ uwsgi --http :5000 --wsgi-file /home/40008609/testapp/hello_flask.py --callable app --virtualenv /home/40008609/testapp/ --pythonpath /home/40008609/testapp/
+\end{lstlisting}
+
+\paragraph{} Note that the folder locations for your own app might vary (and your matirculation number will definitely be different). Also note that you \emph{must} stop your existing Flask debug server if it is already running as otherwise you will be trying to run two instances of your app on the same port which won't work correctly. When you are ready, try it out. If it works then you should be able to access your site at the normal port 5000 location as you have been doing all trimester. The only difference is that our app is made available by a piece of robust server sotware that is optimsed for deployment rather than for development.
+
+\paragraph{} To stop our $\mu$WSGI server we can use $<$CTRL$>$ - C\footnote{If you get a message that something is already running on the 5000 port then check whether you still have your flask debug instance running, and if so, stop it. If things still won't run then us the ps command and search within the results for instances of $\mu$wsgi e.g. \$ ps aux $|$ grep [u]wsgi then kill the offending process using the kill command, e.g. \$ kill 51474}.
+
+\paragraph{} If this has worked, we can move on to the next steps of:
+
+\begin{enumerate}
+\item Creating an ini file for our flask app using the parameters that we just tested above.
+\item Creating a config file for $\mu$WSGI so that the operating system can start everything up automatically.
+\end{enumerate}
+
+\paragraph{} Let's do the first part. We need to create an ini file that will tell $\mu$WSGI where to find our Flask app. We'll use our parameters from above (as we know that they work, if things didn't work before, then they won't magically fix themselves now so it's worth returning to make sure that you can initialise $\mu$WSGI in the terminal and get your flask app running manually before continuing. Create a new folder in your flask app and call it vassals then create a file called deploy.ini in your new vassals folder. It doesn't really matter where we put this file because we will pass it's location to $\mu$WSGI for subsequent use but it helps to stay organised\footnote{but obviously you don't want to change it's location later without also telling $\mu$WSGI where to find it}. Now edit that ini file to contain the following:
+
+\begin{lstlisting}
+[uwsgi]
+	wsgi-file = 	/home/40008609/testapp/hello_flask.py
+	virtualenv = 	/home/40008609/testapp/
+	pythonpath = 	/home/40008609/testapp/
+	chdir = 	    /home/40008609/testapp/
+  	callable = app
+	http = :80
+	worker = 8
+	master = true
+	processes = 8
+	die-on-term = true
+	harakiri = 40
+	heartbeat = 10
+\end{lstlisting}
+
+\paragraph{} Note that the only lines that we might need to edit in this are lines 2, 3, 4, \& 5 to reflect the actual location of our flask app as I've used dummy folders in the example.
+
+\paragraph{} Now we need to create a configuration file that the operating system can use to start $\mu$WSGI and tell the new instance of $\mu$WSGI where to find your flask app (using the ini file we created in the previous step). In your home folder create the following file and name it $\mu$wsgi.service
+
+\begin{lstlisting}
+[unit]
+Description=uWSGI Service
+After=syslog.target
+
+[Service]
+ExecStart=/home/40008609/.local/bin/uwsgi --emperor /home/40008609/demo/vassals/deploy.ini
+RuntimDirectory=uwsgi
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
+\end{lstlisting}
+
+\paragraph{} Note that you will have to alter line 6 to reflect your own matriculation numer and the path to your deploy.ini file
+
+\paragraph{} Our final step is to move the $\mu$wsgi.service file into the following location
+
+\begin{lstlisting}
+    /etc/systemd/system
+\end{lstlisting}
+
+\paragraph{} This is because the operating system uses software called systemd to control starting and stopping services, like our WSGI server, automatically. We use the following command to do this:
+
+\begin{lstlisting}[style=DOS]
+    $ sudo cp uswgi.service /etc/systemd/system
+\end{lstlisting}
+
+\paragraph{} We now need to make our new service exectuable then tell systemd to reload itself to make our $\mu$wsgi.service available:
+
+\begin{lstlisting}[style=DOS]
+    $ sudo chmod +x uwsgi.service
+    $ sudo systemctl daemon-reload
+\end{lstlisting}
+
+All going well, we can now start the server and hence our flask app, and
+
+\begin{lstlisting}[style=DOS]
+    $ sudo systemctl start uwsgi
+\end{lstlisting}
+
+\paragraph{} and can use
+\begin{lstlisting}[style=DOS]
+    $ sudo systemctl stop uwsgi
+\end{lstlisting}
+
+to stop it. Note that this process might take a wee while to complete so wait for your prompt to return indicating that the command has finished before you panic. The server will now also automatically start and stop things if the server is rebooted as well as enabling you to manually start and stop the service.
+
+\paragraph{} Your site should now be available at \url{http://webtech-NUMBER.napier.ac.uk}
+
+\paragraph{} To summarise, to get your Flask app running on port 80 and hosted by $\mu$WSGI then you need to do the following (making sure to adapt this to your specific web-app):
+
+\begin{enumerate}
+\item Install $\mu$WSGI
+\item Create an ini file for our flask app that $\mu$WSGI will use
+\item Create a systemd service file for $\mu$WSGI and move it to /etc/systemd/system
+\item Tell systemd that our new service exists
+\item Start our new service
+\end{enumerate}
+
+\paragraph{} Note that this is for deployment, i.e. to have your web app up and running permanently, and isn't meant to be used for development. So if you are still developing your app, then you should continue to use the Flask debug server until all features are implemented.
+
+
+
 \backmatter
 
 \bibliographystyle{plain}
