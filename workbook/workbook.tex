@@ -1,7 +1,9 @@
+\UseRawInputEncoding
 \documentclass[12pt, a4paper, twoside]{book}
 
 \usepackage{helvet}
 \usepackage{hyperref}
+\usepackage{graphics}
 \usepackage{graphicx}
 \usepackage{listings}
 \usepackage{textcomp}
@@ -14,22 +16,23 @@
 ]{geometry}
 \usepackage{float}
 \usepackage{tabularx}
-\usepackage[disable]{todonotes}
-\usepackage{color, soul}
+\usepackage{xcolor}
+%\usepackage[disable]{todonotes}
+%\usepackage{color, soul}
 \usepackage{amsmath}
-\usepackage{algorithmicx}
-\usepackage[noend]{algpseudocode}
-\usepackage{algorithm}
+%\usepackage{algorithmicx}
+%\usepackage[noend]{algpseudocode}
+%\usepackage{algorithm}
 \usepackage{framed}
 \usepackage{subcaption}
-\usepackage{titlepic}
-\usepackage{fancyhdr}
-\usepackage[simplified]{styles/pgf-umlcd}
+%\usepackage{titlepic}
+%\usepackage{fancyhdr}
+%\usepackage[simplified]{styles/pgf-umlcd}
 \usepackage{shorttoc}
 \usepackage{url}
-\usepackage{paralist}
+%\usepackage{paralist}
 \usepackage{dirtytalk}
-\usepackage{verbatim}
+%\usepackage{verbatim}
 
 \definecolor{grey}{rgb}{0.9, 0.9, 0.9}
 \definecolor{dkgreen}{rgb}{0,0.6,0}
@@ -80,20 +83,20 @@
 %\renewcommand{\chaptername}{Topic}
 
 % New definitions
-\algnewcommand\algorithmicswitch{\textbf{switch}}
-\algnewcommand\algorithmiccase{\textbf{case}}
-\algnewcommand\algorithmicassert{\texttt{assert}}
-\algnewcommand\Assert[1]{\State \algorithmicassert(#1)}%
+%\algnewcommand\algorithmicswitch{\textbf{switch}}
+%\algnewcommand\algorithmiccase{\textbf{case}}
+%\algnewcommand\algorithmicassert{\texttt{assert}}
+%\algnewcommand\Assert[1]{\State \algorithmicassert(#1)}%
 % New "environments"
-\algdef{SE}[SWITCH]{Switch}{EndSwitch}[1]{\algorithmicswitch\ #1\ \algorithmicdo}{\algorithmicend\ \algorithmicswitch}%
-\algdef{SE}[CASE]{Case}{EndCase}[1]{\algorithmiccase\ #1}{\algorithmicend\ \algorithmiccase}%
-\algtext*{EndSwitch}%
-\algtext*{EndCase}%
+%\algdef{SE}[SWITCH]{Switch}{EndSwitch}[1]{\algorithmicswitch\ #1\ \algorithmicdo}{\algorithmicend\ \algorithmicswitch}%
+%\algdef{SE}[CASE]{Case}{EndCase}[1]{\algorithmiccase\ #1}{\algorithmicend\ \algorithmiccase}%
+%\algtext*{EndSwitch}%
+%\algtext*{EndCase}%
 
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[RO, LE]{\small \rightmark}
-\fancyfoot[RO, LE]{\small \thepage}
+%\pagestyle{fancy}
+%\fancyhf{}
+%\fancyhead[RO, LE]{\small \rightmark}
+%\fancyfoot[RO, LE]{\small \thepage}
 
 \newcommand{\blank}[1]{\hspace*{#1}}
 
@@ -125,7 +128,7 @@
 \end{center}
 \end{titlepage}
 
-\shorttoc{Overview}{0}
+%\shorttoc{Overview}{0}
 
 \setcounter{tocdepth}{2}
 \cleardoublepage
@@ -2680,11 +2683,11 @@ if __name__ == "__main__":
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
 
-\begin{comment}
-\chapter{Building Data APIs with HTTP/JSON}
-\label{lab10}
-\paragraph{} 
-\end{comment}
+%\begin{comment}
+%\chapter{Building Data APIs with HTTP/JSON}
+%\label{lab10}
+%\paragraph{} 
+%\end{comment}
 
 
 %%%%%%%%%%%%%%%%%
@@ -2694,12 +2697,12 @@ if __name__ == "__main__":
 %%%%%%%%%%%%%%%%%
 
 
-\begin{comment}
-\part{Case Studies}
-\chapter{Daybook}
-\label{daybook}
-\paragraph{}
-\end{comment}
+%\begin{comment}
+%\part{Case Studies}
+%\chapter{Daybook}
+%\label{daybook}
+%\paragraph{}
+%\end{comment}
 
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
