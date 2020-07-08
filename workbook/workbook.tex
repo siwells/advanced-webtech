@@ -2723,8 +2723,21 @@ if __name__ == "__main__":
 \subsection{Some useful aliases}
 
 \begin{description}
-\item[{\raise.17ex\hbox{$\scriptstyle\sim$}}] An alias that means your home directory within the filesystem hierarchy. On the Linux dev server, for the user 40001111 this would expand to /home/40001111
-\item[..] An alias that means the parent of the current directory
+\item[{\raise.17ex\hbox{$\scriptstyle\sim$}}] An alias that means your home directory within the filesystem hierarchy. On the Linux dev server, for the user 40001111 this would expand to /home/40001111, e.g. If you are lost in the filesystem then the following will always take you home:
+\begin{lstlisting}[style=DOS]
+    $ cd ~
+\end{lstlisting}
+
+\item[..] An alias that means the parent of the current directory. So if you want to move from the current directory to it's parent then you can use this:
+\begin{lstlisting}[style=DOS]
+    $ cd ..
+\end{lstlisting}
+
+\item[-] An alias that means the \emph{previous} directory. This is really useful to help you jump between two directories in different parts of the filesystem with something like:
+\begin{lstlisting}[style=DOS]
+    $ cd -
+\end{lstlisting}
+
 \end{description}
 
 \subsection{Some useful commands}
