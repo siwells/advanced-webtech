@@ -570,18 +570,18 @@ to list the files in the current directory. If you try this now you will be able
 \paragraph{} Python\footnote{\url{https://www.python.org/}} is a very useful programming language and much of its popularity stems from the fact that it is easy to get a lot done with having to write too much code. We already have Python installed on the dev server ready to use. We can run Python by typing its name in the terminal, e.g.
 
 \begin{lstlisting}[style=DOS]
-$ python
-Python 2.7.10 (default, May 25 2015, 09:55:35) 
-[GCC 4.9.1] on linux2
+$ python3
+Python 3.8.2 (default, Jul 16 2020, 14:00:26) 
+[GCC 9.3.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
->>> 
+>>>
 \end{lstlisting}
 \paragraph{} This starts the Python Read-Evaluate-Print-Loop or REPL in which we can type Python commands and get immediate output. To exit the REPL we type `quit()' which will return us to the Linux shell, e.g.
 
 \begin{lstlisting}[style=DOS]
-$ python
-Python 2.7.10 (default, May 25 2015, 09:55:35) 
-[GCC 4.9.1] on linux2
+$ python3
+Python 3.8.2 (default, Jul 16 2020, 14:00:26) 
+[GCC 9.3.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> quit()
 $ 
@@ -590,11 +590,11 @@ $
 \paragraph{} Here is the traditional `Hello Napier' program in Python (try it out for yourself):
 
 \begin{lstlisting}[style=DOS]
-$ python
-Python 2.7.10 (default, May 25 2015, 09:55:35) 
-[GCC 4.9.1] on linux2
+$ python3
+Python 3.8.2 (default, Jul 16 2020, 14:00:26) 
+[GCC 9.3.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
->>> print "Hello Napier"
+>>> print("Hello Napier")
 Hello Napier
 >>> quit()
 $
@@ -605,13 +605,13 @@ $
 \paragraph{} Create a new file called first.py, open it in Vim then edit it as follows:
 
 \begin{lstlisting}
-print "Hello Napier"
+print("Hello Napier")
 \end{lstlisting}
 
 \paragraph{} Save and close first.py then execute the following command in the shell:
 
 \begin{lstlisting}[style=DOS]
-    $ python first.py 
+    $ python3 first.py 
     Hello Napier
 \end{lstlisting}
 
@@ -681,13 +681,13 @@ print "Hello Napier"
 \paragraph{} This basically changes where Python looks for the libraries that it can use. We can also use the pip freeze tool to see what libraries are installed, like so:
 
 \begin{lstlisting}[style=DOS]
-    $ pip freeze
+    $ pip3 freeze
 \end{lstlisting}
 
 \paragraph{} I don't see Flask amongst the list of installed libraries. Perhaps we'd best install it? We can do that using pip, like so:
 
 \begin{lstlisting}[style=DOS]
-    $ pip install Flask
+    $ pip3 install Flask
 \end{lstlisting}
 
 \paragraph{} If you run pip freeze again you will notce that a bunch of new libraries are installed, these include both Flask and a bunch of supplemental ilbraries that Flask uses.
@@ -704,7 +704,7 @@ print "Hello Napier"
 \paragraph{} Assuming that your virtualenv is activated, and that you've got Flask installed (reactivate your virtualenv if not), you can check whether a library, like Flask, is installed by running the following:
 
 \begin{lstlisting}[style=DOS]
-    $ python -c "import flask"
+    $ python3 -c "import flask"
 \end{lstlisting}
 
 \paragraph{} This just invokes Python and tell it to use the `compile' mode and to take the code that is passed in as an argument, in this case just the Python code to import the flask library. Importing is just our way to tell Python that we want to use a particular library for our code. If the library is available then there will be no output, so if there are no errors or other messages displayed then everything is fine and you can move on. If you do get errors or messages then it might be worth doing some background research to increase your knowledge before asking for help.
@@ -743,13 +743,13 @@ def hello_world():
 \paragraph{} Having set everything up we can now run our code by executing the following command in the same directory where hello.py is stored:
 
 \begin{lstlisting}[style=DOS]
-    $ python -m flask run --host=0.0.0.0
+    $ python3 -m flask run --host=0.0.0.0
 \end{lstlisting}
 
 \paragraph{} The host argument merely causes our web-app to be available publically. If we didn't include this then we would only be able to access the web-app from within the development server. Overall, this command causes our web-app to be run using the Flask development server and to be made available to be accessed from any IP address on the Internet. The Flask development server is really useful and fast for debugging during development. If everything goes well then you should see output similar to the following in your terminal:
 
 \begin{lstlisting}[style=DOS]
-    $ python -m flask run --host=0.0.0.0 * Serving Flask app "hello.py" (lazy loading)
+    $ python3 -m flask run --host=0.0.0.0 * Serving Flask app "hello.py" (lazy loading)
  * Environment: development
  * Debug mode: on
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
@@ -758,7 +758,7 @@ def hello_world():
  * Debugger PIN: 211-020-266
  \end{lstlisting}
 
-\paragraph{} Congratulations. You now have your first Python web-app running. 
+\paragraph{} Congratulations. You now have your first Python3 web-app running. 
 
 \paragraph{} When we run a Flask web-app, that app will be accessible in a web browser on a particular network port. By default, Flask runs on port 5000. Your web browser only looks to port 80 be default so we need to tell our browser where to find our app on the given server. You can visit the page generated by Flask in a web browser. Just start up a browser in your host OS, e.g. in Windows when accessing the dev server from a lab machine. Then visit the following address \url{http://webtech-NUMBER.napier.ac.uk:5000} where you have replaced `NUMBER' with your assigned VMs number:
 
@@ -826,7 +826,7 @@ def hello():
 \paragraph{} When we run this Python flask app using the python command in the terminal, e.g.
 
 \begin{lstlisting}[style=DOS]
-$ python -m flask run --host=0.0.0.0 
+$ python3 -m flask run --host=0.0.0.0 
  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
  * Restarting with stat
 \end{lstlisting}
@@ -1684,7 +1684,7 @@ def init(app):
         app.config['port'] = config.get("config", "port")
         app.config['url'] = config.get("config", "url")
     except:
-        print "Could not read configs from: ", config_location
+        print("Could not read configs from: ", config_location)
 
 if __name__ == '__main__':
     init(app)
@@ -1869,7 +1869,7 @@ def init(app):
         app.config['log_location'] = config.get("logging", "location")
         app.config['log_level'] = config.get("logging", "level")
     except:
-        print "Could not read configs from: ", config_location
+        print("Could not read configs from: ", config_location)
 
 
 def logs(app):
@@ -1945,7 +1945,7 @@ if __name__ == "__main__":
 \paragraph{} We have create a class for the test and asserted that the response contents match some of our expectations, e.g. that the response status is `200 OK'. Notice in line 2 that we have also imported our flask app source file so that it is accessible from this test script. To use this we just run it in the shell, e.g.
 
 \begin{lstlisting}[style=DOS]
-$ python testing_test.py 
+$ python3 testing_test.py 
 .
 ----------------------------------------------------------------------
 Ran 1 test in 0.476s
@@ -1963,7 +1963,7 @@ def root():
 \paragraph{} Now the output from our test suite shoudl be similar to the following:
 
 \begin{lstlisting}[style=DOS]
-$ python testing_test.py 
+$ python3 testing_test.py 
 F
 ======================================================================
 FAIL: test_root (__main__.TestingTest)
@@ -2347,7 +2347,7 @@ init_db()
 \paragraph{} We can now call our script before we start our flask app for the first time to initialise the database as follows:
 
 \begin{lstlisting}[style=DOS]
-$  python init_db.py
+$  python3 init_db.py
 \end{lstlisting}
 
 \paragraph{} This should be enough SQLite3 and Flask integration to get started storing data. Obviously there is lots more to learn about the functionality that SQLite3 offers but that is an exercise for your self-directed study.
@@ -2371,13 +2371,13 @@ $  python init_db.py
 
 \paragraph{} PyCrypto is a Python library that incorporates some useful cryptography tools. We can install it as follows:
 \begin{lstlisting}[style=DOS]
-    $ pip install --user pycrypto
+    $ pip3 install --user pycrypto
     $
 \end{lstlisting}
 
 \paragraph{} We can now check that this library is installed properly by using the following command:
 \begin{lstlisting}[style=DOS]
-    $ python -c "import Crypto"
+    $ python3 -c "import Crypto"
     $
 \end{lstlisting}
 
@@ -2542,13 +2542,13 @@ $  python init_db.py
 \paragraph{} The BCrypt library isn't yet installed so you'll need to install it as follows:
 
 \begin{lstlisting}[style=DOS]
-    $ pip install --user bcrypt
+    $ pip3 install --user bcrypt
     $
 \end{lstlisting}
 
 \paragraph{} Now check that it's installed properly with the following command. Again, if you get any output other than the return of the prompt `\$' then you should contact the module leader for a fix: 
 \begin{lstlisting}[style=DOS]
-    $ python -c "import bcrypt"
+    $ python3 -c "import bcrypt"
     $
 \end{lstlisting}
 
@@ -2804,7 +2804,7 @@ if __name__ == "__main__":
 \chapter{Annotated Code Examples}
 \label{annotated}
 
-\section{Python Flask `Hello Napier'}
+\section{Python3 Flask `Hello Napier'}
 \label{annotated_hello_napier}
 \paragraph{} An annotated walk through the code from hello.py that we saw in section \ref{python-flask}.
 
@@ -2866,7 +2866,7 @@ Calls the run() function of the Flask app class instance to start our developmen
 \label{pip}
 \paragraph{} Pip is a package management tool for Python libraries and is really easy to use. You can use pip to install Python libraries into your own user account on the server, e.g.
 \begin{lstlisting}[style=DOS]
-    $ pip install --user pycrypto
+    $ pip3 install --user pycrypto
 \end{lstlisting}
 
 \paragraph{} What this does is enter the \emph{superuser} (SU) role, then it installs pip. The superuser role has more powers than a regular user so once we have installed pip we want to exit the superuser role back to the normal user role that we logged in as. The change in role is indicated by the change in prompt that we see from \emph{\$} to \emph{\#}. We can now use Pip to install whichever Python libraries we want to use as a normal user (not as a superuser). 
@@ -2874,13 +2874,13 @@ Calls the run() function of the Flask app class instance to start our developmen
 \paragraph{} First, let's list the installed Python libraries
 
 \begin{lstlisting}[style=DOS]
-    $ pip freeze
+    $ pip3 freeze
 \end{lstlisting}
 
 \paragraph{} It is useful to save the output of pip freeze to a file that you store in your Python app's Git repository so that you can easily reinstall all of the necessary libraries if you need to install your app elsewhere. You can do this as follows:
 
 \begin{lstlisting}[style=DOS]
-    $ pip freeze > requirements.txt
+    $ pip3 freeze > requirements.txt
 \end{lstlisting}
 
 \paragraph{} Which will cause the output to be saved in a file called requirements.txt\footnote{There are some opportunities for further exploration here. The `$>$' symbol is a Bash shell redirection operator which means that it causes the output of bash, which is usually printed on screen to be redirected to another location, in this case into a text file.} Have a look at the contents of requirements.txt using either Vim or the cat command in the shell, e.g.
@@ -2892,13 +2892,13 @@ Calls the run() function of the Flask app class instance to start our developmen
 \paragraph{} Compare the output to that of just using pip freeze without the redirection. It should be exactly the same. Now if we ever wish to reinstall our Python libraries then we can just use the requirements.txt file as the input to pip and it will run through the list and install everything, e.g.
 
 \begin{lstlisting}[style=DOS]
-    $ pip install -r requirements.txt
+    $ pip3 install -r requirements.txt
 \end{lstlisting}
 
 \paragraph{} Now we can get to the meet of Pip, which is installing new Python libraries. We do this using the install argument of Pip, e.g.
 
 \begin{lstlisting}[style=DOS]
-    $ pip install flask
+    $ pip3 install flask
 \end{lstlisting}
 
 \paragraph{} Obviously we already have flask installed on the dev server but if we didn't then we could use this simple command to just install it. 
