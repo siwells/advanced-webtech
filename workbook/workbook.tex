@@ -1646,45 +1646,44 @@ url = http://127.0.0.1:5000
 \paragraph{} Our config file can be used to store whichever configuration values we decide we want to support in a flask app. For illustration purposes I have used the debug flag and IP, URL, and port numbers settings. We can now create a Flask app that uses those values, for example,
 
 \begin{lstlisting}
-import ConfigParser
-
+import configparser
 from flask import Flask
 
 app = Flask(__name__)
 
-
-@app.route('/')
-def root():
-  return "Hello Napier from the configuration testing app"
-
-@app.route('/config/')
-def config():
-  s = []
-  s.append('debug:'+app.config['DEBUG'])
-  s.append('port:'+app.config['port'])
-  s.append('url:'+app.config['url'])
-  s.append('ip_address:'+app.config['ip_address'])
-  return ', '.join(s)
-
-
 def init(app):
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     try:
-        config_location = "etc/defaults.cfg"
+        config_location = "etc/test.cfg"
         config.read(config_location)
-        
+
         app.config['DEBUG'] = config.get("config", "debug")
         app.config['ip_address'] = config.get("config", "ip_address")
         app.config['port'] = config.get("config", "port")
-        app.config['url'] = config.get("config", "url")
+        app.config["url"] = config.get("config", "url")
     except:
-        print("Could not read configs from: ", config_location)
+        print("Couldn't read configs from: ", config_location)
 
-if __name__ == '__main__':
+init(app)
+
+@app.route('/')
+def root():
+    return "Hello from the config testing app"
+
+@app.route('/config/')
+def config():
+    s = []
+    s.append('debug: '+str(app.config['DEBUG']))
+    s.append('port: '+str(app.config['port']))
+    s.append('url: '+str(app.config['url']))
+    s.append('ip_address: '+str(app.config['ip_address']))
+    return ', '.join(s)
+
+if __name__ == "__main__":
     init(app)
     app.run(
-        host=app.config['ip_address'], 
-        port=int(app.config['port']))
+        host = app.config['ip_address'],
+        port = int(app.config['port']))
 \end{lstlisting}
 
 \paragraph{}  Notice how we are `getting' the value for each key from the config file then storing those values in the app.config object. 
