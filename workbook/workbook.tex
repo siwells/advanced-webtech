@@ -1,5 +1,5 @@
 \UseRawInputEncoding
-\documentclass[12pt, a4paper, twoside]{book}
+\documentclass[12pt, a4paper, oneside]{book}
 
 \usepackage{helvet}
 \usepackage{hyperref}
@@ -9,10 +9,10 @@
 \usepackage{textcomp}
 \usepackage[
 	a4paper,
-	outer=2cm,
-	inner=4cm,
-	top=2cm,
-	bottom=2cm
+	outer=2.5cm,
+	inner=2.5cm,
+	top=2.5cm,
+	bottom=2.5cm
 ]{geometry}
 \usepackage{float}
 \usepackage{tabularx}
@@ -80,55 +80,44 @@
   frame=single,
 }
 
-%\renewcommand{\chaptername}{Topic}
-
-% New definitions
-%\algnewcommand\algorithmicswitch{\textbf{switch}}
-%\algnewcommand\algorithmiccase{\textbf{case}}
-%\algnewcommand\algorithmicassert{\texttt{assert}}
-%\algnewcommand\Assert[1]{\State \algorithmicassert(#1)}%
-% New "environments"
-%\algdef{SE}[SWITCH]{Switch}{EndSwitch}[1]{\algorithmicswitch\ #1\ \algorithmicdo}{\algorithmicend\ \algorithmicswitch}%
-%\algdef{SE}[CASE]{Case}{EndCase}[1]{\algorithmiccase\ #1}{\algorithmicend\ \algorithmiccase}%
-%\algtext*{EndSwitch}%
-%\algtext*{EndCase}%
-
-%\pagestyle{fancy}
-%\fancyhf{}
-%\fancyhead[RO, LE]{\small \rightmark}
-%\fancyfoot[RO, LE]{\small \thepage}
-
-\newcommand{\blank}[1]{\hspace*{#1}}
-
 \begin{document}
-
-\frontmatter
-
-\begin{titlepage}
-\vspace*{5cm}
+\clearpage
+\newcommand\nbvspace[1][3]{\vspace*{\stretch{#1}}}
+\newcommand\nbstretchyspace{\spaceskip0.5em plus 0.25em minus 0.25em}
+\newcommand{\nbtitlestretch}{\spaceskip0.6em}
+\pagestyle{empty}
 \begin{center}
-\includegraphics[width=.5\textwidth]{images/EdNapUniLogoCMYK}~\\[1cm]
+\bfseries
+\nbvspace[1]
+\Huge
+{\nbtitlestretch\huge
+Web Technologies: Server-Side}
 
-\textsc{\Large Edinburgh Napier University}\\[1.5cm]
+\nbvspace[1]
+\normalsize
 
-\textsc{\LARGE \bfseries SET09103 Advanced Web Technologies}\\[0.5cm]
+COVERING DIVERSE TOPICS RELATED TO \\
+DYNAMIC SERVER SIDE WEB AND SERVICE \\ 
+DEVELOPMENT WITH ATTENTION PAID TO \\
+THE FUTURE OF THE WEB
 
-\hrulefill \\[0.4cm]
-{\huge \bfseries Notes \& Workbook 2018-2019 \\[0.4cm] }
-\hrulefill \\[1.5cm]
+\nbvspace[1]
+\small BY\\
+\Large DR SIMON WELLS\\[0.5em]
+%\footnotesize AUTHOR OF ``A WORKING ALGEBRA,'' ``WIRELESS TELEGRAPHY,\\
+%ITS HISTORY, THEORY AND PRACTICE,'' ETC., ETC.
 
-\begin{minipage}{0.4\textwidth}
-\begin{flushleft} \large
-\textbf{Dr Simon Wells} \\
-\end{flushleft}
-\end{minipage}
+\nbvspace[2]
 
-\vfill
+\includegraphics[width=2.5in]{images/cover}
+\nbvspace[3]
+\normalsize
 
+%SCOTLAND\\
+\large
+SESQUIPEDALIA VERBA PUBLISHING LTD
+\nbvspace[1]
 \end{center}
-\end{titlepage}
-
-%\shorttoc{Overview}{0}
 
 \setcounter{tocdepth}{2}
 \cleardoublepage
