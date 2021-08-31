@@ -17,8 +17,17 @@ Notes & readings for each topic covered in the lectures.
 
 ## Workbook
 
+The workbook contains all of the notes and lab exercises for the module. The basic idea is to work through it at a pace of approximately one chapter per week. The workbook is available as LaTeX source code which you'll need to build, or else as a ready built PDF.
+
+
+### Workbook Source Code
+
 To build the workbook you need to have a working LaTeX environment. Build the PDF using the following command:
 
 $ pdflatex workbook && pdflatex workbook
 
-Or grab the [pre-built PDF](https://www.dropbox.com/s/k41vw5a49y64nt7/workbook.pdf?dl=1)
+
+### Pre-built Workbook PDF
+
+Grab the [pre-built PDF](https://www.dropbox.com/s/k41vw5a49y64nt7/workbook.pdf?dl=1)
+
