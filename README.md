@@ -28,7 +28,7 @@ The workbook contains all of the notes and lab exercises for the module. The bas
 
 To build the workbook you need to have a working LaTeX environment. Build the PDF using the following command:
 
-$ pdflatex workbook && pdflatex workbook
+    $ pdflatex workbook && pdflatex workbook
 
 
 ### Pre-built Workbook PDF
