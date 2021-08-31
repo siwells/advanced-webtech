@@ -20,3 +20,5 @@ Notes & readings for each topic covered in the lectures.
 To build the workbook you need to have a working LaTeX environment. Build the PDF using the following command:
 
 $ pdflatex workbook && pdflatex workbook
+
+Or grab the [pre-built PDF](https://www.dropbox.com/s/k41vw5a49y64nt7/workbook.pdf?dl=1)
