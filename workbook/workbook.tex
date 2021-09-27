@@ -1357,6 +1357,49 @@ if __name__ == "__main__":
 \paragraph{} then our browser displays the String that the function returned. A 200/OK HTTP status code is also returned by default and the mimetype is set to text/html. We will return to this topic later when we look at API building and consider setting and returning custom headers.
 
 
+'\section{Inspecting Requests \& Responses}
+\label{inspecting-requests-and-responses}
+\paragraph{} In the lectures we've been considering HTTP as a protocol and have focussed on the things that makes HTTP communication into a language for interactions between the HTTP client and the HTTP server. This involves not only requests and responses but also supplementary aspects of the communication such as HTTP verbs and status codes. 
+
+\paragraph{} In order to really get a grip on this it can be useful to see what is actually being sent in a real request, and what is being returned in a real response. We're also now at the point when we can manipulate all of those aspcets of HTTP using FLask, so again, it can be usful to see what is actually happening in terms of changes to our requests and responses. We've seen earlier how we can use cURL to acces and test our API, by crafting requests, but we can also use it to inspect both the requests and the response.
+
+\paragraph{} By using the -v argument of cURL, where v stands for ``verbose'', we can get cURL to print more information about what it is sending and receiving. Let's try that now.
+
+\begin{lstlisting}[style=DOS]
+$ curl -v http://0.0.0.0:5000/
+*   Trying 0.0.0.0...
+* TCP_NODELAY set
+* Connected to 0.0.0.0 (127.0.0.1) port 5000 (#0)
+> GET / HTTP/1.1
+> Host: 0.0.0.0:5000
+> User-Agent: curl/7.64.1
+> Accept: */*
+> 
+* HTTP 1.0, assume close after body
+< HTTP/1.0 200 OK
+< Content-Type: text/html; charset=utf-8
+< Content-Length: 12
+< Server: Werkzeug/2.0.1 Python/3.8.2
+< Date: Mon, 27 Sep 2021 12:42:12 GMT
+< 
+* Closing connection 0
+Hello World!~
+$ 
+\end{lstlisting}
+
+\paragraph{} In this example we've used cURL to access the default route from our `hello world' Flask app from Section \ref{hello-napier} which is running on localhost port 5000 (\url{http://0.0.0.0.:5000}). There are two parts to our output from cURL, the first is the request that is being sent, and the second is the response that we get. Notice how we get a lot more information by doing this than if we just accessed \url{http://0.0.0.0.:5000} via our browser. If we did that then all we'd see is ``Hello World!'' in our browser window. This way we get to see information about the HTTP version, the content encoding, the server software\footnote{Werkzeug is a library that underpins Flask and is one of the other modules installed when you pip install Flask.}.
+
+\paragraph{} Note that we can also use the developer tools built into Chrome to inspect the request and response headers for any given site we navigate to. To do this navigate to the page you want to inspect the request for, then open the developer tools and select the `Network' tab and refresh the page. Now select the URL in the list on the left hand side of the page then the `Headers' tab on the right hand side to have the headers displayed for you. This separates the headers into the request headers and the response headers as well as providing some general information about the communication as illustrated in Figure \ref{fig:chrome-header-inspection}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/chrome-header-inspection}
+\caption{Inspecting request and response headers using the Chrome Developer Tools}
+\label{fig:chrome-header-inspection}
+\end{figure}
+
+
+
 
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
