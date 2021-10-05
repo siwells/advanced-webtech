@@ -234,7 +234,7 @@ SESQUIPEDALIA VERBA PUBLISHING LTD
 \label{ssh}
 \paragraph{} SSH which stands for `Secure Shell' is a tool for logging in to remote servers. This means that you get a window on your local machine into which you can type commands. These commands are executed by the remote server and the results are displayed to you in the window on your local machine. We will use SSH to access the dev server. Note that you can run SSH multiple times to provide you with an easy way to get multiple windows so that you can easily multi-task on the remote machine. For example, one advantage of having multiple shells is that we can edit and save a program in one shell and run the program and monitor output in another shell. As you can imagine, this is very useful when we are developing new web apps on the dev server.There are also tools that will manage multiple SSH connections for you.
 
-\paragraph{} If you are on Linux or OS X then you will already have a version of SSH installed and all you need to do is open a terminal and type the following to log into your dev server:
+\paragraph{} If you are on Linux, MacOS, or newer versions of Windows then you will already have a version of SSH installed and all you need to do is open a terminal and type the following to log into your dev server:
 
 \begin{lstlisting}[style=DOS]
     $ ssh MATRICNUMBER@webtech-NUMBER.napier.ac.uk
@@ -242,7 +242,17 @@ SESQUIPEDALIA VERBA PUBLISHING LTD
 
 \paragraph{} NB. You \emph{MUST} replace MATRICNUMBER with your actual matriculation number from your napier credentials. You also need to replace NUMBER with the specific VM number you were assigned. Note that we should be very careful to type commands accurately, especially the log in command above, and to also to type our password accurately. If we make too many mistakes then the security service on the server will ban you for a period of time. This is a protection to stop attackers from trying multiple attempts at our passwords in order to gain access to the machine. Currently the security setup is quite sensitive, about 2 failed login attempts can get you banned from logging in for about 5 minutes.
 
-\paragraph{} If you are on Windows or a lab machine, which will be the default for many of you, then you will need to download an SSH client as this is not a standard Windows tool. A popular client for Windows is called PuTTY\footnote{\url{http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe}}. There is also a link to a cached copy of PuTTY from the module web page. Download PuTTy, put it somewhere safe where you can access it then double click it to run. There is no need to install PuTTY as it is very portable. When PuTTY runs you will be presented with the following screen:
+\paragraph{} You will be asked for your password but note that the characters of your password won't be shown on screen when you type it in. In fact nothing is shown. This is expected and desirable behaviour and means that someone who is shoulder surfing you cannot determine even how long your password is merely from viewing your screen.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{images/cli_ssh_session_login.png}
+\caption{Logging into a remote webtech VM using the command line version of SSH. This will be a similar process across multiple operating systems and is illustrated here using the Windows terminal version.}
+\label{fig:cli-ssh-session-login}
+\end{figure}
+
+
+\paragraph{} Alternatively, if you're on an older version of Windows or a lab machine that is misconfigured to not enable the SSH tool in the terminal, then you will need to download an SSH client\footnote{I daresay that with all of the other command line tools and workflows we're looking at in this module, you might also just want to balance things out by using a graphical tool instead. Your choice.}. A popular client for Windows is called PuTTY\footnote{\url{http://the.earth.li/~sgtatham/putty/latest/x86/putty.exe}}. There is also a link to a cached copy of PuTTY from the module web page and it should also be available through AppsAnywhere. Download PuTTy, put it somewhere safe where you can access it then double click it to run. There is no need to install PuTTY as it is very portable. When PuTTY runs you will be presented with the following screen:
 
 \begin{figure}[H]
 \centering
