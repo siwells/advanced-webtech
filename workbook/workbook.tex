@@ -285,6 +285,16 @@ SESQUIPEDALIA VERBA PUBLISHING LTD
 \textbf{IMPORTANT TIP} I usually use SSH to log in at least twice. This gives me a window to edit text in and a window to test my code in. Often I will also have a third window open which I use for command line interaction, Git commits, and testing API calls using cURL, but two is the minimum for a nice development setup - Remember, this is your development environment so you might as well take some time to set it up nicely and so that you can work more productively.
 \end{framed}
 
+\paragraph{} You will, at some point, encounter errors or difficulties whilst logged into your remote machine. In order to get support, and also to provide information to support your helpers, it can be useful to provide information about the commands you have run and the results of doing so. It turns out that PuTTY can help you to do this. PuTTy has a logging option which will automatically create a log file of your SSH session but it is off by default. You can enable logging by clicking the ``All session output'' option in PuTTY's configuration. You can find this option in the Category $\to$ Sesssion $\to$ Logging tab of PuTTY. You'll then have a file that you can attach to emails when asking for support. Note the other options in the PuTTY interface though, specifically the ones for automatically crteating different named log files using, e.g. date, time, and hostname information, so that your session log is automatically named with a sensible identifier.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{images/putty_logs.png}
+\caption{The PuTTY logging options. Select ``All session output'' to keep an automatic log of your session.}
+\label{fig:putty-logging-options}
+\end{figure}
+
+
 
 \section{Basic Linux Usage}
 \label{linux}
