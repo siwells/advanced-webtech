@@ -1051,7 +1051,7 @@ if __name__ == "__main__":
 \paragraph{} You can, for development, debugging, and educational purposes, investigate the request object by printing the request.method, request.path, and request.form attributes to retrieve data about the actual request, e.g.
 
 \begin{lstlisting}
-print request.method, request.path, request.form
+print (request.method, request.path, request.form)
 \end{lstlisting}
 
 \subsection{HTTP Methods}
@@ -1137,7 +1137,7 @@ app = Flask(__name__)
 @app.route("/account/", methods=['POST','GET'])
 def account():
   if request.method == 'POST':
-    print request.form
+    print (request.form)
     name = request.form['name']
     return "Hello %s" % name
   else:
