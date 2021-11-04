@@ -2250,13 +2250,44 @@ for a little bit of style</p>
 
 \section{Brief Introduction to SQLite3}
 \label{sqlite3-intro}
-\paragraph{} The easiest way to get started with data storage for this module is to use SQLite3. SQLite3 is a self-contained, high-reliability, embedded, full-featured, public-domain, SQL database engine. It is also considered to be the most used database engine in the world, embedded within many apps, the default datastore on Android, and providing database functionality to support many websites. SQLite3 is already installed on the dev server. You can run the command line client by executing the following command:
+\paragraph{} The easiest way to get started with data storage for this module is to use SQLite3. SQLite3 is a self-contained, high-reliability, embedded, full-featured, public-domain, SQL database engine. It is also considered to be the most used database engine in the world, embedded within many apps, the default datastore on Android, and providing database functionality to support many websites.
+
+\paragraph{} First we need to install SQLite3. As we're on Ubuntu, which is a Debian based version of Linux, we have access to the Advanced Packing Tool (APT) which we can use to manage the installation of SQLlite3. We only need to install SQLite3 once, and then it's available on the system for us to use in the future, so let's go ahead and do that now. Note that we are installing a system wide piece of software, available by default to all loggrf in users of our VM, so we have to use the sudo command to execute the installation as an admin user:
+
+
+\begin{lstlisting}[style=DOS]
+    $ sudo apt get install sqlite3
+\end{lstlisting}
+
+Now it's installed you can run the command line SQLite3 client by executing the following command:
 
 \begin{lstlisting}[style=DOS]
     $ sqlite3
 \end{lstlisting}
 
-\paragraph{} This gives us a command line, a bit like the Python REPL, which we can use to directly manipulate and work with SQLite databases. I recommend exploring the SQLite3 documentation\footnote{\url{https://sqlite.org/index.html}} a little and learning about manipulating SQLite databases solely within the SQLite tools before proceeding to using other languages. 
+\paragraph{} This gives us a command line, a bit like the Python REPL, which we can use to directly manipulate and work with SQLite databases. I recommend exploring the SQLite3 documentation\footnote{\url{https://sqlite.org/index.html}} a little and learning about manipulating SQLite databases solely within the SQLite tools before proceeding to using other languages. The command line SQLite3 client looks like this:
+
+\begin{lstlisting}[style=DOS]
+    $ sqlite3 
+    SQLite version 3.28.0 2019-04-15 14:49:49
+    Enter ".help" for usage hints.
+    Connected to a transient in-memory database.
+    Use ".open FILENAME" to reopen on a persistent database.
+    sqlite> 
+\end{lstlisting}
+
+\paragraph{} To exit the SQLite3 command line client and return to our terminal we can type .exit then hit return like so\footnote{Alternatively, you can send an end-of-file signal using the $<$ctrl$>$-d key combination which should also shut down the SQLite3 command line client. $<$Ctrl$>$-c and the related quit signal $<$ctrl$>$-c are useful tricks to have up your sleeve if you want to kill a piece of command line software that you're stuck without resorting to the nuclear option of closing the entire window and ending the session.}:
+
+\begin{lstlisting}[style=DOS]
+    $ sqlite3 
+    SQLite version 3.28.0 2019-04-15 14:49:49
+    Enter ".help" for usage hints.
+    Connected to a transient in-memory database.
+    Use ".open FILENAME" to reopen on a persistent database.
+    sqlite> .exit
+    $
+\end{lstlisting}
+
 
 \paragraph{} You can also find out a little more about using this tool by typing .help into the tool. We can leave the SQLite tool by typing .exit which should return us to the regular bash shell. Remember that a database can be used independently of any given software or website so it is useful to be able to interact with our database independently of Python and Flask. To do this we could use the command line client mentioned above, or else there are a lot of third party tools for managing SQLite databases\footnote{Some of these tools are graphical tools for those of you who like that kind of thing ;)}.
 
