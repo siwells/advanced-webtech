@@ -986,21 +986,44 @@ if __name__ == "__main__":
 
 \section{Flask Static Files}
 \label{static}
-\paragraph{} Even though we have seen some techniques for generating web-apps and pages dynamically from code, it is often useful to have static files, e.g. javascript, images, and CSS, that are stored in the filesystem. This enables you to incorporate useful standard web tools like, for example, JQuery, into your web-app, so you don't have to write \emph{everything} in Python.
+\paragraph{} Even though we have seen some techniques for generating web-apps and pages dynamically from code, it is often useful to have static files, e.g. javascript, images, and CSS, that are stored in the filesystem. This enables you to incorporate useful standard web tools like, for example, JQuery, into your web-app, so you don't have to write or generate \emph{everything} in Python. 
 
-\paragraph{} To use static files, all you have to do is to create directory called `\emph{static}' that is a sub-directory (child) of the directory in which your web-app is located. Notice that usually, if you were deploying your web-app in the wild as a public web-site then you would let your web-server take the load of hosting and serving up the files themselves and we will consider this approach later in the module\footnote{Deployment, hosting, administration, \& tuning of high-performance web sites is outside the scope of this module, and could alone form an entire module, however we will consider and discuss a range of tools and techniquess for deploying Flask web-apps that are generally applicable to most web sites.}. However, during development it is sufficient to use the \emph{static} sub-directory. You can then access the static file, for example a CSS file called \emph{style.css}, using theFlask url\_for function like so:
+\paragraph{} This means that we can generate an HTML file, to return to the client, using Jinja2 templates, but that the other artefacts of a web site, such as CSS and JS files, can be stored statically and served directly to the client. If you think about it, this makes some sense. Whilst an individual page within a site might change, to reflect the data contained within that page, many aspects remain static between and across calls. For example, the style of a site doesn't usually change as you navigate through the site, instead it remains fairly static. In fact a hallmark of a good design is usually that it is consistent across all aspects that it applies to. So the CSS doesn't need to be generated on the fly. Similarly images used within a site aren't generated on the fly, icons, navigational images, or illustrative images are usually pictures that are optimised and then stored. Once stored they remain static. JS is the same, it is written and tested against design criteria, then stored as JS files, ready to be retrieved during an HTTP call. These kinds of site artefact are all static, they don't generally need to change during a call from a client so it would probably be a waste of resources to generate them. Why not just store them statically, as files in the file systems, perhaps in a specical folder whether other static files are stored, until needed?
+
+\paragraph{} Note that this contrasts with many HTML pages themselves, particularly if the page depends upon some query from the client and might need to contain different information as a result. For example, if a page contains a table of data as a result of a database query, which in turn depends upon the parameteres of the request made by the client. The data in the table needs to be assembled based on the results of the query so the page is \emph{dynamic}. We have a different way to handle dynamic HTML using \emph{templates} which we'll see later in chapter \ref{style}.
+
+\paragraph{} To use static files, all you have to do is to create a directory called `\emph{static}' that is a sub-directory (child) of the directory in which your web-app is located. You can them place your static files, your CSS, JS, image files, \&c., into this folder and Flask will automatically look there for them when an HTML files requests them\footnote{You can override Flask's default placement of static files into the static folder and use some other folder name if you like using Flask's configuration options.}\footnote{Remember that an HTML file requests other files, like CSS using the $<$link$>$ tag and JS using the $<$script$>$ tag}. You can, and should organise files within your static folder though. Create sub-folders to so that your static files are well organised. This is particularly important as the size of your site, and the number of files that make up your site, grows. With small to medium sites I've found that sorting all CSS files into their own `css' sub-folder, all JS files into their own `js' sub-folder, and all images into their own `img' sub-folder is sufficient to keep things organised.
+
+\paragraph{} Usually, if you were deploying your web-app in the wild as a public web-site then you would use a static web-server to host your static files and a web-app server, such as uWSGI, to host your dynamic flask app. This is because each is optimised for serving either static or dyanamic files. A static web server takes the load of hosting and serving up the static files themselves and then delegates the dynamic pages to the appropriate web-app server. We will consider this approach later in the module\footnote{Deployment, hosting, administration, \& tuning of high-performance web sites is outside the scope of this module, and could alone form an entire module, however we will consider and discuss a range of tools and techniquess for deploying Flask web-apps that are generally applicable to most web sites.}.However, during development it is sufficient to use the \emph{static} sub-directory. 
+
+
+\paragraph{} You can then retrieve any static file, for example a CSS file called \emph{style.css}, using the Flask `url\_for' function like so:
 
 \begin{lstlisting}
     url_for('static', filename='style.css')
 \end{lstlisting}
 
-\paragraph{} NB. For this to work the file \emph{style.css} must be stored in the /static/ subdirectory. Here is full example that display an image in your browser. To get his to work you will have to create the /static/ directory then put an image file into it. You can use the curl tool at the command line to retrieve a remote image from the internet like so:
+\paragraph{} This function looks for the file named `style.css' within the `static' folder and, if found, generates the public URL for that file. In essence it translates from the internal location within the server's filesystem hierarchy, which is private to the server, to a public web address. If anyone has that address then they can retrieve the file. So if we have an image in our static folder put the result of url\_for in relation to that image into the src attribute of an img tag within an html file then that html file will retrieve and display the image. Perhaps we should try that. Let's get an image file and put it in our static folder, then afterwards we'll generate an HTML file containing an image tag in a flask route and insert the URL for our static image into that image tag.
+
+\paragraph{} For this to work we need an image file and we need to put that file into a /static/ subdirectory of our current flask app. First create the /static/ directory. Change directory to a folder with an active virtualenv and then create a static sub-folder within it, e.g.
+
+\begin{lstlisting}[style=DOS]
+    $ mkdir static 
+\end{lstlisting}
+
+\paragraph{} Now retrieve an image file. We'll use a known good image in this example, but the file could be any image file that a browser understands. This includes JPG, PNG, and GIF files amongst others. There are many methods for getting images files onto our server but we'll use the cURL tool at the command line to retrieve a remote image from the internet and make a local copy like so:
 
 \begin{lstlisting}[style=DOS]
     $ curl -o vmask.jpg siwells.github.io/assets/images/vmask.jpg 
 \end{lstlisting}
 
-\paragraph{} which will store an image file called \emph{vmask.jpg} in the directory in which the command is run. You can then use the following to display the file:
+\paragraph{} Now move the image into our static sub-folder:
+
+\begin{lstlisting}[style=DOS]
+    $ mv vmask.jpg static/
+\end{lstlisting}
+
+\paragraph{} Now we have stored an image file, \emph{vmask.jpg}, in the static folder we can use flask to refer to that image within our code and generated HTML. So let's generate an img link and return it to our user for display in their browser:
 
 \begin{lstlisting}
 from flask import Flask, url_for
@@ -1023,7 +1046,7 @@ if __name__ == "__main__":
 
 \paragraph{} Notice how we have used a standard HTML image (img) tag, filled in the src attibute using the output from url\_for, then concatenated the three strings together to form the string that is returned by the static\_example\_img function. I wonder what other HTML tags could be used to return information from a URL? Perhaps we could build entire web-pages this way, by just concatenating various sections of HTML to make an entire page....\footnote{You can do this, and you can return \emph{any} HTML tags this way and build up quite complex pages. However in chapter \ref{style} we will look at how we can use templates to design how our pages look using a mixture of HTML and special coding tags to dynamically build pure HTML responses.}.
 
-\paragraph{} If you now visit \url{http://set09103.napier.ac.uk:5000/static-example/img} you will see the relative URL for the image file something like this:
+\paragraph{} If you now visit your VM in your browser, e.g. \url{http://set09103.napier.ac.uk:5000/static-example/img} {replaceing set09103 with your own VM ID) you will see the relative URL for the image file. It should look something like this:
 
 \begin{figure}[H]
 \centering
@@ -1032,6 +1055,7 @@ if __name__ == "__main__":
 \label{fig:flask-static-img}
 \end{figure}
 
+\paragraph{} Applying this to other types of static file follows a similar pattern. For example, to insert CSS into our returned page, use url\_for to retrieve the publicly accessible address for a CSS file in your static folder, and then insert the resulting address into the href attribute of a $<$link$>$ tag. Or for a JS file do the same but insert it into the src attribute of a $<$script$>$ tag.
 
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
