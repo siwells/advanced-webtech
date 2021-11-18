@@ -38,6 +38,15 @@
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{dkred}{rgb}{0.6,0,0.0}
 
+\lstdefinestyle{CODE}
+{
+    backgroundcolor=\color{white},
+    basicstyle=\small\color{black}\ttfamily,
+    stringstyle=\color{black},
+    keywords={}z,
+    numbers=none
+}
+
 \lstdefinestyle{DOS}
 {
     backgroundcolor=\color{black},
@@ -2780,12 +2789,20 @@ if __name__ == "__main__":
 \paragraph{} However all is not lost. If we securely store our user's data and hash passwords and other sensitive data, and if we also follow a privacy-by-design methodology and only store data that is necessary for the effective functionality of our app, we can at least reduce the effects of a successful attack in terms of our user's personal data. If we are also active in logging the behaviour of our app, checking those logs, and reviewing our codebase for known vulnerabilities or attack vectors then we will also be reducing the likelihood of a successful attack occuring.
 
 
-
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
 % CHAPTER 10
 %%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%
+
+\include{scratch}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+% CHAPTER XX
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+
 
 %\begin{comment}
 %\chapter{Building Data APIs with HTTP/JSON}
