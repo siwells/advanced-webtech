@@ -2870,6 +2870,8 @@ if __name__ == "__main__":
 \item[ls] List the names of the files in the current directory
 \item[ls  \emph{directoryname}] List the contents of the named directory
 \item[mkdir \emph{directoryname}] Create a new directory in the current directory
+\item[mv \emph{source} \emph{destination}] Move a file (or directory) to a new location
+\item[mv \emph{old} \emph{new}] Rename a file (or directory)\footnote{Yes, these two instances of mv are very similar. This is because under the surface mv works by altering a pathname which means that moving a file or folder around the file system is technically the same as renaming a file. When a move happens it is not actually moving a file to another location on disk, just renaming where it is reported as located.}
 \item[pwd] Display the path to the current directory in the filesystem hierarchy, e.g. show you where you are relative to the root
 \item[rm \emph{filename}] Delete the named file
 \item[rm -rf \emph{directoryname}] Will delete the named directory and all of its contents
