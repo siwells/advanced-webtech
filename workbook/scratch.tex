@@ -1,0 +1,192 @@
+\chapter{An HTTP Server from Scratch}
+\label{http-server-from-scratch}
+\paragraph{} We've come a long way, and learned a lot of things, but now it feels like the best time to circle back to where we started, to simplify things, and to consider how we'd build an HTTP server, if we didn't have Flask (or Werkzeug) to provide the foundations.
+
+\paragraph{} Essentially we're going to use Python to create our own simple HTTP server. This will implement our own version of some of the simpler features of Flask, but will also implement the essential, core features of an HTTP server and demonstrate how simple it actually is to implement the most essential aspects of HTTP.
+
+\paragraph{} ``Why do this?'', you might ask. We already have Flask\footnote{... and a whole heap of other HTTP libraries in just about every language that you might use to program a computer. For example Bottle.py (\url{http://www.bottlepy.org/}) is another HTTP framework for Python that actually inspired the development of Flask. Bottle is simpler than Flask, contained entirely in a single Python file, and is fully commented and documented, designed to help you understand all of the parts of an HTTP framework through example}. There are many reasons to do this but the most important at this point are along the following lines:
+
+\begin{itemize}
+\item to see for ourselves how easy it is to implement an HTTP server,
+\item to see how straightforward it is to take an existing specification or standard for a protocol, like HTTP, and to create our own implementation, that is, to turn it into code that we can use in our own projects, and
+\item to recognise that by doing this kind of low level implementation of things we're taking Richard Feynman's approach to learning. He famously wrote on his own blackboard, that ``What I cannot create, I do not understand''. Following this line of reasoning, if we can create an HTTP server then perhaps we can truly say that we understand that aspect of HTTP\footnote{the obvious corrolary here is to consider the client side of HTTP which we don't do in this book but which is explored in a similar chapter in the companion book ``Web Technologies: Client-Side'' if you're interested in building a simple web browser} which is perhaps the best place to bring this book to a close.
+\item Also, it's fun\footnote{I think. For a certain meaning of the word ``fun'' at any rate}.
+\end{itemize}
+
+\paragraph{} So we're going to assume that we have a Web browser already, so we've got something that can make requests to our simple HTTP server and consume the response. Any browser will do so just use your favourite. By using a standard browser as our client we can demonstrate to ourselver that what we are generating in our server is what the browser expects, because we will get real web pages served up and displayed in our browser. We'll also use cURL a little bit later on, partly for practise, and partly to let us explore the features of our tiny HTTP server.
+
+\paragraph{} Finally, before we properly begin, and get to some code, treat this exercise akin to when you implement basic algorithms and data structure in a Computer Science class. We're not implementing an HTTP server here that we'd necessarily use in the real world, although knowing how to write a short Python script that can serve up arbitrary data over HTTP is a \emph{very} useful skill to have under the right circumstances. No, we're just doing this for fun and learning. When we're sure we understand things we go back to proven technologies like Flask, uWSGI, and NGinX. Just as we always use builtins and library versions of stacks, queues, and linked lists rather than rolling our own for each project.
+
+\paragraph{} The essence of Web serving is to listen for requests and to respond appropriately. We don't know when a request will come, so we are essentially saying that we want to wait, and listen, indefinitely, for a request to arrive.
+
+\paragraph{} In a moment we'll look at a very simple HTTP server implemented in Python3. Whilst I refer to it as the simplest, we could probably code golf it into something even simpler. For example, Python includes libraries that implement aspects of HTTP so we could just use those, but that feels like cheating\footnote{Python3 actually has a one liner that you can use from the command line to serve up any folder that you run it in using HTTP. Really useful on occasion. Here it is: python -m http.server}. Instead, my example will just use a basic networking library that's standard in Python3, but nothing else that is specific to HTTP or it's implementation. This way, assuming that we have networking ability, that is, the ability to send an receive data over sockets, what do we need to do to implement the important parts of the protocol so that a Web server can usefully interact with our program?
+
+\paragraph{} So here we have our really simple HTTP server (simplest.py):
+
+\begin{lstlisting}
+import socket
+
+HOST, PORT = '', 8080
+
+http_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+http_server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+http_server.bind((HOST, PORT))
+http_server.listen(1)
+
+print("Serving HTTP on port {PORT} ...".format(PORT=PORT))
+
+while True:
+    client_connection, client_address = http_server.accept()
+    request_data = client_connection.recv(1024)
+    print(request_data.decode("utf-8"))
+
+    http_response = b"""\
+HTTP/1.1 200 OK
+
+Hello, Napier!
+"""
+    client_connection.sendall(http_response)
+    client_connection.close()
+\end{lstlisting}
+
+\paragraph{} Let's run it, and see it working, then we'll go through it line by line, before enhancing it some more.
+
+\paragraph{} Type the source code above into a file, save it as \emph{simplest.py}, then execute it in the terminal like so:
+
+\begin{lstlisting}[style=DOS]
+$ python3 simplest.py
+\end{lstlisting}
+
+\paragraph{} In the terminal we should imediately see some output:
+
+\begin{lstlisting}[style=DOS]
+$ python3 http_simplest.py 
+Serving HTTP on port 8080 ...
+\end{lstlisting}
+
+\paragraph{} Which is just our start up message, that we printed out, telling our user which port we're listening on. Notice that we're using port 8080, the traditional \emph{backup} port number that Web servers listen on. It's also a useful message to remind us to specify that port number to our browser, which is actually our next step. Open a new browser tab and visit \url{http://localhost:8080/} and you should see something akin to the following:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/http-simplest.png}
+\caption{`Hello Napier' from our super simple Python3 HTTP server implementation}
+\label{fig:http-simplest}
+\end{figure}
+
+\paragraph{} Note that to stop our little HTTP server we need to hit $<$CTRL$>$ + c to send a quit signal to the process we created when ran our Python script. However, before stopping it, take a look at the data that was printed to the terminal when you visited our server from your browser:
+
+\begin{lstlisting}[style=DOS]
+GET / HTTP/1.1
+Host: localhost:8080
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:92.0) Gecko/20100101 Firefox/92.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: en-GB,en;q=0.5
+Accept-Encoding: gzip, deflate
+DNT: 1
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Sec-Fetch-Dest: document
+Sec-Fetch-Mode: navigate
+Sec-Fetch-Site: none
+Sec-Fetch-User: ?1
+Sec-GPC: 1
+Cache-Control: max-age=0
+
+
+
+\end{lstlisting}
+
+\paragraph{} This should be starting to look familiar... It looks like an HTTP request.
+
+
+\paragraph{} Now, as promised, let's go through that line by line, examing just what's going on. NB. We'll ignore blank lines in the formatted code. In line 1 we import the Python3 socket library which gives us an implementation of basic network sockets\footnote{Documentation about the socket library is available here: \url{https://docs.python.org/3/library/socket.html}}:
+
+\begin{lstlisting}[style=CODE]
+import socket
+\end{lstlisting}
+
+\paragraph{} In line 3 we then create some variables to store values for the host and port. We've specified the host as '' which is shorthand to tell our socket to listen on all reachable addresses that the machines has available to it, for example 127.0.0.1, 0.0.0.0, and localhost. We've also specified port 8080, which is the port that we want our HTTP server to listen on. Recall that 8080 is the second Web port number after port 80 but that 8080 doesn't run on a privleged port (all ports below 1024) and so doesn't require administrator privileges to run.
+
+\begin{lstlisting}[style=CODE]
+HOST, PORT = '', 8080
+\end{lstlisting}
+
+\paragraph{} In line 5 we create our socket, naming it "http\_server" and using a call to the socket method of the socket library (socket.socket) to specify that we want our socket to be an INET socket (AF\_INET) and STREAM (SOCK\_STREAM). INET sockets are basically IPv4 sockets and STREAM sockets are TCP sockets so all we're doing is saying that the socket we want to connect should use the Internet Protocol (IP) version 4 and the it should communicate using the Transmission Control Protocol (TCP).
+
+\begin{lstlisting}[style=CODE]
+http_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+\end{lstlisting}
+
+\paragraph{} Having created our TCP/IP socket we can then set some additional options for how our socket should behave. First we want to set how our socket resuses addresses and port numbers so we can avoid ``OSError: [Errno 98] Address already in use'' messages. We get these when the operating system hasn't released the resources assocaited with the previous use of the socket. This is frustrting if, for example, we run our simple HTTP server to test it, then make a change and restart it. This bit of code hooks into lower level networking infrastructure of the OS itself, so the arguments we're passing in relate to the lower level UNIX networking specification which is why we have to pass in three arguments. The first argument, SOL\_SOCKET, indicates the \emph{level} that we want our option to work at, in this case, within the socket itself, rather than within another protocol handler. The second argument, SO\_REUSEADDR, allows us to reuse local addresses instead of waiting for them to time out or be released. The underlying bind program, which binds a program to a port number takes a boolean value for REUSER\_ADDR but because a lot of underlying networking protocols are ancient in computer terms, we use booleans that are represented with the `1' or `0' value. This is because the programs were originally written in a version of C that was older than the boolean datatype is in C, so integers were used to represent them instead. In this case we are passing in the value `1' or True to say that we want to be able to reuse addresses.
+
+\begin{lstlisting}[style=CODE]
+http_server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+\end{lstlisting}
+
+\paragraph{} We now use the bind function to associate our newly created socket, ``http\_server'' with the HOST and PORT that we specified earlier. This basically fulfills the need for a single socket to be bound to a single port on the specified network interface so that it can listent for incoming messages. Remember that a given server could contain multiple network interfaces, e.g. multilple ethernet cards, wifi, and other networking mechanims with the full range of sockets for each. This is why we need to tell the socket both which network interface and port to be associated with.
+
+\begin{lstlisting}[style=CODE]
+http_server.bind((HOST, PORT))
+\end{lstlisting}
+
+\paragraph{} Once bound to an interface and port, i.e. localhost port 80, we explicitly tell our socket to start listening for incoming messages. This separation of binding and listening means that we can choose when to actually start recieving incoming messages separately from creating the relationship with the port. So we can reserve the port for our use, so that nothing else can clobber it first, before actively using it. Note the argument to listen, `1' which is an Integer. We use this to tell our socket how many unaccepted connections to allow from clients communicating with our socket before refusing further new connections.
+
+\begin{lstlisting}[style=CODE]
+http_server.listen(1)
+\end{lstlisting}
+
+\paragraph{} At this point we've established our TCP/IP socket listening to port 80 on all available network interfaces so we can just print out a message to the console indicating the status of things. This is not necessary but is useful to tell ourselves and our users. Note that we are using the `print formatted' version of the Python3 print function. This is useful if we want to output a message that contains the values associated with specific variables. Obviously whilst we write ``Serving HTTP on port...'' we haven't yet actually done anything that is HTTP specific, so far this has been all about setting up a TCP/IP connection that we can use for our HTTP communications.
+
+\begin{lstlisting}[style=CODE]
+print("Serving HTTP on port {PORT} ...".format(PORT=PORT))
+\end{lstlisting}
+
+\paragraph{} As we don't want our server to consume a single message and then stop, we actually want it receive and respond to all incoming messages, we need to make our program run continuously. So we essentially use an infinite loop. As the boolean `True' always evaluated to true, each time we pass through the while loop it will still evaluate to true and so the loop keeps looping \emph{ad infinitum}.
+
+\begin{lstlisting}[style=CODE]
+while True:
+\end{lstlisting}
+
+\paragraph{} It's at this point that things start to become interesting. We've created our socket and set ourselves up to listen forever but now we just have to wait for an actual client connection. So the next piece of code runs but doesn't complete (i.e. return a value) until a client, such as a Web browser, actually connects to our socket. Once it does the accept function completes and it returns two values\footnote{Remember that a nice little Python feature is that we can return multiple values from a function, really useful to assign multiple values to different variables when a function returns.}, an object representing the connection itself, and a tuple containing the IP address and port number of the connecting client.
+
+\begin{lstlisting}[style=CODE]
+client_connection, client_address = http_server.accept()
+\end{lstlisting}
+
+\paragraph{} Now that we have a successful connection, we can do something with it, like accessing the data contained in the request. The `recv' function, along with it's partner `send', operates on a network buffer, a bit of storage provided by the operating system for storing incoming and outgoing messages. When we use recv we remove bytes from the network buffer and when we use send or sendall we add them to the buffer. Because of this we need to specify how many bytes we are dealing with for the message we are expecting to recieve or transmit. Think of this a bit like communicating via postcards. You can only write a certain amount on any given postcard, unlike an evelope that you can stuff to bursting. However we can specific how large in bytes the buffer (message) should be. In this case we want to read 1024 bytes (1KB) from the network buffer.
+
+\begin{lstlisting}[style=CODE]
+request_data = client_connection.recv(1024)
+\end{lstlisting}
+
+\paragraph{} This next function does two things as it is a function wrapped in the print function. So we are printing the result of decoding the request data that we read from the network buffer in the last line. Because historically there have been many ways for computers to encode data, we need to specify a particular encoding to use. UTF-8 is just one, now common, encoding for data. Havind decoded the data we then print it to the terminal. This is where we get the information in the terminal about the incoming request. Really we should parse this and respond directly to the incoming request, for example, reading the ``GET / HTTP/1.1'' line and determining the type of request before responding, but for now we just dump the incoming, decoded message to the terminal.
+
+\begin{lstlisting}[style=CODE]
+print(request_data.decode('utf-8'))
+\end{lstlisting}
+
+\paragraph{} We now prepare a response, just a string containing the information that the client expects. Note that we've assumed for the moment that our client is making an HTTP request for simplicity, but we should really check. Anyhoo, our response is a standard HTTP 200 OK response, just what our Web browser wants to see. This is followed by a single blank line and then the body content of the response, a string containing the traditional greeting of ``Hello, Napier!''.
+
+\begin{lstlisting}[style=CODE]
+http_response = b"""\
+HTTP/1.1 200 OK
+
+Hello, Napier!
+"""
+\end{lstlisting}
+
+\paragraph{} Having constructed our response, which is just a string stored in the `http\_response' variable at this point, we should do something with it, like send it back to the client. We do this by using the sendall function of the client\_connection object.
+
+\begin{lstlisting}[style=CODE]
+client_connection.sendall(http_response)
+\end{lstlisting}
+
+\paragraph{} Having sent our response, our HTTP request-response cycle is now complete and we can can close the connection to that particular client. If there is further communication from the same client then it will cause a new client\_connection object to be created in another iteration of our while loop. This is the basis of that stateless aspect of HTTP that we talked about earlier. Each request-response cycle is, in theory, completely independent of the previous one.
+
+\begin{lstlisting}[style=CODE]
+client_connection.close()
+\end{lstlisting}
+
+
+
+\paragraph{} We should probably wrap things up by clarifying that this approach isn't how you should implement your own real-world Website. It is only for \emph{pedagogical} purposes, that is, just a learning exercise. In the real world we want more features, increased management opportunties for deployed sites, and reliability and robustness. Might this simplest example provide a starting place for a project to build the next generation of Python3 based HTTP server software? Perhaps. More likely though that under most circumstances\footnote{unless you really have a burning desire to create a new HTTP server.} you should adopt something is already in existence, working well, used by, and bug-fixed by thousands. With these criteria there are many Web frameworks out there, ready to be used. Python3 and Flask are not a bad place to start from though. After that, your journey will go where it must in order to solve the problems you've set of yourself.
