@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 valid_email = 'person@napier.ac.uk'
-valid_pwhash = bcrypt.hashpw('secretpass', bcrypt.gensalt())
+valid_pwhash = bcrypt.hashpw('secretpass'.encode('utf-8'), bcrypt.gensalt())
 
 def check_auth(email, password):
     if(email == valid_email and 
