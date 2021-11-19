@@ -5,6 +5,8 @@ workbook/*.out
 workbook/*.pdf
 workbook/*.toc
 
+.python-version
+
 .DS_Store
 *.pyc
 env/
