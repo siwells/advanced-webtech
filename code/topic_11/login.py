@@ -1,7 +1,6 @@
 import bcrypt
 from functools import wraps
 from flask import Flask, redirect, render_template, request, session, url_for
-from flask import Flask
 
 app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
