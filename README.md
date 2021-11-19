@@ -7,7 +7,7 @@ The case study describes a Python Flask web-app called DayBook that was built as
 
 ## Code
 
-Simple examples of the topics covered in the workbook arranged on a week-by-week basis that corresponds to trimester weeks.
+[Simple examples](https://github.com/siwells/advanced-webtech/blob/master/code/README.md) from the workbook arranged on a topic-by-topic basis that corresponds to [workbook](https://github.com/siwells/advanced-webtech/tree/master/workbook) chapters.
 
 
 ## Lectures
