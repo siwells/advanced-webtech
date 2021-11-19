@@ -9,3 +9,13 @@ Each sub-folder contains examples from a specific chapter of the workbook.
 * [10 Data Storage](https://github.com/siwells/advanced-webtech/tree/master/code/topic_10)
 * [11 Keeping Data safe with Encryption](https://github.com/siwells/advanced-webtech/tree/master/code/topic_11)
 * [12 An HTTP Server from Scratch](https://github.com/siwells/advanced-webtech/tree/master/code/topic_12)
+
+
+To run the examples you need to be in a folder with an active virtualenv containing a Flask installation, then:
+
+```
+$ export FLASK_ENV=development
+$ export FLASK_APP=REPLACE-WITH-NAME-OF-PYTHON-FILE.py
+
+$ python3 -m flask run
+```
