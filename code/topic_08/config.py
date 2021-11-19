@@ -1,4 +1,4 @@
-import ConfigParser
+import configparser
 
 from flask import Flask
 
@@ -20,7 +20,7 @@ def config():
 
 
 def init(app):
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     try:
         config_location = "etc/defaults.cfg"
         config.read(config_location)
@@ -30,7 +30,7 @@ def init(app):
         app.config['port'] = config.get("config", "port")
         app.config['url'] = config.get("config", "url")
     except:
-        print "Could not read configs from: ", config_location
+        print ("Could not read configs from: ", config_location)
 
 if __name__ == '__main__':
     init(app)
