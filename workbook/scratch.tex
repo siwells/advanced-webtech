@@ -201,10 +201,106 @@ client_connection.close()
 \begin{lstlisting}[style=DOS]
 GET /about.html HTTP/1.1
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:92.0) Gecko/20100101 Firefox/92.0
-
 \end{lstlisting}
 
 \paragraph{} Exactly what is included in the request headers can be minimal, or can be more extensive. HTTP includes lots of additional headers that can be used to finetune the commmunication between client and server. The first line is the critical core though because it is in this line that we specify the HTTP verb (\emph{GET}), the resource that the verb is targetting (\emph{about.html}, and the version of HTTP to use (\emph{HTTP/1.1}) when determining how to respond.
+
+
+\paragraph{} Let's make a small change to our server. Instead of returning plain text, an http server should really be serving up hypertext, and using HTML, so let's alter the payload a little:
+
+\begin{lstlisting}
+import socket
+
+HOST, PORT = '', 8080
+
+listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+listen_socket.bind((HOST, PORT))
+listen_socket.listen(1)
+print(f'Serving HTTP on port {PORT} ...')
+while True:
+    client_connection, client_address = listen_socket.accept()
+    request_data = client_connection.recv(1024).decode('utf-8')
+    print(request_data)
+
+    http_response = "HTTP/1.1 200 OK\n\nHello Napier!".encode() 
+    client_connection.sendall(http_response)
+    client_connection.close()
+listen_socket.close()
+\end{lstlisting}
+
+\paragraph{} When we run this the output is ever so slightly different:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/http-simplest+html.png}
+\caption{`Hello Napier' as HTML from our super simple Python3 HTTP server implementation}
+\label{fig:http-simplest+html}
+\end{figure}
+
+\paragraph{} Compare Figures \ref{fig:http-simplest+html} and \ref{fig:http-simplest}. Try some different HTML in the payload of your http\_response to see what happens. It's also worth using view page source in your browser to investigate the differences between the plain response and responses containing HTML.
+
+\paragraph{} This should feel entirely satisfactory though. We're just hard-coding some HTML into our response. Wouldn't it be better if we were actually serving up an HTML file?\footnote{It is interesting though to consider how far we could take things down the dynamic route though, of generating our page from Python on-the-fly. Likely we'd end up with something that's not a million miles away from Flask.} For that we need to make some alterationsthough. How about we make our server return the content from an external file. We'll call that file index.html and return that for any request that arrives. First out HTML file (\emph{index.html}) which we'll store in a sub-folder called \emph{htmldocs}:
+
+\begin{lstlisting}
+<html>
+<head>
+    <title>Hello Napier</title>
+</head>
+<body>
+    <h1>Hello Napier!</h1>
+    <p>Welcome to the default web page (index.html) of the Napier simple HTTP server.</p>
+</body>
+</html>
+\end{lstlisting}
+
+\paragraph{} Now we need to modify our simple HTTP server (simplest+files.py) to serve this HTML file whenever a request comes in:
+
+\begin{lstlisting}
+import socket
+
+HOST, PORT = '', 8080
+
+listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+listen_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+listen_socket.bind((HOST, PORT))
+listen_socket.listen(1)
+print(f'Serving HTTP on port {PORT} ...')
+while True:
+    client_connection, client_address = listen_socket.accept()
+    request_data = client_connection.recv(1024).decode('utf-8')
+    print(request_data)
+
+    infile = open('httpdocs/index.html')
+    content = infile.read()
+    infile.close()
+
+    http_response = ("HTTP/1.1 200 OK\n\n"+content).encode() 
+    client_connection.sendall(http_response)
+    client_connection.close()
+listen_socket.close()
+\end{lstlisting}
+
+\paragraph{} All we're doing is waiting for a request, and when one arrives we're reading the contents of our index.html file and appending it to the HTTP response headers and new line. At this point you should notice that we're really starting to treat the headers and body content separately, generating them appropriately as needed according to the protocol. There's still a way to go yet, but we're heading in the right direction. Running this you should get something like the following displayed in your Browser:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\textwidth]{images/http-simplest+files.png}
+\caption{Serving index.html from our super simple Python3 HTTP server implementation}
+\label{fig:http-simplest+files}
+\end{figure}
+
+\paragraph{} You can alter the contents of index.html as much as you like and that file content at least will be returned to the client. However we can't add in external static files for CSS or JS (yet) because our HTTP server doesn't yet support additional calls to retrieve them. Note though that you can inline CSS and JS and the browser should display and execute your page as normal.
+
+%\paragraph{} Of course all requests are not GET requests, there are many other HTTP verbs, for example, whenver we submit a form, browsers make a POST request. Here's an example of a post request
+
+%\begin{lstlisting}[style=DOS]
+%POST /signup HTTP/1.0
+%Content-Type: application/x-www-form-urlencoded
+%Content-Length: 25
+
+%name=Inigo&surname=Montoya
+%\end{lstlisting}
 
 
 \paragraph{} We should probably wrap things up by clarifying that this approach isn't how you should implement your own real-world Website. It is only for \emph{pedagogical} purposes, that is, just a learning exercise. In the real world we want more features, increased management opportunties for deployed sites, and reliability and robustness. Might this simplest example provide a starting place for a project to build the next generation of Python3 based HTTP server software? Perhaps. More likely though that under most circumstances\footnote{unless you really have a burning desire to create a new HTTP server.} you should adopt something is already in existence, working well, used by, and bug-fixed by thousands. With these criteria there are many Web frameworks out there, ready to be used. Python3 and Flask are not a bad place to start from though. After that, your journey will go where it must in order to solve the problems you've set of yourself.
