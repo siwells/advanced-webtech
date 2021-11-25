@@ -2477,13 +2477,13 @@ $  python3 init_db.py
 \paragraph{} Encryption is necessary to ensure that the data that we collect in our web-apps, for example, about our users, is stored safely. A good general approach is to not store any data about your users that you don't actually need for the purposes of your application.
 
 
-\section{Using PyCrypto Library for data encryption}
-\label{pycrypto}
-\paragraph{} PyCrypto\footnote{\url{https://www.dlitz.net/software/pycrypto/}} is the Python Cryptography Toolkit and provides a range of useful tools for encyrpting and working with encrypted data in Python. 
+\section{Using PyCryptoDome Library for data encryption}
+\label{pycryptodome}
+\paragraph{} PyCryptoDome\footnote{\url{https://www.pycryptodome.org/en/latest/}} is the Python Cryptography Toolkit and provides a range of useful tools for encrypting and working with encrypted data in Python. 
 
-\paragraph{} PyCrypto is a Python library that incorporates some useful cryptography tools. We can install it as follows:
+\paragraph{} PyCryptodome is a Python library that incorporates some useful cryptography tools. We can install it as follows:
 \begin{lstlisting}[style=DOS]
-    $ pip3 install --user pycrypto
+    $ pip3 install --user pycryptodome
     $
 \end{lstlisting}
 
@@ -2493,13 +2493,13 @@ $  python3 init_db.py
     $
 \end{lstlisting}
 
-\paragraph{} If you get any output other than a new prompt then the library is not available (in which case you should contact the module leader for a fix). You can now import and use PyCrypto within your web-apps, however let's first explore what the library can do in the Python REPL, so launch python in your shell, e.g.
+\paragraph{} If you get any output other than a new prompt then the library is not available (in which case you should contact the module leader for a fix). You can now import and use PyCryptodome within your web-apps, however let's first explore what the library can do in the Python REPL, so launch python in your shell, e.g.
 
 \begin{lstlisting}[style=DOS]
     $ python3
 \end{lstlisting}
 
-\paragraph{} We can now look at some of the things that we can use PyCrypto to do. First we shall look at Hashing, taking input and calculating a fixed-length output called a hash-value, then we will look at Encryption, taking input and a key and producing a cypher text. The main difference between the two in practise is that hash algorithms are designed, as a rule, to be one-way or \emph{trapdoor} functions, whilst, so long as you know the key, encryption algorithms are designed to enable you to recover the input from the cyphertext.
+\paragraph{} We can now look at some of the things that we can use PyCryptodome to do. First we shall look at Hashing, taking input and calculating a fixed-length output called a hash-value, then we will look at Encryption, taking input and a key and producing a cypher text. The main difference between the two in practise is that hash algorithms are designed, as a rule, to be one-way or \emph{trapdoor} functions, whilst, so long as you know the key, encryption algorithms are designed to enable you to recover the input from the cyphertext.
 
 \subsection{Hashing}
 \paragraph{} The idea with Hashing is to take as input a string and calculate a fixed length output string called the \emph{hash value}. This is a useful way to quickly determine whether two strings are the same, for example if wanting to ensure that the string that was transmitted is the one that was received. In that case we would calculate the hash value associated with the string, then transmit both the string and the hash value to the remote recipient who then recalculates the hash value from the string then compares the two hash values. if they differ then the string was altered in transit and if they are the same the string that was recieved is the one that was sent. This kind of usage is called \emph{file integrity checking} but is also known as \emph{checksumming} or \emph{calculating a checksum}.
@@ -2568,7 +2568,7 @@ $  python3 init_db.py
 \paragraph{} Notice that this is fairly similar to the ECB version earlier. The are two main points to notice. The first is that the DES object now takes a third argument, an 8 Byte random string and we use the Random function of the Crypto package to supply us with random data\footnote{It is worth noting that often the quality of encryption depends upon the quality of the randomness that is supplied to the algorithm. It is actually quite hard to get truly random numbers from a computer and even small statistical regularities in the randomness can be sufficient to break the encryption}. The main difference is that we have created two DES objects this time, one to encrypt and one to decrypt. This is necessary because of the combination step, that occurs after each block is encrypted which alters the feedback value.
 
 \subsection{Encryption with Stream Cyphers}
-\paragraph{} Stream cyphers differ from Block cyphers by working on byte-by-byte on their input data, treating the data as a stream instead of discrete blocks. Stream cyphers are essentially block cyphers in which the block size is 1 Byte in length. PyCrypto only supports two stream cyphers, ARC4 and XOR, in ECB mode. Let's look at an example of using the ARC4 algorithm:
+\paragraph{} Stream cyphers differ from Block cyphers by working on byte-by-byte on their input data, treating the data as a stream instead of discrete blocks. Stream cyphers are essentially block cyphers in which the block size is 1 Byte in length. PyCryptodome only supports two stream cyphers, ARC4 and XOR, in ECB mode. Let's look at an example of using the ARC4 algorithm:
 
 \begin{lstlisting}[style=DOS]
     >>> from Crypto.Cipher import ARC4
@@ -2586,7 +2586,7 @@ $  python3 init_db.py
 \subsection{Public Key Encryption}
 \paragraph{} Correctly selected and used instances of stream and block cyphers are acceptably secure and performant. However they have a fundamental flaw, in certain contexts, that is common to all security systems. People. These cyphers require both the people encrypting and the people decrypting to share the same key. Key management is a big problem, if not the major problem, that makes things like email encryption difficult for the average computer user. As a result, the average email might as well be written on a postcard.
 
-\paragraph{} Public-key encryption uses two keys, known as a key-pair to encrypt and decrypt data. The two keys in a key pair are created together using an algorithm than ensure that they are mathermatically related to each other. One key is designated the public key and the other key is designated the private key. The public key can be shared with anyone whereas the private key is kept private and known only to the person who owns it. The public key is then used to encrypt some data and the private key is used to decrypt it. Because of the mathematical relation between the public and private key, data that is encrypted with one key cannot be decrypted with the same key but most be decryped using the key's partner. One way to think about this is like using a padlock and key. You give some one a box and padlock. They put a message in the box, then they lock the box with your padlock and only you can unlock it with your key. Things are actually more complicated than this in practise but this is a good place to start from. Keys are actually very long numbers, very long prime numbers to be specific and generally, the longer the key the more secure the key. PyCrypto provides functions for generating keys, e.g.
+\paragraph{} Public-key encryption uses two keys, known as a key-pair to encrypt and decrypt data. The two keys in a key pair are created together using an algorithm than ensure that they are mathermatically related to each other. One key is designated the public key and the other key is designated the private key. The public key can be shared with anyone whereas the private key is kept private and known only to the person who owns it. The public key is then used to encrypt some data and the private key is used to decrypt it. Because of the mathematical relation between the public and private key, data that is encrypted with one key cannot be decrypted with the same key but most be decryped using the key's partner. One way to think about this is like using a padlock and key. You give some one a box and padlock. They put a message in the box, then they lock the box with your padlock and only you can unlock it with your key. Things are actually more complicated than this in practise but this is a good place to start from. Keys are actually very long numbers, very long prime numbers to be specific and generally, the longer the key the more secure the key. PyCryptodome provides functions for generating keys, e.g.
 
 \begin{lstlisting}[style=DOS]
     >>> from Crypto.PublicKey import RSA
@@ -2674,7 +2674,7 @@ $  python3 init_db.py
 
 \section{Using py-bcrypt Library for Password Hashing}
 \label{py-bcrypt}
-\paragraph{} Hash functions can be used in password management and storage. Web sites should only store the hash of a password and not the raw password itself. This way only the user knows the real password. When the user logs in, the hash of the password input is generated and compared to the hash value stored in the database. If it matches, the user is granted access\footnote{If you ever use a website that can help you to \emph{recover} your password then they probably aren't hashing passwords. In this case you should probably question the security of that site and their ability to keep your data safe.}. Whilst you could use the hashes available in PyCrypto for user passwords, this is no longer the most secure approach. Rather you should use a type of password hash that has been specifically designed for use to store password hash-values and thus mitigates many of the drawbacks of generic cyrptographic hash functions in this context. Such hashes are known as \emph{key derivation functions} and are designed to significantly slow down the process of hashing a value so that brute force attacks, where you try to calculate all possible hashes, become significantly expensive in terms of time to calculate. This contrasts with hashes used for checksumming, which obviously need to run as fast as possible. 
+\paragraph{} Hash functions can be used in password management and storage. Web sites should only store the hash of a password and not the raw password itself. This way only the user knows the real password. When the user logs in, the hash of the password input is generated and compared to the hash value stored in the database. If it matches, the user is granted access\footnote{If you ever use a website that can help you to \emph{recover} your password then they probably aren't hashing passwords. In this case you should probably question the security of that site and their ability to keep your data safe.}. Whilst you could use the hashes available in PyCryptodome for user passwords, this is no longer the most secure approach. Rather you should use a type of password hash that has been specifically designed for use to store password hash-values and thus mitigates many of the drawbacks of generic cyrptographic hash functions in this context. Such hashes are known as \emph{key derivation functions} and are designed to significantly slow down the process of hashing a value so that brute force attacks, where you try to calculate all possible hashes, become significantly expensive in terms of time to calculate. This contrasts with hashes used for checksumming, which obviously need to run as fast as possible. 
 
 \paragraph{} BCrypt is the OpenBSD Blowfish password hashing algorithm that is described in a paper by Niels Provos and David Mazieres called "A Future-Adaptable Password Scheme"\footnote{\url{http://www.openbsd.org/papers/bcrypt-paper.ps}}. There is a Python wrapper for this algorithm called py-bcrypt\footnote{\url{http://www.mindrot.org/projects/py-bcrypt/}} that you should use to hash password in your web-apps, at least until this algorithm is demonstrated to be flawed or a stronger system is proposed.
 
@@ -3020,7 +3020,7 @@ Calls the run() function of the Flask app class instance to start our developmen
 \label{pip}
 \paragraph{} Pip is a package management tool for Python libraries and is really easy to use. You can use pip to install Python libraries into your own user account on the server, e.g.
 \begin{lstlisting}[style=DOS]
-    $ pip3 install --user pycrypto
+    $ pip3 install --user PyCryptodome
 \end{lstlisting}
 
 \paragraph{} What this does is enter the \emph{superuser} (SU) role, then it installs pip. The superuser role has more powers than a regular user so once we have installed pip we want to exit the superuser role back to the normal user role that we logged in as. The change in role is indicated by the change in prompt that we see from \emph{\$} to \emph{\#}. We can now use Pip to install whichever Python libraries we want to use as a normal user (not as a superuser). 
