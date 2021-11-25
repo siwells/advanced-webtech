@@ -2516,14 +2516,14 @@ $  python3 init_db.py
 
 \begin{lstlisting}[style=DOS]
     >>> from Crypto.Hash import SHA256
-    >>> SHA256.new('Hello Napier').hexdigest()
+    >>> SHA256.new('Hello Napier'.encode('utf-8')).hexdigest()
     '8fa01d2f5f442915112a4c98d5c65c909f8b5532f01102371cf81776b91e5694'
     >>>
-    >>> hello_napier = 'Hello Napier'
+    >>> hello_napier = 'Hello Napier'.encode('utf-8')
     >>> SHA256.new(hello_napier).hexdigest()
     '8fa01d2f5f442915112a4c98d5c65c909f8b5532f01102371cf81776b91e5694'
     >>> 
-    >>> SHA256.new('Goodbye Napier').hexdigest()
+    >>> SHA256.new('Goodbye Napier'.encode('utf-8')).hexdigest()
     'ebccfcde2209e3dff4deff67fdbae71129ea87692e40295768de48317244347e'
     >>>
 \end{lstlisting}
@@ -2533,14 +2533,14 @@ $  python3 init_db.py
 
 \begin{lstlisting}[style=DOS]
     >>> from Crypto.Cipher import DES
-    >>> des = DES.new ('secret!!', DES.MODE_ECB)
-    >>> test = 'greeting'
+    >>> des = DES.new(b'secret!!', DES.MODE_ECB)
+    >>> test = b'greeting'
     >>> cipher_text = des.encrypt(test)
     >>> cipher_text
-    '(\xe5H\xe8\x10k\xc1['
+    b'(\xe5H\xe8\x10k\xc1['
     >>> 
     >>> des.decrypt(cipher_text)
-    'greeting'
+    b'greeting'
     >>> 
 \end{lstlisting}
 
@@ -2554,14 +2554,14 @@ $  python3 init_db.py
     >>> from Crypto.Cipher import DES
     >>> from Crypto import Random
     >>> feedback_value = Random.get_random_bytes(8)
-    >>> des_enc = DES.new('secret!!', DES.MODE_CFB, feedback_value)
-    >>> txt = "Hello World From Napier"
+    >>> des_enc = DES.new(b'secret!!', DES.MODE_CFB, feedback_value)
+    >>> txt = b"Hello World From Napier"
     >>> cipher_txt = des_enc.encrypt(txt)
     >>> cipher_txt
-    "\xea\xa2\x81/\x9f\xc6\x80\xbf\xd8\xeef\x81\x89M\x8f'\xe7\x9eB\xa7\xb8\xd7\xd6"
-    >>> des_dec = DES.new('secret!!', DES.MODE_CFB, feedback_value)
+    b"\xea\xa2\x81/\x9f\xc6\x80\xbf\xd8\xeef\x81\x89M\x8f'\xe7\x9eB\xa7\xb8\xd7\xd6"
+    >>> des_dec = DES.new(b'secret!!', DES.MODE_CFB, feedback_value)
     >>> des_dec.decrypt(cipher_txt)
-    'Hello World From Napier'
+    b'Hello World From Napier'
 \end{lstlisting}
 
 
@@ -2572,9 +2572,9 @@ $  python3 init_db.py
 
 \begin{lstlisting}[style=DOS]
     >>> from Crypto.Cipher import ARC4
-    >>> arc4_enc = ARC4.new('01234567')
-    >>> arc4_dec = ARC4.new('01234567')
-    >>> txt = "Hello World from Edinburgh Napier University"
+    >>> arc4_enc = ARC4.new(b'01234567')
+    >>> arc4_dec = ARC4.new(b'01234567')
+    >>> txt = b"Hello World from Edinburgh Napier University"
     >>> cyphertxt = arc4_enc.encrypt(txt)
     >>> cyphertxt
     "\xd9\xb0\x9fs)\x07r_B?\xdfz\x94\xdc\x8c='\x8b.9@\x1e\xe3@\xc68K\x1c\x18:\xad\xc3:~\xf9\x95wa\xbcB\xa0U\x08\xe9"
@@ -2590,57 +2590,84 @@ $  python3 init_db.py
 
 \begin{lstlisting}[style=DOS]
     >>> from Crypto.PublicKey import RSA
-    >>> from Crypto import Random
-    >>> rnd = Random.new().read
-    >>> key = RSA.generate(1024, rnd)
-    >>> key
-    <_RSAobj @0x10dfb4830 n(1024),e,d,p,q,u,private>
+    >>> key = RSA.generate(2048)
+    >>> private_key = key.export_key()
+    >>> file_out = open("private.pem", "wb")
+    >>> file_out.write(private_key)
+    1674
+    >>> file_out.close()
+    >>> 
+    >>> 
+    >>> public_key = key.publickey().export_key()
+    >>> file_out = open("receiver.pem", "wb")
+    >>> file_out.write(public_key)
+    450
+    >>> file_out.close()
 \end{lstlisting}
 
-\paragraph{} Having created a key-pair we can now use the public key to encrypt some data then the private key to decrypt it, first, we can get retrieve the public key from the pair, e.g.
+\paragraph{} If you look in the folder that you ran the previous Python code in then you should notice a pair of new files. Theses are the public and private keys we just created. Having created a key-pair we can now use the public key to encrypt some data and then the private key to decrypt it. Let's start with using the public key to encrypt something, e.g.
 
 \begin{lstlisting}[style=DOS]
-    >>> pub = key.publickey()
+    >>> from Crypto.PublicKey import RSA
+    >>> from Crypto.Random import get_random_bytes
+    >>> from Crypto.Cipher import AES, PKCS1_OAEP
+    >>> data = "Soylent Green is people".encode("utf-8")
+    >>> file_out = open("encrypted_data.bin", "wb")
+    >>> recipient_key = RSA.import_key(open("receiver.pem").read())
+    >>> session_key = get_random_bytes(16)
+    >>> cipher_rsa = PKCS1_OAEP.new(recipient_key)
+    >>> enc_session_key = cipher_rsa.encrypt(session_key)
+    >>> cipher_aes = AES.new(session_key, AES.MODE_EAX)
+    >>> ciphertext, tag = cipher_aes.encrypt_and_digest(data)
+    >>> [ file_out.write(x) for x in (enc_session_key, cipher_aes.nonce, tag, ciphertext) ]
+    [256, 16, 16, 37]
+    >>> file_out.close()
 \end{lstlisting}
 
-\paragraph{} \& we can use the public key to encrypt something, e.g.
+\paragraph{} Having encrypted some data with the public key (\emph{receiver.pem}), we can now go ahead a decrypt the file we just created \emph{encrypted\_data.bin} using our private key (\emph{private.pem}).
 
 \begin{lstlisting}[style=DOS]
-    >>> enc = pub.encrypt("hello world from simon", 77)
-\end{lstlisting}
-
-\paragraph{} Where 77 is just a random parameter used by the RSA algorithm when encrypting (you can change it another integer if you like). This gives us a variable called `enc' that contains our enrypted data. In a real system we would store this (or send it to its destination) but we shall just decrypt it again into the plain text. To do this we use the key, which contains the private key, e.g.
-
-\begin{lstlisting}[style=DOS]
-    >>> key.decrypt(enc)
-    'hello world from simon'
+    >>> from Crypto.PublicKey import RSA
+    >>> from Crypto.Cipher import AES, PKCS1_OAEP
+    >>> file_in = open("encrypted_data.bin", "rb")
+    >>> private_key = RSA.import_key(open("private.pem").read())
+    >>> enc_session_key, nonce, tag, ciphertext = 
+        [ file_in.read(x) for x in (private_key.size_in_bytes(), 16, 16, -1) ]
+    >>> cipher_rsa = PKCS1_OAEP.new(private_key)
+    >>> session_key = cipher_rsa.decrypt(enc_session_key)
+    >>> cipher_aes = AES.new(session_key, AES.MODE_EAX, nonce)
+    >>> data = cipher_aes.decrypt_and_verify(ciphertext, tag)
+    >>> print(data.decode("utf-8"))
+    Soylent Green is people
 \end{lstlisting}
 
 \paragraph{} A couple of other useful things that we can do with the RSA algorithm are to sign and verify messages. We can sign a message using a public key and a hash algorithm in order to establish two things (1) that the message hasn't changed during transmission, and (2) that the origin, meaning the person who sent the message, can be trusted. Notice that this only holds if the key pair has not been compromised. This is the main reason why effective secure communications is difficult, because managing and sharing keys on a large scale is difficult, even for experienced computer users, and small mistakes can easily leave the entire system nearly as insecure as it would be without encryption. In fact some might say that a system that uses insecure encryption is worse, because you might believe it to be secure whereas within an un-encrypted system you already know not to trust it.
 
-\paragraph{} So let's sign a message, first we calculate a hash-value for the message, then we use the RSA sign function to sign that hash-value, e.g.
+\paragraph{} So let's sign a message, first we import a few libraries. Then we prepare a message and load in an existing key (\emph{receiver.pem}). We then calculate a hash-value for the message and sign it using our RSA key, e.g.
 
 \begin{lstlisting}[style=DOS]
+    >>> from Crypto.Signature import pkcs1_15
     >>> from Crypto.Hash import SHA256
     >>> from Crypto.PublicKey import RSA
-    >>> from Crypto import Random
-    >>> rnd = Random.new().read
-    >>> keypair = RSA.generate(1024,rnd)
-    >>> text = "hello"
-    >>> hash = SHA256.new(text).digest()
-    >>> sig = keypair.sign(hash, '')
-    >>> sig
-    (111004637254243995296316500371384221616638293795333732683338131343599162464689495396310140992877093588050236570061389234822100924372155041895989651044833066627302857544152750773907374436456744979379429396104023571661485474683753194948844081967875024033289332359776882595360104731737542292364224609629748624699L,)
-    >>> pub = keypair.publickey()
+    >>>
+    >>> message = b'My namie is Inigo Montoya. You killed my father. Prepare to die.'
+    >>> key = RSA.import_key(open('private.pem').read())
+    >>> h = SHA256.new(message)
+    >>> signature = pkcs1_15.new(key).sign(h)
 \end{lstlisting}
 
 \paragraph{} Given the plain text, the signature, and the public key (but \emph{not} the private key) the recipient of a message can now check that the message that was sent both came from the person who owns the private key but also that the messages hasn't been maliciously altered during transmission, e.g.
 
 \begin{lstlisting}[style=DOS]
-    >>> text = "hello"
-    >>> testhash = SHA256.new(text).digest()
-    >>> pub.verify(testhash,sig)
-    True
+    >>> key = RSA.import_key(open('receiver.pem').read())
+    >>> h = SHA256.new(message)
+    >>> try:
+    ...     pkcs1_15.new(key).verify(h, signature)
+    ...     print("The signature is valid.")
+    ... except(ValueError, TypeError):
+    ...     print ("The signature is not valid.")
+    ... 
+    The signature is valid.
 \end{lstlisting}
 
 \paragraph{} Public Key cryptography is an important tool in the fight to ensure that we can communicate in ways that are secure from eavesdropping, non-repudiable (meaning the person who sent it can be verified as such), and unaltered.
@@ -2668,22 +2695,22 @@ $  python3 init_db.py
 
 \begin{lstlisting}[style=DOS]
     >>> import bcrypt
-    >>> hash = bcrypt.hashpw('secretpassword', bcrypt.gensalt())
+    >>> hash = bcrypt.hashpw('secretpassword'.encode('utf-8'), bcrypt.gensalt())
     >>> hash
-    '$2b$12$5KkwUyRUDEooMWAMBOLdnuiOIJPvG2dYmP5nNyhSs1hW1xdovn0Ni'
+    b'$2b$12$5KkwUyRUDEooMWAMBOLdnuiOIJPvG2dYmP5nNyhSs1hW1xdovn0Ni'
 \end{lstlisting}
 
 \paragraph{} First we import bcrypt, then we create a new hashed value using the supplied password and asking bcrypt to generate a salt. We only need to store the hash-value after that as the salt is stored within the hash-value. For example, you could now store the hash-value in your user database. When we need to verify a user's password we would do the following, assuming that you have retrieved the hash-value from your user DB as `hash' and that the supplied password is stored in `pass':
 
 \begin{lstlisting}[style=DOS]
-    >>> hash == bcrypt.hashpw('secretpassword', hash)
+    >>> hash == bcrypt.hashpw('secretpassword'.encode('utf-8'), hash)
     True
 \end{lstlisting}
 
 \paragraph{} and if the supplied password is incorrect we will see something like this:
 
 \begin{lstlisting}[style=DOS]
-    >>> hash == bcrypt.hashpw('badpassword', hash)
+    >>> hash == bcrypt.hashpw('badpassword'.encode('utf-8'), hash)
     False
 \end{lstlisting}
 
@@ -2729,7 +2756,7 @@ app = Flask(__name__)
 app.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 
 valid_email = 'person@napier.ac.uk'
-valid_pwhash = bcrypt.hashpw('secretpass', bcrypt.gensalt())
+valid_pwhash = bcrypt.hashpw('secretpass'.encode('utf-8'), bcrypt.gensalt())
 
 def check_auth(email, password):
     if(email == valid_email and 
