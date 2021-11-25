@@ -196,5 +196,15 @@ client_connection.close()
 \end{lstlisting}
 
 
+\paragraph{} Before we elaborate on this, let's first consider that three line response we created in the context of HTTP communication. HTTP communications are merely text sent over a communication channel. You could probably implement the protocol using people sending requests and responses on postcards or writing messages on a whiteboard if you desired\footnote{but that's much less fun than writing code to do so}. HTTP messages, whether requests or responses, follow a pattern. THere is a header and a body and these are separated by a blank line. A request from a client to a server, asking to retrieve a specific page, e.g. the page \emph{about.html}, assuming it exists\footnote{If the requested page doesn't exist then we should really return a 404 page - but we'll get to that later}, might look like this:
+
+\begin{lstlisting}[style=DOS]
+GET /about.html HTTP/1.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:92.0) Gecko/20100101 Firefox/92.0
+
+\end{lstlisting}
+
+\paragraph{} Exactly what is included in the request headers can be minimal, or can be more extensive. HTTP includes lots of additional headers that can be used to finetune the commmunication between client and server. The first line is the critical core though because it is in this line that we specify the HTTP verb (\emph{GET}), the resource that the verb is targetting (\emph{about.html}, and the version of HTTP to use (\emph{HTTP/1.1}) when determining how to respond.
+
 
 \paragraph{} We should probably wrap things up by clarifying that this approach isn't how you should implement your own real-world Website. It is only for \emph{pedagogical} purposes, that is, just a learning exercise. In the real world we want more features, increased management opportunties for deployed sites, and reliability and robustness. Might this simplest example provide a starting place for a project to build the next generation of Python3 based HTTP server software? Perhaps. More likely though that under most circumstances\footnote{unless you really have a burning desire to create a new HTTP server.} you should adopt something is already in existence, working well, used by, and bug-fixed by thousands. With these criteria there are many Web frameworks out there, ready to be used. Python3 and Flask are not a bad place to start from though. After that, your journey will go where it must in order to solve the problems you've set of yourself.
