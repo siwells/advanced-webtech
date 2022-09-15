@@ -752,6 +752,8 @@ def hello_world():
 
 \paragraph{} where ``hello.py'' matches the name of the Flask web-app's file name. NB. In this case it should actually be ``hello.py'' but later on you will run web-apps that are stored in files with different names. This basically telling the flask library/runtime which file to use as the entrypoint for our flask app and which \emph{mode} to use for deploying our app. In this case we are developing an app so we want to see as much debug information as possible. When deploying live to end-users we would not want to have the development environment enabled though.
 
+\paragraph{} Note that you only need to set these exported variables once at the start of each development session, i.e. when you log into your VM. After that they will stay available until either you log out or you change them, in which case they either become unset (if you log out) or are altered (if you change them). If you want to set them permanently then the you can do that through your .profile file which is a hidden file in your home folder on your VM. You should do a little research before hand however as the .profile file is really very useful and powerful. Similarly you could also write a short script to set your environment variables that is either run when you log in, or when you activate your python virtualenv, or manually when you execute it. Again, this is something that will require a bit of extra research, but Linux scripting is incredibly powerful and a skill that is well worth adding to your toolbox.
+
 \paragraph{} Having set everything up we can now run our code by executing the following command in the same directory where hello.py is stored:
 
 \begin{lstlisting}[style=DOS]
