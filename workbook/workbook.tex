@@ -731,38 +731,42 @@ def hello_world():
 
 \paragraph{} Type in the `Hello Napier' code from above or else get it from the module's Git repository. Save the code in a file called \emph{hello.py}
 
-\paragraph{} Now enter the following commands into the terminal:
+%\paragraph{} Now enter the following commands into the terminal:
+
+%\begin{lstlisting}[style=DOS]
+%    $ export FLASK_APP=hello.py
+%    $ export FLASK_ENV=development
+%\end{lstlisting}
+
+%\paragraph{} where ``hello.py'' matches the name of the Flask web-app's file name. NB. In this case it should actually be ``hello.py'' but later on you will run web-apps that are stored in files with different names. This basically telling the flask library/runtime which file to use as the entrypoint for our flask app and which \emph{mode} to use for deploying our app. In this case we are developing an app so we want to see as much debug information as possible. When deploying live to end-users we would not want to have the development environment enabled though.
+
+%\paragraph{} Note that you only need to set these exported variables once at the start of each development session, i.e. when you log into your VM. After that they will stay available until either you log out or you change them, in which case they either become unset (if you log out) or are altered (if you change them). If you want to set them permanently then the you can do that through your .profile file which is a hidden file in your home folder on your VM. You should do a little research before hand however as the .profile file is really very useful and powerful. Similarly you could also write a short script to set your environment variables that is either run when you log in, or when you activate your python virtualenv, or manually when you execute it. Again, this is something that will require a bit of extra research, but Linux scripting is incredibly powerful and a skill that is well worth adding to your toolbox.
+
+\paragraph{} We can now run our code by executing the following command in the same directory where hello.py is stored:
 
 \begin{lstlisting}[style=DOS]
-    $ export FLASK_APP=hello.py
-    $ export FLASK_ENV=development
+    $ flask --app hello run --host=0.0.0.0
 \end{lstlisting}
 
-\paragraph{} where ``hello.py'' matches the name of the Flask web-app's file name. NB. In this case it should actually be ``hello.py'' but later on you will run web-apps that are stored in files with different names. This basically telling the flask library/runtime which file to use as the entrypoint for our flask app and which \emph{mode} to use for deploying our app. In this case we are developing an app so we want to see as much debug information as possible. When deploying live to end-users we would not want to have the development environment enabled though.
-
-\paragraph{} Note that you only need to set these exported variables once at the start of each development session, i.e. when you log into your VM. After that they will stay available until either you log out or you change them, in which case they either become unset (if you log out) or are altered (if you change them). If you want to set them permanently then the you can do that through your .profile file which is a hidden file in your home folder on your VM. You should do a little research before hand however as the .profile file is really very useful and powerful. Similarly you could also write a short script to set your environment variables that is either run when you log in, or when you activate your python virtualenv, or manually when you execute it. Again, this is something that will require a bit of extra research, but Linux scripting is incredibly powerful and a skill that is well worth adding to your toolbox.
-
-\paragraph{} Having set everything up we can now run our code by executing the following command in the same directory where hello.py is stored:
+\paragraph{} The host argument (`--host=0.0.0.0') merely causes our web-app to be available publically. If we didn't include this then we would only be able to access the web-app from within the development server. Overall, this command causes our web-app to be run using the Flask development server and to be made available to be accessed from any IP address on the Internet. The Flask development server is really useful and fast for debugging during development. If everything goes well then you should see output similar to the following in your terminal:
 
 \begin{lstlisting}[style=DOS]
-    $ python3 -m flask run --host=0.0.0.0
-\end{lstlisting}
-
-\paragraph{} The host argument merely causes our web-app to be available publically. If we didn't include this then we would only be able to access the web-app from within the development server. Overall, this command causes our web-app to be run using the Flask development server and to be made available to be accessed from any IP address on the Internet. The Flask development server is really useful and fast for debugging during development. If everything goes well then you should see output similar to the following in your terminal:
-
-\begin{lstlisting}[style=DOS]
-    $ python3 -m flask run --host=0.0.0.0 * Serving Flask app "hello.py" (lazy loading)
- * Environment: development
- * Debug mode: on
- * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
- * Restarting with stat
- * Debugger is active!
- * Debugger PIN: 211-020-266
+     $ flask --app hello run --host=0.0.0.0
+     * Serving Flask app 'hello'
+     * Debug mode: off
+     WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+     * Running on all addresses (0.0.0.0)
+     * Running on http://127.0.0.1:5000
+     * Running on http://146.176.251.30:5000
  \end{lstlisting}
 
 \paragraph{} Congratulations. You now have your first Python3 web-app running. Flask will now continue to run in your terminal until either an error occurs or you stop it. To stop it you can send the ``SIGINT'' or `interrupt Signal' to flask to tell it to stop itself by using CTRL+c\footnote{This means holding down the CTRL button then pressing the C button whilst still depressing CTRL then releasing both buttons.}.
 
-\paragraph{} When we run a Flask web-app, that app will be accessible in a web browser on a particular network port. By default, Flask runs on port 5000. Your web browser only looks to port 80 be default so we need to tell our browser where to find our app on the given server. You can visit the page generated by Flask in a web browser. Just start up a browser in your host OS, e.g. in Windows when accessing the dev server from a lab machine. Then visit the following address \url{http://webtech-NUMBER.napier.ac.uk:5000} where you have replaced `NUMBER' with your assigned VMs number:
+\paragraph{} When we run a Flask web-app, that app will be accessible in a web browser on a particular network port. By default, Flask runs on port 5000. Your web browser only looks to port 80 be default so we need to tell our browser where to find our app on the given server. You can visit the page generated by Flask in a web browser. Just start up a browser in your host OS, e.g. in Windows when accessing the dev server from a lab machine. Then visit the following address \url{http://webtech-NUMBER.napier.ac.uk:5000} where you have replaced `NUMBER' with your assigned VMs number.
+
+\paragraph{} If that address didn't work then you should also try the IP address given in the output from Flask, e.g. `http://146.176.251.30:5000'. This is because sometimes the university systems don't properly have the DNS systems set up correctly to do the lookup from the URL, `http://webtech-NUMBER.napier.ac.uk:5000' to the IP address. So we can cut out the middleman and head straight to the IP address instead.
+
+\paragraph{} Either way, all going well, you should see something similar to the `hello world' app shown in Figure \ref{fig:flask-hello-napier}.
 
 \begin{figure}[H]
 \centering
@@ -770,6 +774,8 @@ def hello_world():
 \caption{Your first Python Flask web app.}
 \label{fig:flask-hello-napier}
 \end{figure}
+
+\paragraph{} Well done! You're now a dynamic web-app developer\footnote{albeit of a very simple dynamic web app}. The remainder of the workbook will basically iterate on this simple web-app, exploring different facets of HTTP and implementing those facets using Python and Flask.
 
 
 \section{Reading \& Resources}
@@ -829,19 +835,41 @@ def hello():
     return "Hello World!"
 \end{lstlisting}
 
-\paragraph{} When we run this Python flask app using the python command in the terminal, e.g.
+\paragraph{} When we run this Python flask app using the flask run command in the terminal, e.g.
 
 \begin{lstlisting}[style=DOS]
-$ python3 -m flask run --host=0.0.0.0 
- * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
- * Restarting with stat
+    $ flask --app hello run --host=0.0.0.0 
+     * Serving Flask app 'hello'
+     * Debug mode: off
+     WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+     * Running on all addresses (0.0.0.0)
+     * Running on http://127.0.0.1:5000
+     * Running on http://146.176.251.30:5000
 \end{lstlisting}
 
 \paragraph{} Python calls the run function of the app object and executes it. By default run() takes no arguments but we have used the \emph{host='0.0.0.0'} argument to tell flask to allow connections from outside of the local machine, this is what enables us to access the web-app from Windows as by default we would only be able to access the web-app from within the Linux dev server. However both the app object and the run function have a number of other features that we can use. Whilst developing a new web-app one of the most important is the debug mode which we can run by setting the Flask environment variable to development, e.g.
 
 \begin{lstlisting}[style=DOS]
-    $ export FLASK_ENV=development
+    $ flask --app hello --debug run --host=0.0.0.0
 \end{lstlisting}
+
+\paragraph{} When we use this command we get slightly different output from before (because we are not running in debug mode):
+
+\begin{lstlisting}[style=DOS]
+    $ flask --app hello --debug run --host=0.0.0.0
+    * Serving Flask app 'hello'
+    * Debug mode: on
+    WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+    * Running on all addresses (0.0.0.0)
+    * Running on http://127.0.0.1:5000
+    * Running on http://146.176.251.30:5000
+    Press CTRL+C to quit
+    * Restarting with stat
+    * Debugger is active!
+    * Debugger PIN: 267-812-569
+\end{lstlisting}
+
+
 
 \paragraph{} Two important features of the debug mode are
 
