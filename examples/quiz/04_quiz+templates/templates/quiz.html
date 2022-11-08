@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+</head>
+<body>
+    <h1>Question {{ number }}</h1>
+    <p> {{ text }} </p>
+
+    <ul>
+        {% for answer in answers %}
+        <li><a href="/quiz/?answer={{loop.index}}">{{ answer }}</a></li> 
+        {% endfor %}
+    <ul>
+</body>
+</html>

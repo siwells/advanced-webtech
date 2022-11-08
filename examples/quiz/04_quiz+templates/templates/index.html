@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+</head>
+<body>
+    <h1>A Super Simple Quiz Example</h1>
+
+    <p>Hi folks.</p>
+    <p>This time, we're using template, but instead of being static, essentially just HTML, this time we're using some Jinja2 code to fill out the content of the quiz page. We're also passing the answer number back to the server as a URL parameter and checking it. This means that our new quiz() function does a lot of work for us.</p>
+    <p>The main advantage here is that we can easily extend our quiz by adding new questions and answers into the data structure in the quiz() function. We don't need to have a new HTML template for each question and answer, we just keep reusing our existing template, just with different data supplied to it.</p>
+    <p>Note that we're still heavily oriented towards hypertext and using hyperlinks. Instead we could use a form to post data back to the server, or else we could use Javascript to send the answer back to an API route for verificaiton. Each approach would however slightly change the character of the resulting site (not that this is a nad thing necessarily, just that the result might be slightly different).</p>
+
+    <b>Do you want to play a game?</b>
+
+    <a href="/quiz/">Damn right I want to play a game!</a>
+
+
+</body>
+</html>
