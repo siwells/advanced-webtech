@@ -1,0 +1,64 @@
+\chapter{Hello World}
+\label{hello_world}
+\paragraph{} We'll begin our series of projects with an exploration of `Hello World' but from a Flask perspective. Because we really can create a simple Flask app with nine lines of code, including white space, it's worth annotating every line here and going through each in turn. This will give us a firm and well understood foundation on which to build our subsequent projects.
+
+\begin{lstlisting}
+from flask import Flask 
+app = Flask(__name__)
+
+@app.route("/")
+def hello():
+    return "Hello World!"
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
+
+\end{lstlisting}
+
+\begin{description}
+\item[Line 1] \emph{from flask import Flask}\\ 
+Import the Flask class from the flask library. The library contains pre-written code and utilities that are useful when writing a web-app. In this case an instance of the Flask class will be our WSGI application.
+\item[Line 2] \emph{app = Flask(\_\_name\_\_)}\\
+Create an instance of the Flask class. The argument `\_\_name\_\_' is the name of the flask applications module. This is used to help flask to find resources relative to the Python module such as static web resources like image files, templates, or CSS. We also create a variable, `app', that references the newly instantiated Flask class so that we can use it later.
+\item[Line 4] \emph{@app.route("/")}\\
+Lines that start with @ in Python are decorators. In this case we use the route() decorator to tell Flask which URL should trigger the function that route() decorates, e.g. when a browser hits the root of the url, `/' then the hello() function is run. We use route() decorators in flask to build up our HTTP API that a browser can retrieve.
+\item[Line 5] \emph{def hello():}\\
+This defines a function called `hello()'. hello() is executed whenever someone requests the root url. This is because the function, hello(), and the decorator, @app.route(``/''), work together. Essentially when a request arraives to a matching decorator, e.g. to the root route, then the associated Python function is executed.
+\item[Line 6] \emph{return "Hello World!"}\\
+All our hello() does is to return the string ``Hello World!''. It is this string that is displayed in the browser. We could instead return some HTML for a richer experience but plain text is sufficient for now.
+\item[Line 8] \emph{if \_\_name\_\_ == "\_\_main\_\_":}\\
+This is used to control how the Python module and the flask app server is run. We only want to use app.run() if this script is executed from the Python interpreter, e.g. by calling \$python hello.py. If we were to use an app server instead then the app.run() would be performed differently.
+\item[Line 9] \emph{app.run(host='0.0.0.0')
+}\\
+Calls the run() function of the Flask app class instance to start our development server running using this app as the web app. This line also tells the app to run on a network interface that is accessible from an external address, e.g. from the Windows machine that is running your SSH connection, otherwise our app would only be accessible within the dev server and we don't have a graphical browser installed there.
+\end{description}
+
+\paragraph{} Let's expand on hello world to make some of the concepts a little more firm. We'll make the string returned from the root route a little more generic, then we'll add two additional routes, one for hello, and one for goodbye, each of which will return a different, appropriate message when called.
+
+\begin{lstlisting}
+from flask import Flask 
+app = Flask(__name__)
+
+@app.route("/")
+def greet():
+    return "Greetings traveller"
+
+@app.route("/hello")
+def hello():
+    return "Hello World!"
+
+@app.route("/goodbye")
+def goodbye():
+    return "Goodbye cruel existence."
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0')
+
+\end{lstlisting}
+
+\paragraph{} What we've really done here is to build a simple HTTP API that supports creating dynamic individual responses to HTTP GET requests messages to three different routes, to `/', to `/hello', and to `/goodbye'. You could build an entire site in this way, just adding in the route decorators, to correspond to each web page that you want your site to support, and then creating a corresponding function for dynamically generating the actual page to return. Note that whilst the content of our dynamic pages is perhap less than dynamic, just strings like `Hello World!' and `Goodby cruel existence', the web pages themselves, returned to the calling client, which is most likely a web browser, are dynamically built by Flask when constructing the response object that is transmitted to close the current request-response cycle.
+
+% DYNAMIC EXAMPLE - return a randomly selected greeting from a list of international greetings
+
+
+% PERSONALISED EXAMPLE - return a personalised greeting (where the name is supplied in the URL

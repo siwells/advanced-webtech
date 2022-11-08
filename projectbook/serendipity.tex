@@ -1,0 +1,153 @@
+\chapter{Serendipity}
+\label{serendipity}
+\paragraph{} Serendipity is the occurence and development of events by chance in a happy or beneficial way. Sometimes, when creating things, or uncertain, we can attempt to harness serendipity to help us to side-step indecision. This inspires the example project that we'll build in this chapter, a simple site to provide us with cues to help us to make decisions when we're unsure. We'll use this as a scenario for developing an API including a small example user interface and an HTTP/JSON interface.
+
+\paragraph{} Our two main sources of serendipity in this project will be the `Magic 8 Ball' and Brian Eno's `Oblique Strategies'. The magic 8 ball is a toy to which you direct a question, and the result is some random response from a list of supportive, neutral, or dismissive responses.
+The oblique strategies are fairly similar, but are intended to help you to find creative ways around an impasse, perhaps in a design or other creative endeavour. Whilst the magic 8 ball started out as a toy, the oblique strategies came from musicians who were looking for interesting and creative ways to solve problems and make interesting sounds.
+
+\paragraph{} From the Flask perspective, the aim of this chapter is to explore some elements involved in building a simple HTTP based API. We'll create a few routes and associated functions, that will demonstrate:
+
+\begin{enumerate}
+\item How to build a simple JSON API
+\item How to build a simple form-based UI
+\item How to integrate flask routes and non-flask Python functions
+\end{enumerate}
+
+
+\section{Code Listing}
+\paragraph{} The following code listing is nearly complete. The only parts missing are the contents of the full lists of magic 8 ball responses and oblique strategies because they take up a lot of space. These elided parts are indicated in lines 85 and 94 where the missing elements are replaced by an ellipsis. The full source code listsing is available from the Git repo.
+
+\begin{lstlisting}
+from flask import Flask, request, jsonify
+import random, json
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return """
+    <h1>A Serendipity API & Inteface</h1>
+    """, 200    
+
+
+@app.route("/query/", methods=['GET', 'POST'])
+def query():
+
+    if request.method == 'POST':
+        page='''
+            <!DOCTYPE html>
+            <html><body>
+            <h1>Your question was:
+        '''
+        page+=request.form['question']
+        page+='''
+            </h1>
+            <h1>Your answer is:
+        '''
+        page+= amalgamate()
+        page+='''
+            </h1>
+            <body></html>
+
+        '''        
+        return page
+        
+    else:
+        page='''
+            <!DOCTYPE html>
+            <html><body>
+                <form action="" method="post" name="form">
+                    <label for="question">Question:</label>
+                    <input type="text" name="question" id="question"/>
+                    <input type="submit" name="submit" id="submit"/>
+                </form>
+            <body></html>
+        '''
+        return page
+
+
+@app.route("/magic8ball/", methods=['GET','POST'])
+def magic8ball_page():
+
+    if request.method == 'POST':
+
+        question = request.get_json().get("question")
+        
+        data = {
+            "question": question,
+            "answer": magic8ball()
+        }
+        return jsonify(data), 200
+
+    else:
+        data = {
+            "answer": magic8ball()
+        }
+
+        return jsonify(data), 200
+
+
+@app.route("/oblique/")
+def oblique_strategies_page():
+
+    data = {
+        "strategy": oblique_strategies()
+    }
+
+    return jsonify(data), 200
+
+
+
+def magic8ball():
+    responses = [
+        "It is certain.", 
+        "It is decidedly so.",
+        ...
+        "Very doubtful."
+    ]
+    return random.choice(responses)
+
+def oblique_strategies():
+    strategies = [
+        "Abandon normal instruments",
+        "Accept advice",
+        ... 
+        "[blank white card]"        
+    ]
+    return random.choice(strategies)
+
+def amalgamate():
+    functions = [magic8ball, oblique_strategies]
+    return random.choice(functions)()
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0")
+\end{lstlisting}
+
+\section{Structural Overview}
+\paragraph{} The serendipity webapp defines seven functions. Of these, four of the functions are also Flask routes. The remaining functions are pure Python functions that are called and utilised when our webapp runs. For example, the magic8ball() function is called by the magic8ball\_page() function, which in turn is invoked when the \emph{/magic8ball/} route is called by a client, such as a browser, making a request to that specific route. Take a moment to familiarise yourself with the overall structure of the code, the different functions and how the functions that are also web routes are delineated from those that are not.
+
+\subsection{/ Route}
+\paragraph{} This is a simple root route that contains a single $<$h1$>$ element naming the webapp. It doesn nothing more. The only point of interest here is that we have used a multi-line Python string, and that we are explicitly returning a 200 status code alongside the response.
+
+\subsection{/query/ Route}
+\paragraph{} The questy route responds to both HTTP GET and HTTP POST requests. When a GET request arrives a web page is displayed. We've defined the HTML inline in a multiline Python string, but a template would work even better. The displayed page contains a simple form with a label, a text entry (for the question), and a button to initiate the POST. This form is POST'ed to the same route, the /query/ route and so, because form submissions are POSTs by default, the other part of the query() function is executed, the part that checks for and handles POST requests. The if clause that handles POST requests builds an HTML page inline, again using Python's multiline strings. However this time we build the page bit by bit, using the `+=' operator to append new information to the end of the string that represents our HTML page. In this way we can insert data wherever it is required in the HTML. For example, in line 22 we append the question from the user submitted form, and in line 27 we make a call to the amalgamate() function. When done we return the entire page as our HTTP response to the client.
+
+\subsection{/magic8ball/ Route}
+\paragraph{} This route responds to both HTTP GET and HTTP POST requests. So it requires an if clause to immediately determine whether the incoming request is a GET or a POST. If the request is a GET then it creates a dictionary containing a single key:value pair. The key is ``answer'' and the value is one randomly selected magic 8 ball response returned by a call to the magic8ball() function. This dictionary is then turned into a HTTP response containing a JSON string as it's payload using the Flask jsonify function. POST is similar but has some additional functionaliy. This POST request includes a POST'ed JSON request body that contains a single key:value pair \{ ``question'':``\emph{question content}'' \}. The value is extracted from this pair, using the request.get\_json() function, and is used to add an extra key"value pair to the data dictionary alongside the magic8ball response. To summarise, we're extracting the question from the incoming POST request, adding the question to our data dictionary, getting a random magic 8 ball answer and adding that to our data dictionary, then turning the entire dictionary into JSON and returning it to the client in our response.
+
+\subsection{/oblique/ Route}
+\paragraph{} This route responds to HTTP GET requests only. It creates a dictionary containing a single key:value pair. The key is ``strategy'' and the value is one randomly selected oblique strategy returned by a call to the oblique\_strategies() function. This dictionary is then turned into a HTTP response containing a JSON string as it's payload using the Flask jsonify function.
+
+
+%\section{Line-By-Line Annotation}
+
+
+%\begin{lstlisting}
+%\end{lstlisting}
+
+%\begin{description}
+%\item[Line 1] \emph{}\\ 
+%\end{description}
+
+
