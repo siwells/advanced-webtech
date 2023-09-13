@@ -3403,17 +3403,18 @@ import json
 \chapter{Git}
 \label{git}
 
-\paragraph{} This section will eventually contain a quickstart on Git to use as an aide memoire. However, in the meantime, we'll start with just enough to assist in the assignment hand-in.
+\paragraph{} This section will eventually contain a quickstart on Git to use as an aide memoire.
 
 
 \section{Bare Repositories}
+\paragraph{} {\bf{NOTE: We used to use bare repositories during the submission of the coursework. However we no longer do that and so this section is only here for historical interest (or in case you find that you have a need to use a bare repository, for example, if you want to use your own server for collaborative code development instead of using a service like GitHub).}}
 \paragraph{} We need to create a Git repository that can be used as a remote repository, somewhere where you can store your own code, but from which others, like your markers, can retrieve your work. A bare repository is the Git terminology for such a remote Git repository. 
 
 \paragraph{} There are actually two basic kinds of Git repository, \emph{working} repositories and \emph{bare} repositories. The kinds of repo that you have most likely worked with so far are working repositories. These are repositories in which you can add, edit, and delete files. Most files that you clone from other locations, like GitHub or BitBuckets are working repositories. Bare repositories are not designed for working in, they are missing the \emph{working tree}, the place where you would add, edit, and delete files. It is easy to convert between a bare and working repository so if you have one, then you can easily create the other type from it, i.e. cloning from a bare repository will create a working repository but cloning with the --bare argument from a working repo will give you a bare repo.
 
 \paragraph{} So what is the purpose of the bare repository? Well, a bare repository is meant to serve as an authoritative focal point for collaborative development. This means a place from which other developers can clone, fetch, or push changes. The idea is to minimise the number of problems that can occur when working collaboratively, and the easiest way to do this is to ensure that copies of files associated with ``working'' repositories are not stored in the exact same place as the repository around which collaborative development is focussed.
 
-This basically means that, for submission of our assignment, to make it available to other users of your VM such as your markers, we need to create a repo that can be shared between multiple people (assuming they have access to the machine that the repo is stored on, otherwise some additional steps might be required\footnote{but this is not the case for our VMs, your markers are already able to access your VM}). Note that you don't do work directly in a bare repo, you must clone it to a working location then push any changes that you've committed back to the bare repo.
+This basically means that, for submission of our assignment, to make it available to other users of your VM such as your markers, we need to create a repo that can be shared between multiple people (assuming they have access to the machine that the repo is stored on, otherwise some additional steps might be required). Note that you don't do work directly in a bare repo, you must clone it to a working location then push any changes that you've committed back to the bare repo.
 
 \paragraph{} Create a folder in your home directory and name it something useful like test-bare-repo, then change directory into your newly created location e.g.:
 
