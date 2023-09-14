@@ -3545,135 +3545,100 @@ The final step in our advanced web technologies journey is to deploy the apps th
 
 \paragraph{} We can solve all of these problems by using appropriate web server software to host our app, and making sure that that server software manages the service lifecycle of our app and makes it available at an appropriate public address. Basically we need a web-app server that understands the WSGI protocol that Flask uses to communicate the functionality of a Python web-app to the wider world of web software. There are a variety of choices for this, $\mu$WSGI is popular, robust, and very tunable so it can be optimsed for scalability and eke'ing out every ounce of performance from your hardware, but this leads to it being tricky to set up and deploy. Instead we'll use Waitress which is quicker and simpler to set up to cover the middle ground of serving up a web app when we don't yet know the performance characteristics that we want to optimise for. Note that WSGI app-servers are usually not exposed directly to the public, but run privately within a server, inaccessible to the outside world. A \emph{reverse proxy} is then used to relay communications from the internal, private web-app, to the outside world. This is done for a number of reasons, because traditional static web servers, which are usually chosen to act as reverse-proxies, are well-tested and reliable, and only serve up static resources, they represent less of a security risk if something goes wrong. Because WSGI apps are generally dynamic, and executing perhaps less well tested code, there is more of an attack surface for them. By hiding as much of the WSGI app in private and only exposing the minimum necessary, risks are reduced but not eliminated. We also need a web server that can work as the public facing side of our deployment, a task that is usually given to a traditional, static web-server like NGinX or Caddy. This front-end, public-facing server will act as our reverse-proxy that we just mentioned. The role of the reverse proxy is to take any incoming requests and relay them to our WSGI/Flask app, then take the responses from the WSGI/Flask app and relay them back to the original caller who made the request. We will use Caddy as our reverse-proxy/front-end, static web server. This is for similar reasons to our choice of Waitress for the WSGI app-server. Caddy is simpler to set up than NGinX and covers a happy middle ground for general purposes until you know what you need to optimise for. Note that NGinX is excellent, a very scalable, fast, robust, and relaible tool, but it can be finicky to set up.
 
-\paragraph{} We will use $\mu$WSGI (pronounced micro-whisky) for deployment of our Flask apps. Recall that what makes our Flask apps into web-apps, rather than just Python scripts, is the fact that Flask implements a particular interface, called WGSI, which server software can communicate through to present your app's functionality to users of the Web. There are many server applications available that can serve WSGI apps like our Flask apps, $\mu$WSGI happens to be one of these, and a particularly good one at that.
+\paragraph{} The following steps will take you through the process of setting up and deploying a small demonstration WSGI application. The WSGI app will be served by internally and privately by Waitress, and Caddy will be the externally facing static web-server that reverse proxies requests and responses between our WSGI app and the outside world. I've created a set of scripts to automate most of the setup process and a demonstration web-app as a known good starting app for the servers to publish.
 
-\paragraph{} First we need to install $\mu$WSGI. This is just a Python package so we can use pip to install it. To keep things simple we'll install it as a system wide Python package rather than using a virtualenv.
-
-\begin{lstlisting}[style=DOS]
-    $ pip install uwsgi
-\end{lstlisting}
-
-
-\paragraph{} Now gather some information to supply to $\mu$WSGI. You will need the following:
-
-\begin{enumerate}
-\item The full path to the main python script for your Flask app.
-\item The full path to the folder in which your main python script for your flask app is located.
-\item The full path to the folder in which your virtualenv is located (this is the folder containing the bin/ include/ and lib/ folders.
-\end{enumerate}
-
-\paragraph{} It is important to note that you shouldn't just type in the commands that follow \emph{as is} because the specific locations and names of your files are important. So you might have to adjust things to match the location of your own files and the names that you've given them\footnote{similar for your matriculation number}. Note that you will also be interacting with the operating system and performing some sysadmin tasks using the sudo command, so you should be careful and take your time to get things right.
-
-\paragraph{} Now, we will need to perform several steps to get $\mu$WSGI to server our app correctly. The first step is just a verification step. Let's supply the information that we just collected to $\mu$WSGI at the command line and check that it works (we can them create configuration files from this information once we know that it works.
-
-\paragraph{} For example, assuming that our flask app is located in this folder: 
-\begin{lstlisting}
-/home/40008609/testapp/ 
-\end{lstlisting}
-in a file called \emph{hello\_flask.py}  that our virtualenv is stored in the same folder and that we want our flask app to think that it is running in the same location (for access to relative folders like static, log locations, and configuration files), then we should be able to run $\mu$WSGI with the following configuration:
+\paragraph{} It is easiest at this stage to download the zip file from github that contains our deployment scripts and demo app. We want to download it to the root folder (i.e. /home/MATRICULATION-NUMBER/ ) of our VM account. Remember that you can always get directly to the root folder location just by typing \emph{cd} and hitting return. Don't move the zip files elsewhere as the scripts expect things to be in specific places in order for everything to run properly. So let's get the zip archive first:
 
 \begin{lstlisting}[style=DOS]
-    $ uwsgi --http :5000 --wsgi-file /home/40008609/testapp/hello_flask.py --callable app --virtualenv /home/40008609/testapp/ --pythonpath /home/40008609/testapp/
+    $ curl -o deployment.zip https://siwells.github.io/deployment/deployment.zip
 \end{lstlisting}
 
-\paragraph{} Note that the folder locations for your own app might vary (and your matirculation number will definitely be different). Also note that you \emph{must} stop your existing Flask debug server if it is already running as otherwise you will be trying to run two instances of your app on the same port which won't work correctly. When you are ready, try it out. If it works then you should be able to access your site at the normal port 5000 location as you have been doing all trimester. The only difference is that our app is made available by a piece of robust server sotware that is optimsed for deployment rather than for development.
+\paragraph{} You might need to install the zip tool, which also installs unzip, so that we can open the zip archive. We only need to do this once on a server and then it is installed and available forever, unless you uninstall it, so if you've already installed zip, then skip this step:
 
-\paragraph{} To stop our $\mu$WSGI server we can use $<$CTRL$>$ - C\footnote{If you get a message that something is already running on the 5000 port then check whether you still have your flask debug instance running, and if so, stop it. If things still won't run then us the ps command and search within the results for instances of $\mu$wsgi e.g. \$ ps aux $|$ grep [u]wsgi then kill the offending process using the kill command, e.g. \$ kill 51474}.
-
-\paragraph{} If this has worked, we can move on to the next steps of:
-
-\begin{enumerate}
-\item Creating an ini file for our flask app using the parameters that we just tested above.
-\item Creating a config file for $\mu$WSGI so that the operating system can start everything up automatically.
-\end{enumerate}
-
-\paragraph{} Let's do the first part. We need to create an ini file that will tell $\mu$WSGI where to find our Flask app. We'll use our parameters from above (as we know that they work, if things didn't work before, then they won't magically fix themselves now so it's worth returning to make sure that you can initialise $\mu$WSGI in the terminal and get your flask app running manually before continuing. Create a new folder in your flask app and call it vassals then create a file called deploy.ini in your new vassals folder. It doesn't really matter where we put this file because we will pass it's location to $\mu$WSGI for subsequent use but it helps to stay organised\footnote{but obviously you don't want to change it's location later without also telling $\mu$WSGI where to find it}. Now edit that ini file to contain the following:
-
-\begin{lstlisting}
-[uwsgi]
-	wsgi-file = 	/home/40008609/testapp/hello_flask.py
-	virtualenv = 	/home/40008609/testapp/
-	pythonpath = 	/home/40008609/testapp/
-	chdir = 	    /home/40008609/testapp/
-  	callable = app
-	http = :80
-	worker = 8
-	master = true
-	processes = 8
-	die-on-term = true
-	harakiri = 40
-	heartbeat = 10
+\begin{lstlisting}[style=DOS]
+    $ sudo apt install zip
 \end{lstlisting}
 
-\paragraph{} Note that the only lines that we might need to edit in this are lines 2, 3, 4, \& 5 to reflect the actual location of our flask app as I've used dummy folders in the example.
+\paragraph{} Now just unzip the archive. Remember to do this in the root of your account.
 
-\paragraph{} Now we need to create a configuration file that the operating system can use to start $\mu$WSGI and tell the new instance of $\mu$WSGI where to find your flask app (using the ini file we created in the previous step). In your home folder create the following file and name it $\mu$wsgi.service
-
-\begin{lstlisting}
-[unit]
-Description=uWSGI Service
-After=syslog.target
-
-[Service]
-ExecStart=/home/40008609/.local/bin/uwsgi --emperor /home/40008609/demo/vassals/deploy.ini
-RuntimDirectory=uwsgi
-Restart=always
-KillSignal=SIGQUIT
-Type=notify
-StandardError=syslog
-NotifyAccess=all
-
-[Install]
-WantedBy=multi-user.target
+\begin{lstlisting}[style=DOS]
+    $ unzip deployment.zip
 \end{lstlisting}
 
-\paragraph{} Note that you will have to alter line 6 to reflect your own matriculation numer and the path to your deploy.ini file
 
-\paragraph{} Our final step is to move the $\mu$wsgi.service file into the following location
+\paragraph{} This will have extracted two folders, once called ``assignment'' and one called ``scripts''. First we're going to deal with the assignment folder. It contains a demonstration Flask app that does just one thing. Every time it is called it will generate and return a unique ID code. This is useful when testing as every refresh will give you a new value so you can see if things are working if you're unsure.
+
+\paragraph{} Setting up this demo app is straightforward if you've worked through the rest of this workbook, or at least the first few chapters, so it should all look familiar. There are a number of commands that we'll exectute to change directory to the assignment folder, create a new virtualenv\footnote{I assumed that virtualenv is installed on your VM, otherwise also run \emph{sudo apt install virtualenv}} called ``env'', start the new virtualenv, then finally install the requirements for the Flask app using pip and a requirements file. The requirements are just Flask and Waitress. Note that Waitress is just another Python application that we install into our virtualenv.
+
+\begin{lstlisting}[style=DOS]
+    $ cd assignment/
+    $ virtualenv env
+    $ source env/bin/activate
+    $ pip install -r requirements.txt
+\end{lstlisting}
+
+\paragraph{} We can now start our app to test that it works and also so that you know what it should look like when it runs:
+
+\begin{lstlisting}[style=DOS]
+    $ flask --app assignment run --host=0.0.0.0 --port 5000
+\end{lstlisting}
+
+\paragraph{} Two things to note about this demo Flask app are firstly that it is called assignment.py and that the Flask app object within it is called ``app''. This is important because we need to pass this information, the name of the package containing the app object and the name of the app object into Waitress later. This will be taken care of by our scripts but if you want to deploy a differently named project later on then it is useful to know how Waitress invokes our Flask app.
+
+\paragraph{} At this point though we haven't actually done anything new to get this new app served publicly. That'll be our next step, so, having setup the app that we're going to serve using Waitress and Caddy. We can now go about that process of actually getting Caddy and Waitress working together. Change to the scripts folder that you extracted from the zip archive earlier, i.e.
+
+\begin{lstlisting}[style=DOS]
+    $ cd ~/scripts/
+\end{lstlisting}
+
+\paragraph{} In the scripts folder are five files. One of these is a configuration file for Caddy, and the other four are scripts to install and setup first Caddy, then Waitress. We are going to execute these in sequence. Unless something fails you should only need to do this once as they install software and make permanent system wide changes. These scripts wrap up a bunch of commands that you \emph{could} execute yourself and that, you might, later want to adjust, for example, to point waitress towards a different flask app to run. Note that I've only set this up to run a single Flask app, but you could, in theory, have Caddy point to multiple different Flask apps, as well as also doing static hosting, but I've tried to keep things as simple as possible.
+
+\paragraph{} This first script essentially does a system wide install of Caddy. As Caddy is not in the default Apt repositories used by Ubuntu to install software, we need to retrieve the correct cryptographic keys and additional repositories. This is all done automatically for us by the \emph{install-caddy.sh} script.
+
+\begin{lstlisting}[style=DOS]
+    $ ./install-caddy.sh
+\end{lstlisting}
+
+\paragraph{} At this stage we can check whether caddy is installed and working by visiting our VM in a browser. Just enter the full VM name (e.g. \url{http://webtech-2324-XX.napier.ac.uk/}), or the IP address if you know it, into your browser's address bar and you should see this:
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth]{images/caddy-welcome.png}
+\caption{The default Caddy welcome web page.}
+\label{fig:caddy-welcome}
+\end{figure}
+
+\paragraph{} The second script we need to run will transfer a new Caddy configuration file, called a Caddyfile, to the correct place. This new Caddyfile will do exactly one thing. It will stop the default static file web serving that we just saw and instead will redirect every request to localhost port 5000. Basically it is this configuration that causes Caddy to act as a reverse proxy to expose our Flask app. However because we haven't yet get our Flask app running permanently, you'll just get a blank screen for the moment\footnote{although if you run your flask app as we did earlier, you should see the output from it}.
+
+\begin{lstlisting}[style=DOS]
+    $ ./deploy-caddyfile.sh 
+\end{lstlisting}
+
+\paragraph{} At this point Caddy is set up and will now, permanently forward all requests to localhost 5000 even if you log out, and it will start doing this again automatically if you reboot the machine. So now we need to move on to setting up waitress. This first script generates a service file for the software, called \emph{systemd} that Ubuntu uses systemwide to control all of the services that the operating system performs. This service file tells systemd to invoke the specific instance of waitress that is in our virtualenv and to use that to load our assignment app. These lines are where that magic happens:
 
 \begin{lstlisting}
-    /etc/systemd/system
+WorkingDirectory=/home/MATRICULATION-NUMBER
+ExecStart=/home/MATRICULATION-NUMBER/env/bin/waitress-serve --listen=127.0.0.1:5000 assignment:app
 \end{lstlisting}
 
-\paragraph{} This is because the operating system uses software called systemd to control starting and stopping services, like our WSGI server, automatically. We use the following command to do this:
+\paragraph{} In the first line we tell systemd where to run the flask app from, i.e. your home directory. The second line then invokes the version of waitress in the specified virtualenv, tells it to listen on localhost port 5000 and specifies that the specific app object to invoke is called app and is in the assignment package (i.e. assignment.py). Let's just go ahead and generate that service file now (note that there are other directives to systemd in the full service file but the two above were the ones that tell systemd where to find our app and how to run it):
 
 \begin{lstlisting}[style=DOS]
-    $ sudo cp uswgi.service /etc/systemd/system
+    $ ./generate-waitress-service.sh 
 \end{lstlisting}
 
-\paragraph{} We now need to make our new service exectuable then tell systemd to reload itself to make our $\mu$wsgi.service available:
+\paragraph{} Finally, we need to move the service file we just created in the previous script, to the place that systemd looks at for service files, and then we tell systemd to use this service, to start the service after a reboot, and also to start it now:
 
 \begin{lstlisting}[style=DOS]
-    $ sudo chmod +x uwsgi.service
-    $ sudo systemctl daemon-reload
+    $ ./deploy-waitress-service.sh
 \end{lstlisting}
 
-All going well, we can now start the server and hence our flask app, and
+\paragraph{} At this point we should be able visit our VM, again by IP address or domain name, and see our site without adding in any additional port numbers. Additionally, the site should, barring any coding errors on your part, stay up permanently. Note that I've called the demo flask app ``assignment.py'' for a good reason. This should make it easier to deploy your own web-app developed during the assignment. In theory you could just put your own assignment code into the assignment folder and so long as the main python file is called assignment.py, it should just work\footnote{experiences may vary....}
 
-\begin{lstlisting}[style=DOS]
-    $ sudo systemctl start uwsgi
-\end{lstlisting}
 
-\paragraph{} and can use
-\begin{lstlisting}[style=DOS]
-    $ sudo systemctl stop uwsgi
-\end{lstlisting}
+\paragraph{} Note that this is for \emph{deployment}, i.e. to have your web app up and running permanently, and isn't meant to be used for development. So if you are still developing your app, then you should continue to use the Flask debug server until all features are implemented and ready to be made public.
 
-to stop it. Note that this process might take a wee while to complete so wait for your prompt to return indicating that the command has finished before you panic. The server will now also automatically start and stop things if the server is rebooted as well as enabling you to manually start and stop the service.
-
-\paragraph{} Your site should now be available at \url{http://webtech-NUMBER.napier.ac.uk}
-
-\paragraph{} To summarise, to get your Flask app running on port 80 and hosted by $\mu$WSGI then you need to do the following (making sure to adapt this to your specific web-app):
-
-\begin{enumerate}
-\item Install $\mu$WSGI
-\item Create an ini file for our flask app that $\mu$WSGI will use
-\item Create a systemd service file for $\mu$WSGI and move it to /etc/systemd/system
-\item Tell systemd that our new service exists
-\item Start our new service
-\end{enumerate}
-
-\paragraph{} Note that this is for deployment, i.e. to have your web app up and running permanently, and isn't meant to be used for development. So if you are still developing your app, then you should continue to use the Flask debug server until all features are implemented.
+\paragraph{} Finally, if you got this far, and everything is running successfully, then {\bf{congratulations}}, you just created and deployed a dynamic website to the public Web.
 
 
 
