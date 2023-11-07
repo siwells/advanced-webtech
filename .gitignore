@@ -5,6 +5,13 @@ workbook/*.out
 workbook/*.pdf
 workbook/*.toc
 
+projectbook/*.aux
+projectbook/*.lof
+projectbook/*.log
+projectbook/*.out
+projectbook/*.pdf
+projectbook/*.toc
+
 .python-version
 
 .DS_Store
