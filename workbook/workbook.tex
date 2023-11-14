@@ -2120,7 +2120,13 @@ static/js/
     $ unzip bootstrap.zip
 \end{lstlisting}
 
-\paragraph{} Now move the bootstrap files into directory hierarchy that you created. For example, assuming you are in the static directory and you downloaded the bootstrap zip file
+\paragraph{} Your machine might not have unzip installed. If this is the case then quickly install it like so then retry the unzip command above:
+
+\begin{lstlisting}[style=DOS]
+    $ sudo apt install zip
+\end{lstlisting}
+
+\paragraph{} Once you've unzipped the bootstrap archive you can now move the bootstrap files into directory hierarchy that you created. For example, assuming you are in the static directory and you downloaded the bootstrap zip file
 
 \begin{lstlisting}[style=DOS]
     $ cp -R bootstrap-5.3.2-dist/* .
