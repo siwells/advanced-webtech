@@ -1,6 +1,6 @@
 babel>=2.9.1
 CouchDB==0.9
-Flask==1.0
+Flask==2.3.2
 Flask-Babel==0.9
 Flask-Script==0.5.3
 Jinja2>2.10.1
